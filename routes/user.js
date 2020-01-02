@@ -42,7 +42,7 @@ exports.login = function(req, res){
             res.redirect('/home/dashboard');
          }
          else{
-            message = 'Wrong Credentials.';
+            message = 'Złe dane logowania (email lub hasło)';
             res.render('index.ejs',{message: message});
          }
                  
