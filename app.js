@@ -11,6 +11,18 @@ var session = require('express-session');
 var app = express();
 var mysql = require('mysql');
 var bodyParser=require("body-parser");
+var $  = require( 'jquery' );
+var dt = require( 'datatables.net' );
+var datatables = require( 'datatables.net-dt' );
+var jszip = require( 'jszip' );
+var pdfmaker= require( 'pdfmake' );
+var buttons_dt= require( 'datatables.net-buttons-dt' );
+var buttons_html5= require( 'datatables.net-buttons/js/buttons.html5.js' );
+var fixedheader_dt=require( 'datatables.net-fixedheader-dt' );
+var keytable_dt=require( 'datatables.net-keytable-dt' );
+var responsive_dt= require( 'datatables.net-responsive-dt' );
+var select_dt=require( 'datatables.net-select-dt' );
+
 // var connection2 = mysql.createConnection({
 //               host     : 'mysql.ct8.pl',
 //               user     : 'm12289_login',
@@ -38,7 +50,7 @@ app.use(session({
               secret: 'keyboard cat',
               resave: false,
               saveUninitialized: true,
-              cookie: { maxAge: 60000 }
+              cookie: { maxAge: 60000000 }
             }))
  
 // development only
@@ -51,5 +63,6 @@ app.post('/login', user.login);//call for login post
 app.get('/home/dashboard', user.dashboard);//call for dashboard page after login
 app.get('/home/logout', user.logout);//call for logout
 app.get('/home/profile',user.profile);//to render users profile
+app.get('/home/new_order', user.new_order);//call for new_order page to order lunch
 //Middleware
 app.listen(8080)

@@ -1,0 +1,403 @@
+h1 {
+  text-align: center;
+  color: #3dcd58;
+}
+
+.left_box {
+  border: 3px solid #3dcd58;
+  padding: 10px;
+  font-size: 18px;
+  color: #3dcd58;
+  text-align-last: center;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  width: 340px;
+  margin: 0 auto;
+}
+
+.add_feature {
+  border: 1px solid #3dcd58;
+  padding: 10px;
+  /* margin :0 auto; */
+  width: 200px;
+}
+
+.ramka {
+  border: 3px solid #3dcd58;
+  padding: 10px;
+  font-size: 18px;
+  color: #3dcd58;
+  text-align-last: center;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  width: 400px;
+  margin: 0 auto;
+  height: 400px;
+}
+#box1 {
+  width: 300px;
+  height: 300px;
+
+  border: 1px solid black;
+}
+
+#box2 {
+  width: 70px;
+  height: 70px;
+
+  position: relative;
+
+  left: 5px;
+  top: 5px;
+
+  margin: 0;
+
+  background: lightblue;
+}
+
+#upload-button {
+  width: 150px;
+  display: block;
+  margin: 20px auto;
+}
+
+#file-to-upload {
+  display: none;
+}
+
+#pdf-main-container {
+  width: 400px;
+  margin: 20px;
+}
+
+#pdf-loader {
+  display: none;
+  text-align: center;
+  color: #999999;
+  font-size: 13px;
+  line-height: 100px;
+  height: 100px;
+}
+
+#pdf-contents {
+  display: none;
+}
+
+#pdf-meta {
+  overflow: hidden;
+  margin: 20px;
+}
+
+#pdf-buttons {
+  float: left;
+}
+
+#page-count-container {
+  float: right;
+}
+
+#pdf-current-page {
+  display: inline;
+}
+
+#pdf-total-pages {
+  display: inline;
+}
+
+#pdf-canvas {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+}
+
+#page-loader {
+  height: 100px;
+  line-height: 100px;
+  text-align: center;
+  display: none;
+  color: #999999;
+  font-size: 13px;
+}
+
+#download-image {
+  width: 150px;
+  display: block;
+  margin: 20px auto 0 auto;
+  font-size: 13px;
+  text-align: center;
+}
+
+body {
+  margin: 10px;
+  font-family: "unicodearialr", sans-serif;
+  font-size: 14 px;
+  color: #626469;
+}
+@font-face {
+  font-family: "unicodearialr";
+  src: url("./fonts/unicode.arialr.ttf") format("truetype");
+}
+
+select {
+  font-family: "unicodearialr", sans-serif;
+  color: #626469;
+}
+.header {
+  height: 64px;
+  color: #ffffff;
+  background-color: #3dcd58;
+  display: flex;
+  justify-content: space-between;
+  padding-right: 10px;
+}
+.header_admin {
+  height: 84px;
+  color: #ffffff;
+  background-color: #3dcd58;
+  display: flex;
+  justify-content: space-between;
+  padding-right: 10px;
+}
+.button {
+  font-family: "unicodearialr", sans-serif;
+  color: #626469;
+  background-color: skyblue;
+}
+
+h2 {
+  color: #ffffff;
+  display: inline-block;
+}
+
+footer {
+  height: 24px;
+  color: #ffffff;
+  background-color: #3dcd58;
+  position: -webkit-sticky; /* Safari */
+  position: sticky;
+  bottom: 0;
+  text-align: center;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.eyebrow {
+  height: 30px;
+  color: #000000;
+  background-color: #fafafa;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+#hrline {
+  background-color: #009530;
+  margin-left: 1px;
+  margin-right: 1px;
+  margin-top: 0px;
+  height: 4px;
+  width: 100%;
+}
+
+.title {
+  display: inline;
+  text-align: center;
+  justify-content: center;
+  font-family: "unicodearialr", sans-serif;
+  font-size: 24px;
+  margin: 18px;
+}
+
+
+.title_admin {
+  display: inline;
+  text-align: center;
+  justify-content: center;
+  font-family: "unicodearialr", sans-serif;
+  font-size: 18px;
+  margin: 2px;
+}
+
+img {
+  padding: 3px;
+}
+body {
+  margin: 5px;
+  width:auto;
+}
+.panels {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  justify-content: center;
+  align-items: center;
+}
+.panel_left {
+  display: inline-flex;
+  padding: 10px;
+  margin: 10px;
+  border: solid 3px #3dcd58;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.panel_right {
+  display: inline-flex;
+  padding: 10px;
+  margin: 10px;
+  border: solid 3px #3dcd58;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+.panel_admin {
+  display: block;
+  padding: 10px;
+  margin: 10px;
+  border: solid 3px #3dcd58;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.p_panel {
+  display: flex;
+  margin: 0;
+}
+.p_name {
+  display: flex;
+  margin: 0 12px 0 0;
+}
+
+.a_help {
+  text-decoration: none;
+  display: flex-end;
+  text-align: center;
+  justify-content: center;
+  font-family: "unicodearialr", sans-serif;
+  font-size: 14px;
+  color: #ffffff;
+  margin: 42px 0 0 0;
+  padding: 0 10px 0 10px;
+}
+.a_help:hover {
+  background-color: #009530;
+}
+a {
+  font-family: "unicodearialr", sans-serif;
+}
+.btn_submit {
+  margin-left: 10px;
+  font-family: "unicodearialr", sans-serif;
+  color: #626469;
+  background-color: skyblue;
+}
+
+.form_type {
+  text-align: center;
+}
+.main_wrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  justify-content: center;
+  align-items: center;
+}
+.wrapper {
+  width: auto;
+  min-width: 320px;
+  max-width: 800px;
+}
+@media (max-width: 615px) {
+  .wrapper {
+    margin-left: 5px;
+  }
+  .title {
+    /* display: inline;
+    text-align: center;
+    justify-content: center;
+    font-family: "unicodearialr", sans-serif;
+    font-size: 24px; */
+    margin: 10px;
+  }
+  .main_wrapper{
+    align-items: stretch;
+  }
+  body{
+    width: fit-content;
+  }
+}
+.signature {
+  margin-left: 10px;
+}
+#spl_file_name {
+  font-weight: bold;
+}
+p {
+  margin: 0;
+}
+h3 {
+  margin: 0;
+}
+.full_header {
+  position: sticky;
+  top: 0;
+}
+.mypdf {
+  position: relative;
+}
+.text_confirmation {
+  margin-left: 250px;
+}
+
+.navbar {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #3dcd58;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover:not(.active) {
+  background-color: #009530;
+}
+
+.active {
+  background-color: #4caf50;
+}
+
+.panel_admin--width {
+  width: 400px;
+}
+#myCanvas{
+  width:400;
+  height:110;
+  border:2px solid #3dcd58;
+}

@@ -37,8 +37,9 @@ exports.login = function(req, res){
       db.query(sql, function(err, results){      
          if(results.length){
             req.session.userId = results[0].id;
-            req.session.user = results[0];
+            req.session.first_name = results[0].first_name;
             console.log(results[0].id);
+            console.log(results[0].first_name);
             res.redirect('/home/dashboard');
          }
          else{
@@ -57,8 +58,12 @@ exports.login = function(req, res){
 exports.dashboard = function(req, res, next){
            
    var user =  req.session.user,
-   userId = req.session.userId;
-   console.log('ddd='+userId);
+   userId = req.session.userId,
+   fname= req.session.first_name;
+
+   console.log('userID= '+userId);
+   console.log('first_name= '+req.session.first_name);
+   
    if(userId == null){
       res.redirect("/login");
       return;
@@ -67,7 +72,8 @@ exports.dashboard = function(req, res, next){
    var sql="SELECT * FROM `users2` WHERE `id`='"+userId+"'";
 
    db.query(sql, function(err, results){
-      res.render('dashboard.ejs', {user:user});    
+      res.render('dashboard.ejs', {fname}); 
+      console.log('user= ' + fname)  ;
    });       
 };
 //------------------------------------logout functionality----------------------------------------------
@@ -87,19 +93,45 @@ exports.profile = function(req, res){
 
    var sql="SELECT * FROM `users2` WHERE `id`='"+userId+"'";          
    db.query(sql, function(err, result){  
-      res.render('profile.ejs',{data:result});
+      res.render('profile.ejs',{result});
    });
 };
 //---------------------------------edit users details after login----------------------------------
-exports.editprofile=function(req,res){
-   var userId = req.session.userId;
+// exports.editprofile=function(req,res){
+//    var userId = req.session.userId;
+//    if(userId == null){
+//       res.redirect("/login");
+//       return;
+//    }
+
+//    var sql="SELECT * FROM `users2` WHERE `id`='"+userId+"'";
+//    db.query(sql, function(err, results){
+//       res.render('edit_profile.ejs',{data:results});
+//    });
+// };
+//-----------------------------------------------new_user page functionality----------------------------------------------
+           
+exports.new_order = function(req, res, next){
+           
+   var user =  req.session.user,
+   userId = req.session.userId,
+   fname= req.session.first_name;
+
+   console.log('userID= '+userId);
+   console.log('first_name= '+req.session.first_name);
+   
    if(userId == null){
       res.redirect("/login");
       return;
    }
 
    var sql="SELECT * FROM `users2` WHERE `id`='"+userId+"'";
+   var dataSet = [
+      [ "Tiger Nixon", "System Architect", "Edinburgh", "5421", "2011/04/25", "$320,800" ]
+  ];
    db.query(sql, function(err, results){
-      res.render('edit_profile.ejs',{data:results});
-   });
+      res.render('new_order.ejs', {fname}); 
+      console.log('user= ' + fname)  ;
+   });   
+ 
 };
