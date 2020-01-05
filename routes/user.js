@@ -131,7 +131,7 @@ exports.new_order = function(req, res, next){
   ];
    db.query(sql, function(err, results){
       res.render('new_order.ejs', {fname}); 
-      console.log('user= ' + fname)  ;
+       console.log('result: ' + results.length)  ;
    });   
  
 };
