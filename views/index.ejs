@@ -1,83 +1,166 @@
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
     <title>Elunch</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"/>
+    <link
+      rel="stylesheet"
+      href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"
+    />
+    <!-- <script src="/table_test.js"></script> -->
     <!-- <link rel="stylesheet" href="/styles.css" type="text/css"/> -->
-   
-</head>
-<body id="clrblk">
-        <header> 
-            <h1 class="container panel-info labelTitle">Witaj w aplikacji zamawiania lunchu</h1>
-            <h2 class="container panel-info labelTitle"> zaloguj się w celu identyfikacji</h2>
-        </header>
-        <div class="container">   
-        <div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">                   
-            <div class="panel panel-info" >
-                    <div class="panel-heading">
-                        <div class="panel-title">Logowanie</div>
-                        <!--<div style="float:right; font-size: 80%; position: relative; top:-10px"><a href="#">Forgot password?</a></div>-->
-                    </div>    
- 
-                    <div style="padding-top:30px" class="panel-body" >
-                                                                        <% if (message.length > 0) { %>
-                                                                                    <div class="alert alert-danger col-sm-12"><%= message %></div>
-                                                                        <% } %>
-                           
-                        <form id="loginform" class="form-horizontal" role="form" method="post" action="/login">
-                                   
-                            <div style="margin-bottom: 25px" class="input-group">
-                                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                        <input id="login-username" type="text" class="form-control" name="user_name" value="" placeholder="username">                                       
-                                    </div>
-                               
-                            <div style="margin-bottom: 25px" class="input-group">
-                                        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                        <input id="login-password" type="password" class="form-control" name="password" placeholder="password">
-                                    </div>
-                                   
- 
-                               
-                            <div class="input-group">
-                                      <!--<div class="checkbox">
+    <!-- <script>
+      function generate_table() {
+        // get the reference for the body
+        var body = document.getElementsByTagName("body")[0];
+
+        // creates a <table> element and a <tbody> element
+        var tbl = document.createElement("table");
+        var tblBody = document.createElement("tbody");
+
+        // creating all cells
+        for (var i = 0; i < 2; i++) {
+          // creates a table row
+          var row = document.createElement("tr");
+
+          for (var j = 0; j < 2; j++) {
+            // Create a <td> element and a text node, make the text
+            // node the contents of the <td>, and put the <td> at
+            // the end of the table row
+            var cell = document.createElement("td");
+            var cellText = document.createTextNode(
+              "cell in row " + i + ", column " + j
+            );
+            cell.appendChild(cellText);
+            row.appendChild(cell);
+          }
+
+          // add the row to the end of the table body
+          tblBody.appendChild(row);
+        }
+
+        // put the <tbody> in the <table>
+        tbl.appendChild(tblBody);
+        // appends <table> into <body>
+        body.appendChild(tbl);
+        // sets the border attribute of tbl to 2;
+        tbl.setAttribute("border", "2");
+      }
+    </script> -->
+  </head>
+  <body id="clrblk">
+    <div class="container ">
+      <header>
+        <h1 class="container panel-info labelTitle">
+          Witaj w aplikacji zamawiania lunchu
+        </h1>
+        <h2 class="container panel-info labelTitle">
+          zaloguj się w celu identyfikacji
+        </h2>
+      </header>
+    </div>
+    <div class="container">
+      <div
+        id="loginbox"
+        style="margin-top:50px;"
+        class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2"
+      >
+        <div class="panel panel-info">
+          <div class="panel-heading">
+            <div class="panel-title">Logowanie</div>
+            <!--<div style="float:right; font-size: 80%; position: relative; top:-10px"><a href="#">Forgot password?</a></div>-->
+          </div>
+
+          <div style="padding-top:30px" class="panel-body">
+            <% if (message.length > 0) { %>
+            <div class="alert alert-danger col-sm-12"><%= message %></div>
+            <% } %>
+
+            <form
+              id="loginform"
+              class="form-horizontal"
+              role="form"
+              method="post"
+              action="/login"
+            >
+              <!-- <div style="margin-bottom: 25px" class="input-group">
+                <span class="input-group-addon"
+                  ><i class="glyphicon glyphicon-user"></i
+                ></span>
+                <input
+                  id="login-username"
+                  type="text"
+                  class="form-control"
+                  name="user_name"
+                  value=""
+                  placeholder="username"
+                />
+              </div> -->
+
+              <div style="margin-bottom: 25px" class="input-group">
+                <span class="input-group-addon"
+                  ><i class="glyphicon glyphicon-user"></i
+                ></span>
+                <input
+                  id="login-sesa_no"
+                  type="number"
+                  class="form-control"
+                  name="sesa_no"
+                  value=""
+                  placeholder="sesa"
+                />
+              </div>
+
+              <div style="margin-bottom: 25px" class="input-group">
+                <span class="input-group-addon"
+                  ><i class="glyphicon glyphicon-lock"></i
+                ></span>
+                <input
+                  id="login-password"
+                  type="password"
+                  class="form-control"
+                  name="password"
+                  placeholder="password"
+                />
+              </div>
+
+              <div class="input-group">
+                <!--<div class="checkbox">
                                         <label>
                                           <input id="login-remember" type="checkbox" name="remember" value="1"> Remember me
                                         </label>
                                       </div>-->
-                                    </div>
- 
- 
-                                <div style="margin-top:10px" class="form-group">
-                                    <!-- Button -->
- 
-                                    <div class="col-sm-12 controls">
-                                      <button id="btn-login" type="submit" class="btn btn-success">Login  </button>
-                                     
- 
-                                    </div>
-                                </div>
- 
- 
-                                <div class="form-group">
-                                    <div class="col-md-12 control">
-                                        <div style="border-top: 1px solid#888; padding-top:15px; font-size:85%" >
-                                            Nie masz jeszcze konta!
-                                        <a href="/signup">
-                                            Zarejestruj się
-                                        </a>
-                                        </div>
-                                    </div>
-                                </div>   
-                            </form>    
- 
- 
- 
-                        </div>                    
-                    </div> 
+              </div>
+
+              <div style="margin-top:10px" class="form-group">
+                <!-- Button -->
+
+                <div class="col-sm-12 controls">
+                  <button id="btn-login" type="submit" class="btn btn-success">
+                    Zaloguj sie!
+                  </button>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="col-md-12 control">
+                  <div
+                    style="border-top: 1px solid#888; padding-top:15px; font-size:85%"
+                  >
+                    Nie masz jeszcze konta!
+                    <a href="/signup">
+                      Zarejestruj się
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
         </div>
-       
+      </div>
     </div>
-</body>
+
+    <table class="table"></table>
+  </body>
 </html>
