@@ -35,9 +35,9 @@ var connection = mysql.createConnection({
               password : 'Bazapi2019',
               database : 'elunch'
             });
-connection.connect();
+// connection.connect();
  
-global.db = connection;
+// global.db = connection;
  
 // all environments
 app.set('port', process.env.PORT || 8080);
@@ -52,7 +52,7 @@ app.use(session({
               saveUninitialized: true,
               cookie: { maxAge: 60000000 }
             }))
- 
+app.use('/public', express.static('public'));
 // development only
  
 app.get('/', routes.index);//call for main index page
@@ -64,5 +64,6 @@ app.get('/home/dashboard', user.dashboard);//call for dashboard page after login
 app.get('/home/logout', user.logout);//call for logout
 app.get('/home/profile',user.profile);//to render users profile
 app.get('/home/new_order', user.new_order);//call for new_order page to order lunch
+app.get('/home/table', user.table);//test transfer json to table
 //Middleware
 app.listen(8080)

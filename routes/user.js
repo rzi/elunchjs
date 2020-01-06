@@ -136,10 +136,59 @@ exports.new_order = function(req, res, next){
    var dataSet = [
       [ "Tiger Nixon", "System Architect", "Edinburgh", "5421", "2011/04/25", "$320,800" ]
   ];
-   db.query(sql, function(err, results){
-      res.render('new_order.ejs', {fname,dataSet}); 
+   // db.query(sql, function(err, results){
+   //    res.render('new_order.ejs', {fname,dataSet}); 
 
-       console.log('dataSet', dataSet);
-   });   
+   //     console.log('dataSet', dataSet);
+   // });   
+
+   var id_order2=1;
+   var sql2="SELECT * FROM `elunch_orders2` WHERE `id`='"+id_order2+"'";
+   db.query(sql2, function(err, results){
+      res.render('new_order.ejs', {fname,results,dataSet}); 
+
+       console.log('dane z bazy', results);
+   });  
+ 
+};
+//-----------------------------------------------new_user page functionality----------------------------------------------
+           
+exports.table = function(req, res, next){
+           
+   var user =  req.session.user,
+   userId = req.session.userId,
+   fname= req.session.first_name;
+   sesa_no1=req.session.sesa_no1;
+
+   console.log('userID= '+userId);
+   console.log('first_name= '+req.session.first_name);
+   console.log('sesa_n1o= '+sesa_no1);
+
+   if(userId == null){
+      res.redirect("/login");
+      return;
+   }
+
+   var sql="SELECT * FROM `elunch_users2` WHERE `id`='"+userId+"'";
+   var dataSet = [
+      [ "Tiger Nixon", "System Architect", "Edinburgh", "5421", "2011/04/25", "$320,800" ]
+  ];
+   // db.query(sql, function(err, results){
+   //    res.render('new_order.ejs', {fname,dataSet}); 
+
+   //     console.log('dataSet', dataSet);
+   // });   
+
+   var id_order2=1;
+   var sql2="SELECT * FROM `elunch_orders2` WHERE `id`='"+id_order2+"'";
+   db.query(sql2, function(err, results){
+      // res.send(JSON.stringify({key:"value"}));
+      var myjson = JSON.stringify({key:"value"});
+      console.log('myjson ', myjson);
+      res.render('table.ejs', {fname,results,dataSet}); 
+      
+       console.log('dane z bazy', results);
+    
+   });  
  
 };
