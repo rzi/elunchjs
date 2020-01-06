@@ -1,61 +1,111 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <title>Sample Site</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <script>
-      window.onload = function() {
-        var now = new Date();
-        var day = ("0" + now.getDate()).slice(-2);
-        var month = ("0" + (now.getMonth() + 1)).slice(-2);
-        var today = now.getFullYear() + "-" + month + "-" + day;
-        console.log(today);
-        document.getElementById("lunch_order").value = today;
-      };
-      var tableName;
-      function generate_table(tableName) {
-          // get the reference for the body
-          var body = document.getElementById(tableName);
-  
-          // creates a <table> element and a <tbody> element
-          var tbl = document.createElement("table");
-          var tblBody = document.createElement("tbody");
-  
-          // creating all cells
-          for (var i = 0; i < 4; i++) {
-            // creates a table row
-            var row = document.createElement("tr");
-  
-            for (var j = 0; j < 3; j++) {
-              // Create a <td> element and a text node, make the text
-              // node the contents of the <td>, and put the <td> at
-              // the end of the table row
-              var cell = document.createElement("td");
-              var cellText = document.createTextNode(
-                "cell in row " + i + ", column " + j
-              );
-              cell.appendChild(cellText);
-              row.appendChild(cell);
-            }
-  
-            // add the row to the end of the table body
-            tblBody.appendChild(row);
+<html lang="pl">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Sample Site</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script>
+    window.onload = function () {
+      var now = new Date();
+      var day = ("0" + now.getDate()).slice(-2);
+      var month = ("0" + (now.getMonth() + 1)).slice(-2);
+      var today = now.getFullYear() + "-" + month + "-" + day;
+      console.log(today);
+      document.getElementById("lunch_order").value = today;
+      //  nowa tabela json
+      var dataObj = {
+        "1": [{
+            "A": "aaa",
+            "B": "bbb",
+            "C": "cccc",
+            "D": "ddd",
+            "E": "eee"
+          },
+          {
+            "F": "ffffff",
+            "G": "ggggggg",
+            "H": "hhhhhh",
+            "I": "iiiiiiii",
+            "J": "jjjjjjjj"
+          },
+          {
+            "K": "",
+            "L": "",
+            "M": "",
+            "N": "",
+            "O": ""
           }
-  
-          // put the <tbody> in the <table>
-          tbl.appendChild(tblBody);
-          // appends <table> into <body>
-          body.appendChild(tbl);
-          // sets the border attribute of tbl to 2;
-          tbl.setAttribute("border", "1");
+        ]
+      };
+
+      var dictionaryData = dataObj["1"];
+
+      for (var i in dictionaryData) {
+        var table = document.getElementById("apps");
+        var tr = document.createElement("tr");
+        var td = document.createElement("td");
+
+        for (var key in dictionaryData[i]) {
+          var txt = document.createTextNode(key);
+          td.appendChild(txt);
+          tr.appendChild(td);
         }
-    </script>
+        table.appendChild(tr);
+        table.setAttribute("border", "1");
+        tr.setAttribute("border", "1");
+      }
+
+      // ----
+
+    };
+
+
+
+    var tableName;
+
+    function generate_table(tableName) {
+      // get the reference for the body
+      var body = document.getElementById(tableName);
+
+      // creates a <table> element and a <tbody> element
+      var tbl = document.createElement("table");
+      var tblBody = document.createElement("tbody");
+
+      // creating all cells
+      for (var i = 0; i < 4; i++) {
+        // creates a table row
+        var row = document.createElement("tr");
+
+        for (var j = 0; j < 3; j++) {
+          // Create a <td> element and a text node, make the text
+          // node the contents of the <td>, and put the <td> at
+          // the end of the table row
+          var cell = document.createElement("td");
+          var cellText = document.createTextNode(
+            "cell in row " + i + ", column " + j
+          );
+          cell.appendChild(cellText);
+          row.appendChild(cell);
+        }
+
+        // add the row to the end of the table body
+        tblBody.appendChild(row);
+      }
+
+      // put the <tbody> in the <table>
+      tbl.appendChild(tblBody);
+      // appends <table> into <body>
+      body.appendChild(tbl);
+      // sets the border attribute of tbl to 2;
+      tbl.setAttribute("border", "1");
+    }
+  </script>
 </head>
-  
+
 <body>
   <div class="container">
     <!-- Static navbar -->
@@ -75,55 +125,61 @@
       <!--/.container-fluid -->
     </nav>
 
-  <!-- Main component for a primary marketing message or call to action -->
-  <div class="jumbotron">
-    <h2>Witaj <%=fname%>,</h2>
-    <p>
-      Zamówic online lunch możesz tylko do godziny 10.00, pozostało ci jeszce
-      XXX czasu do zamówienia
-    </p>
-    <p>
-      Wybierz datę na kiedy zamawiasz lunch
-    </p>
-    <input type="date" name="lunch_order" id="lunch_order" value="2020-01-08"/>
-    <br /><br />
-    <p>
-      Lista twoich aktualnych zamówień:
-    </p>
-    <div id="mytable2">
-      <script>
-        generate_table("mytable2");
-      </script>
-    </div>
-    <br>
-    
-    <p>
-      Masz do wyborów dwóch dostawców Mucha i Opoka, kliknij odpowiednią
-      zakładkę
-    </p>
-    <!-- dynamic tabs -->
-    <ul class="nav nav-tabs">
-      <li class="active"><a data-toggle="tab" href="#mucha">Mucha</a></li>
-      <li><a data-toggle="tab" href="#opoka">Opoka</a></li>
-    </ul>
-    <div class="tab-content">
-      <div id="mucha" class="tab-pane fade in active">
-        <h3>Mucha</h3>
-        <p>wybierz danie:</p>
-        <div id="mytable">
-          <script>
-            generate_table("mytable");
-          </script>
+    <!-- Main component for a primary marketing message or call to action -->
+    <div class="jumbotron">
+      <h2>Witaj <%=fname%>,</h2>
+      <p>
+        Zamówic online lunch możesz tylko do godziny 10.00, pozostało ci jeszce
+        XXX czasu do zamówienia
+      </p>
+      <p>
+        Wybierz datę na kiedy zamawiasz lunch
+      </p>
+      <input type="date" name="lunch_order" id="lunch_order" value="2020-01-08" />
+      <br /><br />
+      <p>
+        Lista twoich aktualnych zamówień:
+      </p>
+      <p><%=dataSet%></p>
+
+      <div>
+        <table id="apps"></table>
+      </div>
+      <br>
+      <div id="mytable2">
+        <script>
+          generate_table("mytable2");
+        </script>
+      </div>
+      <br>
+
+      <p>
+        Masz do wyborów dwóch dostawców Mucha i Opoka, kliknij odpowiednią
+        zakładkę
+      </p>
+      <!-- dynamic tabs -->
+      <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#mucha">Mucha</a></li>
+        <li><a data-toggle="tab" href="#opoka">Opoka</a></li>
+      </ul>
+      <div class="tab-content">
+        <div id="mucha" class="tab-pane fade in active">
+          <h3>Mucha</h3>
+          <p>wybierz danie:</p>
+          <div id="mytable">
+            <script>
+              generate_table("mytable");
+            </script>
+          </div>
         </div>
+        <div id="opoka" class="tab-pane fade">
+          <h3>Opoka</h3>
+          <p>wybierz danie:</p>
+        </div>
+        <br />
+        <table id="example" class="display" width="100%"></table>
       </div>
-      <div id="opoka" class="tab-pane fade">
-        <h3>Opoka</h3>
-        <p>wybierz danie:</p>
-      </div>
-      <br />
-      <table id="example" class="display" width="100%"></table>
     </div>
-  </div>
 </body>
-</html>
+
 </html>

@@ -3,7 +3,7 @@
 */
  
 exports.index = function(req, res){
-    var message = 'witaj, aby się zalogować wpisz email i hasło: ';
+    var message = 'Witaj, aby się zalogować wpisz część numeryczną sesa i hasło: ';
   res.render('index',{message: message});
  
 };
