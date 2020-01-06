@@ -35,9 +35,9 @@ var connection = mysql.createConnection({
               password : 'Bazapi2019',
               database : 'elunch'
             });
-// connection.connect();
+connection.connect();
  
-// global.db = connection;
+global.db = connection;
  
 // all environments
 app.set('port', process.env.PORT || 8080);

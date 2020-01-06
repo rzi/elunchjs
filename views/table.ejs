@@ -1,15 +1,25 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>HTML dynamic table using JavaScript</title>
-    <!-- <script type="text/javascript" src="app1.js"></script> -->
-    <script>
-      function load() {
-        console.log("Page load finished1");
-        generateDynamicTable();
-        addTable();
-      }
-      var myContacts = [
+
+<head>
+  <title>HTML dynamic table using JavaScript</title>
+  <!-- <script type="text/javascript" src="app1.js"></script> -->
+  <script>
+    function load() {
+      console.log("Page load finished");
+
+      // var zm5=document.getElementById("myContacts");
+      // var idTable1=zm5.innerText;
+      // console.log(idTable1);
+      var myContacts = [{
+          id: 1,
+          Id_sesa_no: 1,
+          order_date: "2020-01-08",
+          order_supplier_name: "Opoka",
+          order_no: 1,
+          order_name: "Kotlet",
+          order_price: 7
+        },
         {
           id: 1,
           Id_sesa_no: 1,
@@ -18,7 +28,18 @@
           order_no: 1,
           order_name: "Kotlet",
           order_price: 7
-        },        {
+        }
+      ];
+      var myContacts2 = [{
+          id: 2,
+          Id_sesa_no: 2,
+          order_date: "2020-01-08",
+          order_supplier_name: "Opoka",
+          order_no: 12,
+          order_name: "Kotlet",
+          order_price: 27
+        },
+        {
           id: 1,
           Id_sesa_no: 1,
           order_date: "2020-01-08",
@@ -29,8 +50,11 @@
         }
       ];
 
-      function generateDynamicTable() {
-        var noOfContacts = myContacts.length;
+      function generateDynamicTable(idTable1,myjson ) {
+        var idTable2 = idTable1
+        console.log("idTable2 =", idTable2);
+        var noOfContacts = myjson.length;
+        console.log("lenght of Contacts : ", noOfContacts);
 
         if (noOfContacts > 0) {
           // CREATE DYNAMIC TABLE.
@@ -44,7 +68,7 @@
 
           var col = []; // define an empty array
           for (var i = 0; i < noOfContacts; i++) {
-            for (var key in myContacts[i]) {
+            for (var key in myjson[i]) {
               if (col.indexOf(key) === -1) {
                 col.push(key);
               }
@@ -75,7 +99,7 @@
 
             for (var j = 0; j < col.length; j++) {
               var td = document.createElement("td");
-              td.innerHTML = myContacts[i][col[j]];
+              td.innerHTML = myjson[i][col[j]];
               bRow.appendChild(td);
             }
             tBody.appendChild(bRow);
@@ -83,49 +107,30 @@
           table.appendChild(tBody);
 
           // FINALLY ADD THE NEWLY CREATED TABLE WITH JSON DATA TO A CONTAINER.
-          var divContainer = document.getElementById("myContacts");
+          var divContainer = document.getElementById("myDivTable");
           // divContainer.innerHTML = "tabela";
           divContainer.appendChild(table);
         }
       }
-
-      // console.log("Page load finished2");
-      // generateDynamicTable();
-
+      generateDynamicTable("myDivTable", myContacts);
+      generateDynamicTable("myDivTable2", myContacts2);
 
 
-function addTable() {
-      
-    var myTableDiv = document.getElementById("myTableDiv2");
-      
-    var table = document.createElement('TABLE');
-    table.border='1';
-    
-    var tableBody = document.createElement('TBODY');
-    table.appendChild(tableBody);
-      
-    for (var i=0; i<3; i++){
-       var tr = document.createElement('TR');
-       tableBody.appendChild(tr);
-       
-       for (var j=0; j<4; j++){
-           var td = document.createElement('TD');
-           td.width='75';
-           td.appendChild(document.createTextNode("Cell " + i + "," + j));
-           tr.appendChild(td);
-       }
+
     }
-    myTableDiv.appendChild(table);
-    
-}
-  
+  </script>
+</head>
 
-    </script>
-  </head>
-  <body onload="load()">
-    <br />
-    <div id="myTableDiv2">
-      <p>table 2 text</p>
-    </div>
-  </body>
+<body onload="load()">
+  <br />
+  <div id="myDivTable">
+    <p>table 2 text</p>
+    <p>myjson: <%=myjson%></p>
+    <p>myjson1: <%=myjson1%></p>
+
+    <div id="myDivTable2">
+
+  </div>
+</body>
+
 </html>

@@ -173,22 +173,25 @@ exports.table = function(req, res, next){
    var dataSet = [
       [ "Tiger Nixon", "System Architect", "Edinburgh", "5421", "2011/04/25", "$320,800" ]
   ];
-   // db.query(sql, function(err, results){
-   //    res.render('new_order.ejs', {fname,dataSet}); 
+  var myjson, myjson;
 
-   //     console.log('dataSet', dataSet);
-   // });   
+   db.query(sql, function(err, results1){
+      //res.render('new_order.ejs', {fname,dataSet}); 
+      myjson1 = JSON.stringify(results1);
+      
+       console.log('result1 ', results1);
+   });   
 
    var id_order2=1;
-   var sql2="SELECT * FROM `elunch_orders2` WHERE `id`='"+id_order2+"'";
+   var sql2="SELECT * FROM `elunch_orders2` WHERE 1"; //`id`='"+id_order2+"'
    db.query(sql2, function(err, results){
       // res.send(JSON.stringify({key:"value"}));
-      var myjson = JSON.stringify({key:"value"});
-      console.log('myjson ', myjson);
-      res.render('table.ejs', {fname,results,dataSet}); 
+       myjson = JSON.stringify(results);
       
-       console.log('dane z bazy', results);
-    
+      console.log('myjson ', myjson);
+      res.render('table.ejs', {myjson1, myjson}); 
+         
+      
    });  
  
 };
