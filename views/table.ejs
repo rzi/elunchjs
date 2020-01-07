@@ -12,45 +12,45 @@
       // var idTable1=zm5.innerText;
       // console.log(idTable1);
       var myContacts = [{
-          id: 1,
-          Id_sesa_no: 1,
-          order_date: "2020-01-08",
-          order_supplier_name: "Opoka",
-          order_no: 1,
-          order_name: "Kotlet",
-          order_price: 7
-        },
-        {
-          id: 1,
-          Id_sesa_no: 1,
-          order_date: "2020-01-08",
-          order_supplier_name: "Opoka",
-          order_no: 1,
-          order_name: "Kotlet",
-          order_price: 7
-        }
+        id: 1,
+        Id_sesa_no: 1,
+        order_date: "2020-01-08",
+        order_supplier_name: "Opoka",
+        order_no: 1,
+        order_name: "Kotlet",
+        order_price: 7
+      },
+      {
+        id: 1,
+        Id_sesa_no: 1,
+        order_date: "2020-01-08",
+        order_supplier_name: "Opoka",
+        order_no: 1,
+        order_name: "Kotlet",
+        order_price: 7
+      }
       ];
       var myContacts2 = [{
-          id: 2,
-          Id_sesa_no: 2,
-          order_date: "2020-01-08",
-          order_supplier_name: "Opoka",
-          order_no: 12,
-          order_name: "Kotlet",
-          order_price: 27
-        },
-        {
-          id: 1,
-          Id_sesa_no: 1,
-          order_date: "2020-01-08",
-          order_supplier_name: "Opoka",
-          order_no: 1,
-          order_name: "Kotlet",
-          order_price: 7
-        }
+        id: 2,
+        Id_sesa_no: 2,
+        order_date: "2020-01-08",
+        order_supplier_name: "Opoka",
+        order_no: 12,
+        order_name: "Kotlet",
+        order_price: 27
+      },
+      {
+        id: 1,
+        Id_sesa_no: 1,
+        order_date: "2020-01-08",
+        order_supplier_name: "Opoka",
+        order_no: 1,
+        order_name: "Kotlet",
+        order_price: 7
+      }
       ];
 
-      function generateDynamicTable(idTable1,myjson ) {
+      function generateDynamicTable(idTable1, myjson) {
         var idTable2 = idTable1
         console.log("idTable2 =", idTable2);
         var noOfContacts = myjson.length;
@@ -107,16 +107,13 @@
           table.appendChild(tBody);
 
           // FINALLY ADD THE NEWLY CREATED TABLE WITH JSON DATA TO A CONTAINER.
-          var divContainer = document.getElementById("myDivTable");
+          var divContainer = document.getElementById(idTable2);
           // divContainer.innerHTML = "tabela";
           divContainer.appendChild(table);
         }
       }
       generateDynamicTable("myDivTable", myContacts);
       generateDynamicTable("myDivTable2", myContacts2);
-
-
-
     }
   </script>
 </head>
@@ -124,13 +121,12 @@
 <body onload="load()">
   <br />
   <div id="myDivTable">
-    <p>table 2 text</p>
-    <p>myjson: <%=myjson%></p>
-    <p>myjson1: <%=myjson1%></p>
-
-    <div id="myDivTable2">
-
+    <p>dane odebrane z backendu:</p>
+    <p>Tabela orders: <%=myjson%></p>
+    <p>Tabela users: <%=myjson1%></p>
   </div>
+  <br>
+  <br>
+  <div id="myDivTable2"></div>
 </body>
-
 </html>

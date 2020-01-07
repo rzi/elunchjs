@@ -179,7 +179,7 @@ exports.table = function(req, res, next){
       //res.render('new_order.ejs', {fname,dataSet}); 
       myjson1 = JSON.stringify(results1);
       
-       console.log('result1 ', results1);
+       console.log('tabela_users: ', myjson1);
    });   
 
    var id_order2=1;
@@ -188,7 +188,7 @@ exports.table = function(req, res, next){
       // res.send(JSON.stringify({key:"value"}));
        myjson = JSON.stringify(results);
       
-      console.log('myjson ', myjson);
+      console.log('tabela_zamowien ', myjson);
       res.render('table.ejs', {myjson1, myjson}); 
          
       
