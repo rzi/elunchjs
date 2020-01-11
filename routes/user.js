@@ -138,6 +138,9 @@ exports.new_order = function(req, res, next) {
   console.log("sesa_n1o= " + sesa_no1);
   console.log("Method: " +req.method);
   console.dir(req.query.ID);
+  var myID  = req.query.ID;
+  console.log("myID: " + myID);
+  
   if (userId == null) {
     res.redirect("/login");
     return;
@@ -148,7 +151,7 @@ exports.new_order = function(req, res, next) {
 
   db.query(sql3, function(err, results) {
     menu_json = JSON.stringify(results);
-    console.log("menu_json: ", menu_json[0].id);
+    console.log("menu_json: ", menu_json);
     res.render("new_order.ejs", { fname, menu_json });
   });
 
