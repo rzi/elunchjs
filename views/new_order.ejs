@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pl">
+
 <head>
   <meta charset="UTF-8">
   <title>Sample Site</title>
@@ -13,9 +14,9 @@
       var now = new Date();
       var day = ("0" + now.getDate()).slice(-2);
       var month = ("0" + (now.getMonth() + 1)).slice(-2);
-      var today = now.getFullYear() + "-" + month + "-" + day;      
+      var today = now.getFullYear() + "-" + month + "-" + day;
       console.log(today);
-      let status; 
+      let status;
       // fetch('/home/new_order')
       //   .then((res) => { 
       //     status = res.status; 
@@ -29,8 +30,8 @@
       //     // handle error for example
       //     console.error(err);
       //   });
- 
- 
+
+
 
       //  fetch('/home/new_order', { method: 'POST' })
       //   .then(res => res.text())
@@ -38,23 +39,23 @@
 
       // const axios = require('axios');
 
-// Make a request for a user with a given ID
-axios.get('/home/new_order', {
-    params: {
-      ID: 12345
-    }
-  })
-  .then(function (response) {
-    // handle success
-    console.log(response.data);
-  })
-  .catch(function (error) {
-    // handle error
-    console.log(error);
-  })
-  .finally(function () {
-    // always executed
-  });
+      // Make a request for a user with a given ID
+      axios.get('/home/new_order', {
+        params: {
+          ID: 12345
+        }
+      })
+        .then(function (response) {
+          // handle success
+          console.log(response.data);
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
+        })
+        .finally(function () {
+          // always executed
+        });
 
 
     }
@@ -133,14 +134,15 @@ axios.get('/home/new_order', {
               </thead>
               <tbody>
                 <% for(var i=0; i < menu_json.length; i++) { %>
-                  <tr>
-                    <td><%= menu_json[i].id %></td>
-                    <td><%= menu_json[i].supplier_name %></td>
-                    <td><%= menu_json[i].menu_no %></td>
-                    <td><%= menu_json[i].menu_desctription %></td>
-                    <td><%= menu_json[i].menu_price %></td>
-                    <td><button type="button" value=<%= menu_json[i].menu_no %>>Zamów nr. <%= menu_json[i].menu_no %></button></td>
-                  </tr>
+                <tr>
+                  <td><%= menu_json[i].id %></td>
+                  <td><%= menu_json[i].supplier_name %></td>
+                  <td><%= menu_json[i].menu_no %></td>
+                  <td><%= menu_json[i].menu_desctription %></td>
+                  <td><%= menu_json[i].menu_price %></td>
+                  <td><button type="button" value=<%= menu_json[i].menu_no %>>Zamów nr.
+                      <%= menu_json[i].menu_no %></button></td>
+                </tr>
                 <% } %>
               </tbody>
             </table>
@@ -151,8 +153,9 @@ axios.get('/home/new_order', {
           <h3>Opoka</h3>
           <p>wybierz danie:</p>
         </div>
-      </div>  
+      </div>
     </div>
   </div>
 </body>
+
 </html>

@@ -138,7 +138,7 @@ exports.new_order = function(req, res, next) {
   console.log("sesa_n1o= " + sesa_no1);
   console.log("Method: " +req.method);
   console.dir(req.query.ID);
-  var myID  = req.query.ID;
+  var mysupplier_name  = req.query.ID;
   console.log("myID: " + myID);
   
   if (userId == null) {
@@ -147,6 +147,7 @@ exports.new_order = function(req, res, next) {
   }
   // display menu
   // var sql="SELECT * FROM `elunch_menu2` WHERE `id`='"+userId+"'";
+  // var sql="SELECT * FROM `elunch_menu2` WHERE `supplier_name`='"+mysupplier_name+"'";
   var sql3 = "SELECT * FROM `elunch_menu2` WHERE 1 ";
 
   db.query(sql3, function(err, results) {
