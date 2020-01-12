@@ -18,121 +18,40 @@
       console.log(today);
       document.getElementById("lunch_order").value=today;
       document.getElementById("activeSupplier").innerText="Mucha";
-      
-      let status;
-      // fetch('/home/new_order')
-      //   .then((res) => { 
-      //     status = res.status; 
-      //     return res.json() 
-      //   })
-      //   .then((jsonData) => {
-      //     console.log(jsonData);
-      //     console.log(status);
-      //   })
-      //   .catch((err) => {
-      //     // handle error for example
-      //     console.error(err);
-      //   });
+      var my_date=document.getElementById("lunch_order").value
+      console.log( "mydate "+ my_date);
 
-
-
-      //  fetch('/home/new_order', { method: 'POST' })
-      //   .then(res => res.text())
-      //   .then(body => console.log(body));
-
-      // const request = async () => {
-      //   const response = await fetch('/home/new_order');
-      //   const json = await response.json();
-      //   console.log("myawait" + json);
-      // };
-
-      // request();
-
-      //   var url="/home/new_order";
-      // var xhttp = new XMLHttpRequest();
-
-      // xhttp.onreadystatechange = function() {
-      //     if (xhttp.readyState === 4) {  
-      //         if (xhttp.status === 200) {  
-      //           const json = JSON.parse(xhttp.response);
-      //           console.log("xhttp: " + json);
-      //         } else {  
-      //             /* Handle errors */
-      //         }  
-      //     }  
-      // };
-
-      // xhttp.open("GET", url, true);
-      // xhttp.send(); 
-
-      // const axios = require('axios');
-
-      // // Make a request for a user with a given ID
-      // axios.get('/home/new_order', {
-      //   params: {
-      //     ID: document.getElementById("activeSupplier").innerText
-      //   }
-      // })
-      //   .then(function (response) {
-      //     // handle success
-      //     // console.log("respons data \n"+ response.data);
-      //   })
-      //   .catch(function (error) {
-      //     // handle error
-      //     console.log(error);
-      //   })
-      //   .finally(function () {
-      //     // always executed
-      //   });
-
-
-      // $("#mucha").click(function() {
-      //     alert('mucha clicked');
-      //     activeTab  = "Mucha";
-      //     console.log(activeTab);
-      //     x = document.getElementById("titleMucha").innerText;
-      //     console.log("x: "  + x);
-      //     document.getElementById("activeSupplier").innerText=x;
-      //   });
-
-      //   $("#opoka").click(function() {
-      //     alert('opoka clicked');
-      //     activeTab  = "Opoka";
-      //     console.log(activeTab);
-      //     x = document.getElementById("titleOpoka").innerText;
-      //     console.log("x: "  + x);
-      //     document.getElementById("activeSupplier").innerText=x;
-      //   });
-
-        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-          //console.log(e.target.innerHTML); // newly activated tab
-          document.getElementById("activeSupplier").innerText=e.target.innerHTML;
-           // Make a request for a user with a given ID
-      axios.get('/home/new_order', {
-        params: {
-          ID: document.getElementById("activeSupplier").innerText
-        }
+      $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+        //console.log(e.target.innerHTML); // newly activated tab
+        document.getElementById("activeSupplier").innerText=e.target.innerHTML;
+        var my_date1= document.getElementById("lunch_order").value
+        // Make a request for a user with a given ID
+        // axios.get('/home/new_order', {
+        //   params: {
+        //     ID: "Opoka"
+             
+        //   }
+        // })
+        // .then(function (response) {
+        //   // handle success
+        //   console.log("respons data \n"+ response);
+          // })
+          // .catch(function (error) {
+          //   // handle error
+          //   console.log(error);
+          // })
+          // .finally(function () {
+          //   // always executed
+          // });
       })
-        .then(function (response) {
-          // handle success
-          console.log("respons data \n"+ response.data);
-        })
-        .catch(function (error) {
-          // handle error
-          console.log(error);
-        })
-        .finally(function () {
-          // always executed
-        });
-        })
-
-    }
+    } //end of window load
 
     function myFunction (value){
-        alert("tutaj dodamy procedure obsługi zamawianian obiadu :)\n zamówiony obiad to  :" + value 
-        +"\n na dzień :" + document.getElementById("lunch_order").value 
-        +" \n Dostawca : " + document.getElementById("activeSupplier").innerText);
-      };
+      alert("tutaj dodamy procedure obsługi zamawianian obiadu :)\n zamówiony obiad to  :" + value 
+      +"\n na dzień :" + document.getElementById("lunch_order").value 
+      +" \n Dostawca : " + document.getElementById("activeSupplier").innerText
+      +"\n SESA: "+ document.getElementById("sesa_no1").innerText);
+    };
 
 
   </script>
@@ -173,17 +92,40 @@
       </p>
       <p><%#=dataSet%></p>
       <div>
-        <table id="apps"></table>
+        <table id="orders_list"></table>
       </div>
       <br>
-      <div id="mytable2">
+      <div id= "order_list" class="table-responsive">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Dostawca</th>
+              <th scope="col">Numer dania</th>
+              <th scope="col">Danie</th>
+              <th scope="col">Cena</th>
+            </tr>
+          </thead>
+          <tbody>
+            <%# for(var i=0; i < 4; i++) { %>
+            <tr>
+              <td>1</td>
+              <td>2</td>
+              <td>3</td>
+              <td>4</td>
+              <td>5</td>
+            </tr>
+            <% } %>
+          </tbody>
+        </table>
       </div>
       <br>
       <p>
         Masz do wyborów dwóch dostawców Mucha i Opoka, kliknij odpowiednią
         zakładkę
       </p>
-      <p id="activeSupplier"></p>
+      <p hidden id="activeSupplier"></p>
+      <p hidden id="sesa_no1"><%=sesa_no1%></p>
       <!-- dynamic tabs -->
       <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#mucha">Mucha</a></li>
@@ -191,8 +133,8 @@
       </ul>
       <div class="tab-content">
         <div id="mucha" class="tab-pane fade in active">
-          <h3 id="titleMucha">Mucha</h3>
-          <p>wybierz danie: </p>
+          <h2 hidden id="titleMucha">Mucha</h2>
+          <br>
           <p>wybierz danie: </p>
           <p><%menu_json=JSON.parse(menu_json)%></p> 
           <p><%#menu_json1=JSON.parse(menu_json)%></p> 
@@ -226,11 +168,8 @@
           <!-- <div id="myContacts"></div> -->
         </div>
         <div id="opoka" class="tab-pane fade">
-          <h3 id="titleOpoka">Opoka</h3>
-          <!-- <script>
-            activeNavBar= Opoka;
-          console.log(activeNavBar);
-          </script> -->
+          <h2 hidden id="titleOpoka">Opoka</h2>
+          <br>
           <p>wybierz danie:</p>
           <%menu_json2=JSON.parse(menu_json2)%>
           <div class="table-responsive">

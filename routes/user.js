@@ -1,5 +1,5 @@
 //---------------------------------------------signup page call------------------------------------------------------
-exports.signup = function(req, res) {
+exports.signup = function (req, res) {
   message = "";
   if (req.method == "POST") {
     var post = req.body;
@@ -25,7 +25,7 @@ exports.signup = function(req, res) {
       pass +
       "')";
 
-    var query = db.query(sql, function(err, result) {
+    var query = db.query(sql, function (err, result) {
       message = "Succesfully! Your account has been created.";
       res.render("signup.ejs", { message: message });
     });
@@ -35,7 +35,7 @@ exports.signup = function(req, res) {
 };
 
 //-----------------------------------------------login page call------------------------------------------------------
-exports.login = function(req, res) {
+exports.login = function (req, res) {
   var message = "";
   var sess = req.session;
 
@@ -52,7 +52,7 @@ exports.login = function(req, res) {
       "' and password = '" +
       pass +
       "'";
-    db.query(sql, function(err, results) {
+    db.query(sql, function (err, results) {
       if (results.length) {
         req.session.userId = results[0].id;
         req.session.first_name = results[0].first_name;
@@ -72,7 +72,7 @@ exports.login = function(req, res) {
 };
 //-----------------------------------------------dashboard page functionality----------------------------------------------
 
-exports.dashboard = function(req, res, next) {
+exports.dashboard = function (req, res, next) {
   var user = req.session.user,
     userId = req.session.userId,
     fname = req.session.first_name;
@@ -87,19 +87,19 @@ exports.dashboard = function(req, res, next) {
 
   var sql = "SELECT * FROM `elunch_users2` WHERE `id`='" + userId + "'";
 
-  db.query(sql, function(err, results) {
+  db.query(sql, function (err, results) {
     res.render("dashboard.ejs", { fname });
     console.log("user= " + fname);
   });
 };
 //------------------------------------logout functionality----------------------------------------------
-exports.logout = function(req, res) {
-  req.session.destroy(function(err) {
+exports.logout = function (req, res) {
+  req.session.destroy(function (err) {
     res.redirect("/login");
   });
 };
 //--------------------------------render user details after login--------------------------------
-exports.profile = function(req, res) {
+exports.profile = function (req, res) {
   var userId = req.session.userId;
   if (userId == null) {
     res.redirect("/login");
@@ -107,7 +107,7 @@ exports.profile = function(req, res) {
   }
 
   var sql = "SELECT * FROM `elunch_users2` WHERE `id`='" + userId + "'";
-  db.query(sql, function(err, result) {
+  db.query(sql, function (err, result) {
     res.render("profile.ejs", { result });
   });
 };
@@ -126,58 +126,68 @@ exports.profile = function(req, res) {
 // };
 //-----------------------------------------------new_user page functionality----------------------------------------------
 
-exports.new_order = function(req, res, next) {
+exports.new_order = function (req, res, next) {
   var user = req.session.user,
     userId = req.session.userId,
     fname = req.session.first_name,
     sesa_no1 = req.session.sesa_no1,
-    menu_json, menu_json2;
+    menu_json, menu_json2, my_date , my_orders;
 
   console.log("userID= " + userId);
   console.log("first_name= " + req.session.first_name);
-  console.log("sesa_n1o= " + sesa_no1);
-  console.log("Method: " +req.method);
+  console.log("sesa_no1= " + sesa_no1);
+  console.log("Method: " + req.method);
   console.dir(req.query.ID);
-  var mysupplier_name  = req.query.ID;
-  mysupplier_name="Mucha";
+  var mysupplier_name = req.query.ID;
+  mysupplier_name = "Mucha";
   console.log("myID: " + mysupplier_name);
- 
+  var my_date = "2020-01-12"; //req.query.my_date;
+  console.log("my_date: " + my_date);
+
+
   if (userId == null) {
     res.redirect("/login");
     return;
   }
-  // if (mysupplier_name="Mucha"){
-    // display menu
-    // var sql="SELECT * FROM `elunch_menu2` WHERE `id`='"+userId+"'";
-    var sql3="SELECT * FROM `elunch_menu2` WHERE `supplier_name`='"+mysupplier_name+"'";
-    // var sql3 = "SELECT * FROM `elunch_menu2` WHERE 1 ";
+  // Display current orders
+  // var sql1="SELECT * FROM `elunch_menu2` WHERE `supplier_name`='"+mysupplier_name+"'";
+  
+  // db.query(sql1, function (err, results) {
+  //   my_orders = JSON.stringify(results);
+  //   console.log("my_orders: ", my_orders);
+  // });
 
-    db.query(sql3, function(err, results) {
-      menu_json = JSON.stringify(results);
-      // menu_json2 = JSON.stringify(results);
-      console.log("menu_json: ", menu_json);
-      //res.render("new_order.ejs", { fname, menu_json });
-    });
+  // display menu
+  // var sql="SELECT * FROM `elunch_menu2` WHERE `id`='"+userId+"'";
+  var sql3 = "SELECT * FROM `elunch_menu2` WHERE `supplier_name`='" + mysupplier_name + "'";
+  // var sql3 = "SELECT * FROM `elunch_menu2` WHERE 1 ";
+
+  db.query(sql3, function (err, results) {
+    menu_json = JSON.stringify(results);
+    // menu_json2 = JSON.stringify(results);
+    console.log("menu_json: ", menu_json);
+    //res.render("new_order.ejs", { fname, menu_json });
+  });
   // }
   // if (mysupplier_name="Opoka"){
   //   // display menu
   //   // var sql="SELECT * FROM `elunch_menu2` WHERE `id`='"+userId+"'";
-  mysupplier_name="Opoka";
-    var sql4="SELECT * FROM `elunch_menu2` WHERE `supplier_name`='"+mysupplier_name+"'";
+  mysupplier_name = "Opoka";
+  var sql4 = "SELECT * FROM `elunch_menu2` WHERE `supplier_name`='" + mysupplier_name + "'";
   //   // var sql3 = "SELECT * FROM `elunch_menu2` WHERE 1 ";
 
-    db.query(sql4, function(err, results) {
-      menu_json2 = JSON.stringify(results);
-      console.log("menu_json2: ", menu_json2);
-      res.render("new_order.ejs", { fname,  menu_json, menu_json2 });
-    });
+  db.query(sql4, function (err, results) {
+    menu_json2 = JSON.stringify(results);
+    console.log("menu_json2: ", menu_json2);
+    res.render("new_order.ejs", { fname, menu_json, menu_json2, sesa_no1 });
+  });
   // }
   // res.render("new_order.ejs", { fname,  menu_json });
-  // db.destroy();
+   //db.destroy();
 };
 //-----------------------------------------------new_user page functionality----------------------------------------------
 
-exports.table = function(req, res, next) {
+exports.table = function (req, res, next) {
   var user = req.session.user,
     userId = req.session.userId,
     fname = req.session.first_name;
@@ -205,7 +215,7 @@ exports.table = function(req, res, next) {
   ];
   var myjson, myjson;
 
-  db.query(sql, function(err, results1) {
+  db.query(sql, function (err, results1) {
     //res.render('new_order.ejs', {fname,dataSet});
     myjson1 = JSON.stringify(results1);
 
@@ -214,7 +224,7 @@ exports.table = function(req, res, next) {
 
   var id_order2 = 1;
   var sql2 = "SELECT * FROM `elunch_orders2` WHERE 1"; //`id`='"+id_order2+"'
-  db.query(sql2, function(err, results) {
+  db.query(sql2, function (err, results) {
     // res.send(JSON.stringify({key:"value"}));
     myjson = JSON.stringify(results);
 
