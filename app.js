@@ -11,19 +11,9 @@ var session = require('express-session');
 var app = express();
 var mysql = require('mysql');
 var bodyParser=require("body-parser");
-// const fetch = require('node-fetch');
+const fetch = require('node-fetch');
 const axios = require('axios').default;
-// var $  = require( 'jquery' );
-// var dt = require( 'datatables.net' );
-// var datatables = require( 'datatables.net-dt' );
-// var jszip = require( 'jszip' );
-// var pdfmaker= require( 'pdfmake' );
-// var buttons_dt= require( 'datatables.net-buttons-dt' );
-// var buttons_html5= require( 'datatables.net-buttons/js/buttons.html5.js' );
-// var fixedheader_dt=require( 'datatables.net-fixedheader-dt' );
-// var keytable_dt=require( 'datatables.net-keytable-dt' );
-// var responsive_dt= require( 'datatables.net-responsive-dt' );
-// var select_dt=require( 'datatables.net-select-dt' );
+
 
 // var connection2 = mysql.createConnection({
 //               host     : 'mysql.ct8.pl',
@@ -68,4 +58,4 @@ app.get('/home/profile',user.profile);//to render users profile
 app.get('/home/new_order', user.new_order);//call for new_order page to order lunch
 app.get('/home/table', user.table);//test transfer json to table
 //Middleware
-app.listen(8080)
+app.listen(8080);

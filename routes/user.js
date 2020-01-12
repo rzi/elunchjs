@@ -131,7 +131,7 @@ exports.new_order = function(req, res, next) {
     userId = req.session.userId,
     fname = req.session.first_name,
     sesa_no1 = req.session.sesa_no1,
-    menu_json;
+    menu_json, menu_json2;
 
   console.log("userID= " + userId);
   console.log("first_name= " + req.session.first_name);
@@ -139,36 +139,41 @@ exports.new_order = function(req, res, next) {
   console.log("Method: " +req.method);
   console.dir(req.query.ID);
   var mysupplier_name  = req.query.ID;
-  console.log("myID: " + myID);
-  
+  mysupplier_name="Mucha";
+  console.log("myID: " + mysupplier_name);
+ 
   if (userId == null) {
     res.redirect("/login");
     return;
   }
-  // display menu
-  // var sql="SELECT * FROM `elunch_menu2` WHERE `id`='"+userId+"'";
-  // var sql="SELECT * FROM `elunch_menu2` WHERE `supplier_name`='"+mysupplier_name+"'";
-  var sql3 = "SELECT * FROM `elunch_menu2` WHERE 1 ";
+  // if (mysupplier_name="Mucha"){
+    // display menu
+    // var sql="SELECT * FROM `elunch_menu2` WHERE `id`='"+userId+"'";
+    var sql3="SELECT * FROM `elunch_menu2` WHERE `supplier_name`='"+mysupplier_name+"'";
+    // var sql3 = "SELECT * FROM `elunch_menu2` WHERE 1 ";
 
-  db.query(sql3, function(err, results) {
-    menu_json = JSON.stringify(results);
-    console.log("menu_json: ", menu_json);
-    res.render("new_order.ejs", { fname, menu_json });
-  });
+    db.query(sql3, function(err, results) {
+      menu_json = JSON.stringify(results);
+      // menu_json2 = JSON.stringify(results);
+      console.log("menu_json: ", menu_json);
+      //res.render("new_order.ejs", { fname, menu_json });
+    });
+  // }
+  // if (mysupplier_name="Opoka"){
+  //   // display menu
+  //   // var sql="SELECT * FROM `elunch_menu2` WHERE `id`='"+userId+"'";
+  mysupplier_name="Opoka";
+    var sql4="SELECT * FROM `elunch_menu2` WHERE `supplier_name`='"+mysupplier_name+"'";
+  //   // var sql3 = "SELECT * FROM `elunch_menu2` WHERE 1 ";
 
-  // db.query(sql, function(err, results){
-  //    res.render('new_order.ejs', {fname,dataSet});
-
-  //     console.log('dataSet', dataSet);
-  // });
-
-  // var id_order2=1;
-  // var sql2="SELECT * FROM `elunch_orders2` WHERE `id`='"+id_order2+"'";
-  // db.query(sql2, function(err, results){
-  //    res.render('new_order.ejs', {fname,results,dataSet});
-
-  //     console.log('dane z bazy', results);
-  // });
+    db.query(sql4, function(err, results) {
+      menu_json2 = JSON.stringify(results);
+      console.log("menu_json2: ", menu_json2);
+      res.render("new_order.ejs", { fname,  menu_json, menu_json2 });
+    });
+  // }
+  // res.render("new_order.ejs", { fname,  menu_json });
+  // db.destroy();
 };
 //-----------------------------------------------new_user page functionality----------------------------------------------
 

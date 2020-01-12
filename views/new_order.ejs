@@ -16,6 +16,9 @@
       var month = ("0" + (now.getMonth() + 1)).slice(-2);
       var today = now.getFullYear() + "-" + month + "-" + day;
       console.log(today);
+      document.getElementById("lunch_order").value=today;
+      document.getElementById("activeSupplier").innerText="Mucha";
+      
       let status;
       // fetch('/home/new_order')
       //   .then((res) => { 
@@ -37,17 +40,82 @@
       //   .then(res => res.text())
       //   .then(body => console.log(body));
 
+      // const request = async () => {
+      //   const response = await fetch('/home/new_order');
+      //   const json = await response.json();
+      //   console.log("myawait" + json);
+      // };
+
+      // request();
+
+      //   var url="/home/new_order";
+      // var xhttp = new XMLHttpRequest();
+
+      // xhttp.onreadystatechange = function() {
+      //     if (xhttp.readyState === 4) {  
+      //         if (xhttp.status === 200) {  
+      //           const json = JSON.parse(xhttp.response);
+      //           console.log("xhttp: " + json);
+      //         } else {  
+      //             /* Handle errors */
+      //         }  
+      //     }  
+      // };
+
+      // xhttp.open("GET", url, true);
+      // xhttp.send(); 
+
       // const axios = require('axios');
 
-      // Make a request for a user with a given ID
+      // // Make a request for a user with a given ID
+      // axios.get('/home/new_order', {
+      //   params: {
+      //     ID: document.getElementById("activeSupplier").innerText
+      //   }
+      // })
+      //   .then(function (response) {
+      //     // handle success
+      //     // console.log("respons data \n"+ response.data);
+      //   })
+      //   .catch(function (error) {
+      //     // handle error
+      //     console.log(error);
+      //   })
+      //   .finally(function () {
+      //     // always executed
+      //   });
+
+
+      // $("#mucha").click(function() {
+      //     alert('mucha clicked');
+      //     activeTab  = "Mucha";
+      //     console.log(activeTab);
+      //     x = document.getElementById("titleMucha").innerText;
+      //     console.log("x: "  + x);
+      //     document.getElementById("activeSupplier").innerText=x;
+      //   });
+
+      //   $("#opoka").click(function() {
+      //     alert('opoka clicked');
+      //     activeTab  = "Opoka";
+      //     console.log(activeTab);
+      //     x = document.getElementById("titleOpoka").innerText;
+      //     console.log("x: "  + x);
+      //     document.getElementById("activeSupplier").innerText=x;
+      //   });
+
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+          //console.log(e.target.innerHTML); // newly activated tab
+          document.getElementById("activeSupplier").innerText=e.target.innerHTML;
+           // Make a request for a user with a given ID
       axios.get('/home/new_order', {
         params: {
-          ID: 12345
+          ID: document.getElementById("activeSupplier").innerText
         }
       })
         .then(function (response) {
           // handle success
-          console.log(response.data);
+          console.log("respons data \n"+ response.data);
         })
         .catch(function (error) {
           // handle error
@@ -56,12 +124,19 @@
         .finally(function () {
           // always executed
         });
-
+        })
 
     }
+
+    function myFunction (value){
+        alert("tutaj dodamy procedure obsługi zamawianian obiadu :)\n zamówiony obiad to  :" + value 
+        +"\n na dzień :" + document.getElementById("lunch_order").value 
+        +" \n Dostawca : " + document.getElementById("activeSupplier").innerText);
+      };
+
+
   </script>
 </head>
-
 <body>
   <div class="container">
     <!-- Static navbar -->
@@ -70,6 +145,7 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li class="active"><a href="/home/orders">Historia zamówień</a></li>
+            
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li><a href="/home/logout">Wylogowanie</a></li>
@@ -96,20 +172,18 @@
         Lista twoich aktualnych zamówień:
       </p>
       <p><%#=dataSet%></p>
-
       <div>
         <table id="apps"></table>
       </div>
       <br>
       <div id="mytable2">
-
       </div>
       <br>
-
       <p>
         Masz do wyborów dwóch dostawców Mucha i Opoka, kliknij odpowiednią
         zakładkę
       </p>
+      <p id="activeSupplier"></p>
       <!-- dynamic tabs -->
       <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#mucha">Mucha</a></li>
@@ -117,9 +191,11 @@
       </ul>
       <div class="tab-content">
         <div id="mucha" class="tab-pane fade in active">
-          <h3>Mucha</h3>
+          <h3 id="titleMucha">Mucha</h3>
           <p>wybierz danie: </p>
-          <%menu_json=JSON.parse(menu_json)%>
+          <p>wybierz danie: </p>
+          <p><%menu_json=JSON.parse(menu_json)%></p> 
+          <p><%#menu_json1=JSON.parse(menu_json)%></p> 
           <div class="table-responsive">
             <table class="table table-bordered">
               <thead>
@@ -140,7 +216,7 @@
                   <td><%= menu_json[i].menu_no %></td>
                   <td><%= menu_json[i].menu_desctription %></td>
                   <td><%= menu_json[i].menu_price %></td>
-                  <td><button type="button" value=<%= menu_json[i].menu_no %>>Zamów nr.
+                  <td><button type="button" onclick="myFunction(value)" value=<%= menu_json[i].menu_no %>>Zamów nr.
                       <%= menu_json[i].menu_no %></button></td>
                 </tr>
                 <% } %>
@@ -150,12 +226,43 @@
           <!-- <div id="myContacts"></div> -->
         </div>
         <div id="opoka" class="tab-pane fade">
-          <h3>Opoka</h3>
+          <h3 id="titleOpoka">Opoka</h3>
+          <!-- <script>
+            activeNavBar= Opoka;
+          console.log(activeNavBar);
+          </script> -->
           <p>wybierz danie:</p>
+          <%menu_json2=JSON.parse(menu_json2)%>
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th scope="col">ID</th>
+                  <th scope="col">Dostawca</th>
+                  <th scope="col">Numer dania</th>
+                  <th scope="col">Danie</th>
+                  <th scope="col">Cena</th>
+                  <th scope="col">Zamów</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% for(var i=0; i < menu_json2.length; i++) { %>
+                <tr>
+                  <td><%= menu_json2[i].id %></td>
+                  <td><%= menu_json2[i].supplier_name %></td>
+                  <td><%= menu_json2[i].menu_no %></td>
+                  <td><%= menu_json2[i].menu_desctription %></td>
+                  <td><%= menu_json2[i].menu_price %></td>
+                  <td><button type="button" onclick="myFunction(value)" value=<%= menu_json2[i].menu_no %>>Zamów nr.
+                      <%= menu_json2[i].menu_no %></button></td>
+                </tr>
+                <% } %>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </body>
-
 </html>
