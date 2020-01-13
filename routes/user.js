@@ -150,12 +150,12 @@ exports.new_order = function (req, res, next) {
     return;
   }
   // Display current orders
-  // var sql1="SELECT * FROM `elunch_menu2` WHERE `supplier_name`='"+mysupplier_name+"'";
+  var sql1="SELECT * FROM `elunch_orders2` WHERE `order_supplier_name`='"+mysupplier_name+"'";
   
-  // db.query(sql1, function (err, results) {
-  //   my_orders = JSON.stringify(results);
-  //   console.log("my_orders: ", my_orders);
-  // });
+  db.query(sql1, function (err, results) {
+    my_orders = JSON.stringify(results);
+    console.log("my_orders: ", my_orders);
+  });
 
   // display menu
   // var sql="SELECT * FROM `elunch_menu2` WHERE `id`='"+userId+"'";
@@ -179,7 +179,7 @@ exports.new_order = function (req, res, next) {
   db.query(sql4, function (err, results) {
     menu_json2 = JSON.stringify(results);
     console.log("menu_json2: ", menu_json2);
-    res.render("new_order.ejs", { fname, menu_json, menu_json2, sesa_no1 });
+    res.render("new_order.ejs", { fname, menu_json, menu_json2, sesa_no1, my_orders });
   });
   // }
   // res.render("new_order.ejs", { fname,  menu_json });

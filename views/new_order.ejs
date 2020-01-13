@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="pl">
-
 <head>
   <meta charset="UTF-8">
   <title>Sample Site</title>
@@ -25,6 +24,7 @@
         //console.log(e.target.innerHTML); // newly activated tab
         document.getElementById("activeSupplier").innerText=e.target.innerHTML;
         var my_date1= document.getElementById("lunch_order").value
+
         // Make a request for a user with a given ID
         // axios.get('/home/new_order', {
         //   params: {
@@ -43,11 +43,18 @@
           // .finally(function () {
           //   // always executed
           // });
-      })
+      });
     } //end of window load
 
     function myFunction (value){
       alert("tutaj dodamy procedure obsługi zamawianian obiadu :)\n zamówiony obiad to  :" + value 
+      +"\n na dzień :" + document.getElementById("lunch_order").value 
+      +" \n Dostawca : " + document.getElementById("activeSupplier").innerText
+      +"\n SESA: "+ document.getElementById("sesa_no1").innerText);
+    };
+
+    function myFunction_delete (value){
+      alert("tutaj dodamy procedure obsługi usuwania obiadu z listy zamówionych:)\n usuwany obiad to  :" + value 
       +"\n na dzień :" + document.getElementById("lunch_order").value 
       +" \n Dostawca : " + document.getElementById("activeSupplier").innerText
       +"\n SESA: "+ document.getElementById("sesa_no1").innerText);
@@ -64,7 +71,6 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li class="active"><a href="/home/orders">Historia zamówień</a></li>
-            
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li><a href="/home/logout">Wylogowanie</a></li>
@@ -87,35 +93,43 @@
       </p>
       <input type="date" name="lunch_order" id="lunch_order" value="2020-01-08" />
       <br /><br />
+      <p id="sesa_no1"><%=sesa_no1%></p>
       <p>
         Lista twoich aktualnych zamówień:
       </p>
-      <p><%#=dataSet%></p>
+      
       <div>
         <table id="orders_list"></table>
       </div>
       <br>
+      <p><%my_orders=JSON.parse(my_orders)%></p> 
       <div id= "order_list" class="table-responsive">
         <table class="table table-bordered">
           <thead>
             <tr>
               <th scope="col">ID</th>
+              <th scope="col">SESA</th>
+              <th scope="col">Data</th>
               <th scope="col">Dostawca</th>
               <th scope="col">Numer dania</th>
               <th scope="col">Danie</th>
               <th scope="col">Cena</th>
+              <th scope="col">Usuń</th>
             </tr>
           </thead>
           <tbody>
-            <%# for(var i=0; i < 4; i++) { %>
-            <tr>
-              <td>1</td>
-              <td>2</td>
-              <td>3</td>
-              <td>4</td>
-              <td>5</td>
-            </tr>
-            <% } %>
+            <% for(var i=0; i < my_orders.length; i++) { %>         
+              <tr>
+                <td><%= my_orders[i].id %></td>
+                <td><%= my_orders[i].Id_sesa_no %></td>
+                <td><%= my_orders[i].order_date %></td>
+                <td><%= my_orders[i].order_supplier_name %></td>
+                <td><%= my_orders[i].order_no %></td>
+                <td><%= my_orders[i].order_name %></td>
+                <td><%= my_orders[i].order_price %></td>
+                <td><button type="button" onclick="myFunction_delete(value)" value=<%= my_orders[i].id %>>Usuń</button></td>
+              </tr>
+            <% } %>    
           </tbody>
         </table>
       </div>
@@ -136,7 +150,7 @@
           <h2 hidden id="titleMucha">Mucha</h2>
           <br>
           <p>wybierz danie: </p>
-          <p><%menu_json=JSON.parse(menu_json)%></p> 
+          <!-- <p><%menu_json=JSON.parse(menu_json)%></p>  -->
           <p><%#menu_json1=JSON.parse(menu_json)%></p> 
           <div class="table-responsive">
             <table class="table table-bordered">
