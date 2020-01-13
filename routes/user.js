@@ -149,6 +149,33 @@ exports.new_order = function (req, res, next) {
     res.redirect("/login");
     return;
   }
+
+  if (req.method == "POST") {
+    console.log ("post: ", req.body.sesa_no1," ",req.body.supplier," ", req.body.order_date," ",req.body.order_no );
+    var sesa_no2=req.body.sesa_no1;
+    var supplier=req.body.supplier;
+    var order_date=req.body.order_date;
+    var order_no=req.body.order_no;
+
+      var sql5 =
+      "SELECT id, first_name, last_name, user_name FROM `elunch_users2` WHERE `sesa_no`='" +
+      sesa_no1 +
+      "' and password = '" +
+      pass +
+      "'";
+  
+    db.query(sql5, function (err, results) {
+      if (results.length) {
+        
+        console.log("OK ");
+        res.redirect("/home/new_order");
+      } else {
+        message_NOK = "Błąd w dodawaniu do bazy danych";
+        res.render("new_order.ejs", { message_NOK: message_NOK });
+      }
+    });
+
+  }
   // Display current orders
   var sql1="SELECT * FROM `elunch_orders2` WHERE `order_supplier_name`='"+mysupplier_name+"'";
   

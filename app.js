@@ -56,6 +56,7 @@ app.get('/home/dashboard', user.dashboard);//call for dashboard page after login
 app.get('/home/logout', user.logout);//call for logout
 app.get('/home/profile',user.profile);//to render users profile
 app.get('/home/new_order', user.new_order);//call for new_order page to order lunch
+app.post('/home/new_order', user.new_order);//call for new_order page to order lunch
 app.get('/home/table', user.table);//test transfer json to table
 //Middleware
 app.listen(8080);
