@@ -50,7 +50,8 @@
       alert("tutaj dodamy procedure obsługi zamawianian obiadu :)\n zamówiony obiad to  :" + value 
       +"\n na dzień :" + document.getElementById("lunch_order").value 
       +" \n Dostawca : " + document.getElementById("activeSupplier").innerText
-      +"\n SESA: "+ document.getElementById("sesa_no1").innerText);
+      +"\n SESA: "+ document.getElementById("sesa_no1").innerText
+       );
       // Make a request for a user with a given ID
           axios.post('/home/new_order', {
             
@@ -230,7 +231,7 @@
                   <td><%= menu_json2[i].menu_no %></td>
                   <td><%= menu_json2[i].menu_desctription %></td>
                   <td><%= menu_json2[i].menu_price %></td>
-                  <td><button type="button" onclick="myFunction(value)" value=<%= menu_json2[i].menu_no %>>Zamów nr.
+                  <td><button type="button" onclick="myFunction_order(value)" value=<%= menu_json2[i].menu_no %>>Zamów nr.
                       <%= menu_json2[i].menu_no %></button></td>
                 </tr>
                 <% } %>
