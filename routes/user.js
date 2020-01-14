@@ -135,6 +135,8 @@ exports.new_order = function(req, res, next) {
     menu_json2,
     my_date,
     my_orders, order_no;
+  let order_name2;
+  let menu_price2;
 
   console.log("userID= " + userId);
   console.log("first_name= " + req.session.first_name);
@@ -168,8 +170,7 @@ exports.new_order = function(req, res, next) {
     var order_date = req.body.order_date;
     var order_no5 = req.body.order_no;
     var order_name, menu_price;
-    let order_name2;
-    let menu_price2;
+
 
     //base order_no, get from menu order_name and order_price
     var sql6 =
