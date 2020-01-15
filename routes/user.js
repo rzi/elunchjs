@@ -135,14 +135,13 @@ exports.new_order = function(req, res, next) {
     menu_json2,
     my_date,
     my_orders, order_no;
-  let order_name2;
-  let menu_price2;
+    var order_name2=req.session.order_name2_session;
+    var menu_price2=req.session.menu_price2_session;
 
   console.log("userID= " + userId);
   console.log("first_name= " + req.session.first_name);
   console.log("sesa_no1= " + sesa_no1);
   console.log("Method: " + req.method);
-  console.dir(req.query.ID);
   var mysupplier_name = req.query.ID;
   mysupplier_name = "Mucha";
   console.log("myID: " + mysupplier_name);
@@ -163,14 +162,13 @@ exports.new_order = function(req, res, next) {
       " ",
       req.body.order_date,
       " ",
-      req.body.order_no
+      req.body.order_no, "req.session.order_name2",
+      req.session.order_name2, req.session.menu_price2, "req.session.menu_price2"
     );
     var sesa_no2 = req.body.sesa_no1;
     var supplier = req.body.supplier;
     var order_date = req.body.order_date;
     var order_no5 = req.body.order_no;
-    var order_name, menu_price;
-
 
     //base order_no, get from menu order_name and order_price
     var sql6 =
@@ -182,16 +180,18 @@ exports.new_order = function(req, res, next) {
 
     db.query(sql6, function(err, results) {
       if (results.length) {
-        order_name2=results[0].menu_desctription;
-        console.log("order_name2: ", order_name2);
-        menu_price2=results[0].menu_price;
-        console.log("order_price2: ", menu_price2);
+        console.log("error: ",err);
+        req.session.order_name2=results[0].menu_desctription;
+        console.log("session.order_name2: ", req.session.order_name2);
+       req.session.menu_price2=results[0].menu_price;
+       // return order_name2, menu_price2;
+        console.log("session.order_price2: ", req.session.menu_price2);
       } else {
         message = "problem z pobraniem danych z bazy menu przed zapisem do bazy order2";
         res.render("index.ejs", { message: message });
       }
     });
-    console.log("\n po if order_price2: ", menu_price2 ," \n order_name2: ", order_name2);
+    console.log("\n po if order_price2: ", req.session.menu_price2 ," \n order_name2: ",req.session.order_name2);
     // put order to DB
     var sql5 =
       "INSERT INTO `elunch_orders2`(`Id_sesa_no`,`order_date`,`order_supplier_name`,`order_no`,`order_name`, `order_price`) VALUES ('" +
@@ -203,9 +203,9 @@ exports.new_order = function(req, res, next) {
       "','" +
       order_no5 +
       "','" +
-      order_name2 +
+      req.session.order_name2 +
       "','" +
-      menu_price2 +
+      req.session.menu_price2 +
       "')";
 
     db.query(sql5, function(err, results) {
