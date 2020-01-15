@@ -187,7 +187,7 @@ exports.new_order = function(req, res, next) {
         menu_price2=results[0].menu_price;
         console.log("order_price2: ", menu_price2);
       } else {
-        message = "problem z pobraniem danych z bazy menu uprzed zapisem do bazy order2";
+        message = "problem z pobraniem danych z bazy menu przed zapisem do bazy order2";
         res.render("index.ejs", { message: message });
       }
     });
