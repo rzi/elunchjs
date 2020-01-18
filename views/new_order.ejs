@@ -24,48 +24,21 @@
         //console.log(e.target.innerHTML); // newly activated tab
         document.getElementById("activeSupplier").innerText=e.target.innerHTML;
         var my_date1= document.getElementById("lunch_order").value
-
-        // Make a request for a user with a given ID
-        // axios.get('/home/new_order', {
-        //   params: {
-        //     ID: "Opoka"
-             
-        //   }
-        // })
-        // .then(function (response) {
-        //   // handle success
-        //   console.log("respons data \n"+ response);
-          // })
-          // .catch(function (error) {
-          //   // handle error
-          //   console.log(error);
-          // })
-          // .finally(function () {
-          //   // always executed
-          // });
       });
+
     } //end of window load
 
     function myFunction_order (value){
-      alert("tutaj dodamy procedure obsługi zamawianian obiadu :)\n zamówiony obiad to  :" + value 
-      +"\n na dzień :" + document.getElementById("lunch_order").value 
-      +" \n Dostawca : " + document.getElementById("activeSupplier").innerText
-      +"\n SESA: "+ document.getElementById("sesa_no1").innerText
-       );
       // Make a request for a user with a given ID
-          axios.post('/home/new_order', {
-            
+          axios.post('/home/new_order', {     
               sesa_no1: document.getElementById("sesa_no1").innerText,
               supplier: document.getElementById("activeSupplier").innerText,
               order_date: document.getElementById("lunch_order").value,
-              order_no: value
-                           
-            
+              order_no: value           
           })
           .then(function (response) {
             // handle success
-            // console.log("respons data \n"+ response);
-            alert("Succes we have response from  backend : \n  ", response);
+            location.reload();
             })
             .catch(function (error) {
               // handle error
@@ -74,18 +47,27 @@
             .finally(function () {
               // always executed
             });
-
-
     };
 
     function myFunction_delete (value){
-      alert("tutaj dodamy procedure obsługi usuwania obiadu z listy zamówionych:)\n usuwany obiad to  :" + value 
-      +"\n na dzień :" + document.getElementById("lunch_order").value 
-      +" \n Dostawca : " + document.getElementById("activeSupplier").innerText
-      +"\n SESA: "+ document.getElementById("sesa_no1").innerText);
+       var delete_id = value;
+      // Make a request for a user with a given ID
+        axios.delete('/home/new_order', {
+           data:{ 
+          delete_id: delete_id  }                      
+        })
+        .then(function (response) {
+          // handle success
+          location.reload();
+          })
+          .catch(function (error) {
+            // handle error
+            console.log(error);
+          })
+          .finally(function () {
+            // always executed
+          });
     };
-
-
   </script>
 </head>
 <body>
