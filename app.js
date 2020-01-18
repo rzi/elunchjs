@@ -27,9 +27,9 @@ var connection = mysql.createConnection({
               password : 'Bazapi2019',
               database : 'elunch'
             });
-connection.connect();
+// connection.connect();
  
-global.db = connection;
+ global.db = connection;
  
 // all environments
 app.set('port', process.env.PORT || 8080);
@@ -58,6 +58,7 @@ app.get('/home/profile',user.profile);//to render users profile
 app.get('/home/new_order', user.new_order);//call for new_order page to order lunch
 app.post('/home/new_order', user.new_order);//call for new_order page to order lunch
 app.delete('/home/new_order', user.new_order);//call for new_order page to order lunch
-
+app.get('/home/orders', user.orders); // list of orders
+app.post('/home/orders', user.orders); // list of orders
 //Middleware
 app.listen(8080);

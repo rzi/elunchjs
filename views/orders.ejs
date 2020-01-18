@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Sample Site</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script>
+    window.onload = function () {
+      var now = new Date();
+      var day = ("0" + now.getDate()).slice(-2);
+      var month = ("0" + (now.getMonth() + 1)).slice(-2);
+      var today = now.getFullYear() + "-" + month + "-" + day;
+      var before_few_days = now.getFullYear() + "-" + month + "-" + (day-5);
+      console.log(today);
+      document.getElementById("data_to").value=today;
+      document.getElementById("data_from").value=before_few_days;
+
+
+    } //end of window load
+  </script>
+</head>
+<body>
+    <div class="container">
+        <!-- Static navbar -->
+        <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="/home/new_order">Powtót</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/home/logout">Wylogowanie</a></li>
+            </ul>
+            </div>
+            <!--/.nav-collapse -->
+        </div>
+        <!--/.container-fluid -->
+        </nav>
+        <div class="jumbotron">
+            <p>Historia twoich zamówień, wybierz zakres raportu:</p>
+            <form action="/home/orders" method="post" name="form_orders">
+             Od:<input type="date" name="data_from" id="data_from">
+             Do:<input type="date" name="data_to" id="data_to">
+             <button type="submit" class="btn btn-primary"  >Zatwierdź</button>
+            </form> 
+            </p>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th scope="col">ID</th>
+                      <th scope="col">Dostawca</th>
+                      <th scope="col">Numer dania</th>
+                      <th scope="col">Danie</th>
+                      <th scope="col">Cena</th>
+                      <!-- <th scope="col">Zamów</th> -->
+                    </tr>
+                  </thead>
+                  <tbody>
+ 
+                  </tbody>
+                </table>
+              </div>
+        </div>
+    </div>
+</body>
+</html>
