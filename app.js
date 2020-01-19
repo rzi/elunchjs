@@ -30,6 +30,8 @@ var connection = mysql.createConnection({
  connection.connect();
  
  global.db = connection;
+ global.menu_price;
+ global.menu_desctription;
  
 // all environments
 app.set('port', process.env.PORT || 8080);

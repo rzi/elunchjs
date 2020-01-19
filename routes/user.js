@@ -162,9 +162,10 @@ exports.new_order = function(req, res, next) {
     });
 
   } //delete
-
+  
   if (req.method == "POST") {
     var mysupplier_name = req.body.supplier;
+    req.session.supplier=mysupplier_name;
     console.log("suppplier: " + mysupplier_name);
     console.log(
       "post: ", req.body.sesa_no1, " ",
@@ -183,36 +184,45 @@ exports.new_order = function(req, res, next) {
 
     db.query(sql6, function(err, results) {
       if (results.length) {
-        menu_desctription=results[0].menu_desctription;
-        console.log("menu_desctription: ", menu_desctription);
-        menu_price=results[0].menu_price;
-       // return order_name2, menu_price2;
-        console.log("menu_price: ", menu_price);
+        req.session.menu_desctription=results[0].menu_desctription;
+        console.log("menu_desctription: ", req.session.menu_desctription);
+        req.session.menu_price=results[0].menu_price;
+        //return menu_desctription;
+        console.log("menu_price: ", req.session.menu_price);
       } else {
         message = "problem z pobraniem danych z bazy menu przed zapisem do bazy order2";
         res.render("index.ejs", { message: message });
       }
     });
     // console.log("\n po if order_price2 z sesji: ", req.session.menu_price2 ," \n order_name2 z sesji : ",req.session.order_name2);
-    // console.log("\n po if menu_price: ", menu_price ," \n menu_desctription: ",menu_desctription);
+     console.log("\n po if menu_price: ", req.session.menu_price ," \n menu_desctription: ",req.session.menu_desctription);
     
     // put order to DB
     var sql5 =
       "INSERT INTO `elunch_orders2`(`Id_sesa_no`,`order_date`,`order_supplier_name`,`order_no`,`order_name`, `order_price`) VALUES ('" +
-      sesa_no2 + "','" + order_date + "','" + supplier + "','" + order_no5 + "','" + menu_desctription + "','" +  6 + "')";
+      sesa_no2 + "','" + order_date + "','" + supplier + "','" + order_no5 + "','" + req.session.menu_desctription + "','" +  req.session.menu_price + "')";
 
     db.query(sql5, function(err, results) {
       console.log("menu_price ",menu_price);
       console.log("menu_desctription ",menu_desctription);
       console.log("Inerted record to DB");
+
     });
-  }
+    
+  } //end of post
 
   // Display current orders
+  
+
+    mysupplier_name=req.session.supplier;
+    console.log("mysupplier_name",mysupplier_name);
+  
   var sql1 =
     "SELECT * FROM `elunch_orders2` WHERE `order_supplier_name`='" +
     mysupplier_name +
     "'";
+  
+
 
   db.query(sql1, function(err, results) {
     my_orders = JSON.stringify(results);
@@ -256,8 +266,13 @@ exports.new_order = function(req, res, next) {
       my_orders
     });
   });
+
+
   // }
-  // res.render("new_order.ejs", { fname,  menu_json });
+  // res.render("new_order.ejs", {       fname,
+
+   // sesa_no1,
+     //});
   //db.destroy();
 };
 //--------------------------------render user details after login--------------------------------
