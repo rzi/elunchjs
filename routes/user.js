@@ -137,16 +137,17 @@ exports.new_order = function(req, res, next) {
     my_date,
     my_orders, order_no;
     var sesa_no2 = req.body.sesa_no1;
-    var supplier = req.body.supplier;
+    var supplier_post = req.body.supplier;
     var order_date = req.body.order_date;
     var order_no5 = req.body.order_no;
     var menu_desctription,menu_price;
-
+    var supplier= req.query.supplier;
+    
   // console.log("userID= " + userId);
   // console.log("first_name= " + req.session.first_name);
   // console.log("sesa_no1= " + sesa_no1);
-  // console.log("Method: " + req.method);
-  //mysupplier_name = "Mucha";
+  console.log("Method: " + req.method);
+  console.log("supplier: ", req.query.supplier);
 
   if (userId == null) {
     res.redirect("/login");
@@ -164,31 +165,30 @@ exports.new_order = function(req, res, next) {
   } //delete
   
   if (req.method == "POST") {
-    var mysupplier_name = req.body.supplier;
-    req.session.supplier=mysupplier_name;
-    console.log("suppplier: " + mysupplier_name);
+
     console.log(
       "post: ", req.body.sesa_no1, " ",
       req.body.supplier, " ",
       req.body.order_date," ",
       "Numer dania ", req.body.order_no, " "
     );
-
+    supplier = req.body.supplier;
+    console.log("supplier1: ", supplier);
     //base order_no, get from menu order_name and order_price
     var sql6 =
       "SELECT * FROM `elunch_menu2` WHERE `supplier_name`='" +
       supplier +
       "' and menu_no = '" +
-      order_no5 +
+      req.body.order_no +
       "'";
 
     db.query(sql6, function(err, results) {
       if (results.length) {
         req.session.menu_desctription=results[0].menu_desctription;
-        console.log("menu_desctription: ", req.session.menu_desctription);
+        console.log("menu_desctription2: ", req.session.menu_desctription);
         req.session.menu_price=results[0].menu_price;
         //return menu_desctription;
-        console.log("menu_price: ", req.session.menu_price);
+        console.log("menu_price2: ", req.session.menu_price);
       } else {
         message = "problem z pobraniem danych z bazy menu przed zapisem do bazy order2";
         res.render("index.ejs", { message: message });
@@ -209,14 +209,10 @@ exports.new_order = function(req, res, next) {
 
     });
     
-  } //end of post
-
+   } //end of post
+  //  supplier="Mucha";
   // Display current orders
-  
-
-    mysupplier_name=req.session.supplier;
-    console.log("mysupplier_name",mysupplier_name);
-  
+  mysupplier_name=supplier;
   var sql1 =
     "SELECT * FROM `elunch_orders2` WHERE `order_supplier_name`='" +
     mysupplier_name +
@@ -244,16 +240,12 @@ exports.new_order = function(req, res, next) {
     console.log("menu_json: ", menu_json);
     //res.render("new_order.ejs", { fname, menu_json });
   });
-  // }
-  // if (mysupplier_name="Opoka"){
-  //   // display menu
-  //   // var sql="SELECT * FROM `elunch_menu2` WHERE `id`='"+userId+"'";
+  
   mysupplier_name = "Opoka";
   var sql4 =
     "SELECT * FROM `elunch_menu2` WHERE `supplier_name`='" +
     mysupplier_name +
     "'";
-  //   // var sql3 = "SELECT * FROM `elunch_menu2` WHERE 1 ";
 
   db.query(sql4, function(err, results) {
     menu_json2 = JSON.stringify(results);
@@ -268,12 +260,7 @@ exports.new_order = function(req, res, next) {
   });
 
 
-  // }
-  // res.render("new_order.ejs", {       fname,
 
-   // sesa_no1,
-     //});
-  //db.destroy();
 };
 //--------------------------------render user details after login--------------------------------
 exports.orders = function(req, res) {

@@ -19,14 +19,32 @@
       document.getElementById("activeSupplier").innerText="Mucha";
       var my_date=document.getElementById("lunch_order").value
       console.log( "mydate "+ my_date);
+      sendSupplier("Mucha");
 
       $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
         //console.log(e.target.innerHTML); // newly activated tab
         document.getElementById("activeSupplier").innerText=e.target.innerHTML;
         var my_date1= document.getElementById("lunch_order").value
+        sendSupplier(e.target.innerHTML);
       });
 
     } //end of window load
+
+    function sendSupplier(supplier){
+      // Make a request for a user with a given ID
+      axios.get('/home/new_order?supplier='+supplier)
+        .then(function (response) {
+        // handle success
+        console.log(response);
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
+        })
+        .finally(function () {
+          // always executed
+        });
+    };
 
     function myFunction_order (value){
       // Make a request for a user with a given ID
@@ -92,7 +110,7 @@
     <div class="jumbotron">
       <h2>Witaj <%=fname%>,</h2>
       <p>
-        Zamówic online lunch możesz tylko do godziny 10.00, pozostało ci jeszce
+        Online możesz zamówić tylko do godziny 10.00, pozostało ci jeszce
         XXX czasu do zamówienia
       </p>
       <p>
@@ -109,7 +127,9 @@
         <table id="orders_list"></table>
       </div>
       <br>
+
       <p><%my_orders=JSON.parse(my_orders)%></p> 
+ 
       <div id= "order_list" class="table-responsive">
         <table class="table table-bordered">
           <thead>
