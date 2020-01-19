@@ -173,7 +173,7 @@ exports.new_order = function(req, res, next) {
       "Numer dania ", req.body.order_no, " "
     );
     supplier = req.body.supplier;
-    console.log("supplier1: ", supplier);
+    
     //base order_no, get from menu order_name and order_price
     var sql6 =
       "SELECT * FROM `elunch_menu2` WHERE `supplier_name`='" +
