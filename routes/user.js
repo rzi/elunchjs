@@ -165,21 +165,24 @@ exports.new_order = function(req, res, next) {
   } //delete
   
   if (req.method == "POST") {
-
+    var sesa_no1=req.body.sesa_no1;
+    var supplier = req.body.supplier;
+    var order_no=req.body.order_no;
     console.log(
-      "post: ", req.body.sesa_no1, " ",
+      "post: ", sesa_no1, " ",
       req.body.supplier, " ",
       req.body.order_date," ",
       "Numer dania ", req.body.order_no, " "
     );
-    supplier = req.body.supplier;
+    
+    //supplier="Mucha";
     
     //base order_no, get from menu order_name and order_price
     var sql6 =
       "SELECT * FROM `elunch_menu2` WHERE `supplier_name`='" +
       supplier +
       "' and menu_no = '" +
-      req.body.order_no +
+      order_no +
       "'";
 
     db.query(sql6, function(err, results) {
@@ -209,24 +212,24 @@ exports.new_order = function(req, res, next) {
 
     });
     
-   } //end of post
-  //  supplier="Mucha";
+  } //end of post
+
   // Display current orders
   mysupplier_name=supplier;
+  mysupplier_name="Mucha";
   var sql1 =
     "SELECT * FROM `elunch_orders2` WHERE `order_supplier_name`='" +
     mysupplier_name +
+    
     "'";
   
-
-
   db.query(sql1, function(err, results) {
     my_orders = JSON.stringify(results);
     console.log("my_orders: ", my_orders);
   });
 
   // display menu
-  mysupplier_name = "Mucha";
+  // mysupplier_name = "Mucha";
   // var sql="SELECT * FROM `elunch_menu2` WHERE `id`='"+userId+"'";
   var sql3 =
     "SELECT * FROM `elunch_menu2` WHERE `supplier_name`='" +
