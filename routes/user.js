@@ -147,7 +147,7 @@ exports.new_order = function(req, res, next) {
   // console.log("first_name= " + req.session.first_name);
   // console.log("sesa_no1= " + sesa_no1);
   console.log("Method: " + req.method);
-  console.log("supplier: ", req.query.supplier);
+  console.log("supplier when GET: ", supplier);
 
   if (userId == null) {
     res.redirect("/login");
@@ -159,7 +159,7 @@ exports.new_order = function(req, res, next) {
     console.log("delete: ", delete_id);
     var sql7 = "DELETE FROM `elunch_orders2` WHERE `id` ='"+delete_id +"'";
     db.query(sql7, function(err, results) {
-      console.log("deleted one row")
+      console.log("deleted one row");
     });
 
   } //delete
@@ -168,11 +168,13 @@ exports.new_order = function(req, res, next) {
     var sesa_no1=req.body.sesa_no1;
     var supplier = req.body.supplier;
     var order_no=req.body.order_no;
+    var order_date=req.body.order_date;
+
     console.log(
       "post: ", sesa_no1, " ",
-      req.body.supplier, " ",
-      req.body.order_date," ",
-      "Numer dania ", req.body.order_no, " "
+      supplier, " ",
+      order_date," ",
+      "Numer dania ", order_no, " "
     );
     
     //supplier="Mucha";
@@ -187,27 +189,28 @@ exports.new_order = function(req, res, next) {
 
     db.query(sql6, function(err, results) {
       if (results.length) {
-        req.session.menu_desctription=results[0].menu_desctription;
-        console.log("menu_desctription2: ", req.session.menu_desctription);
-        req.session.menu_price=results[0].menu_price;
+        menu_desctription=results[0].menu_desctription;
+        console.log("menu_desctription: ", menu_desctription);
+        menu_price=results[0].menu_price;
         //return menu_desctription;
-        console.log("menu_price2: ", req.session.menu_price);
+        console.log("menu_price: ", menu_price);
       } else {
         message = "problem z pobraniem danych z bazy menu przed zapisem do bazy order2";
         res.render("index.ejs", { message: message });
       }
     });
     // console.log("\n po if order_price2 z sesji: ", req.session.menu_price2 ," \n order_name2 z sesji : ",req.session.order_name2);
-     console.log("\n po if menu_price: ", req.session.menu_price ," \n menu_desctription: ",req.session.menu_desctription);
+    console.log("po if menu_price: ", menu_price );
+    console.log("po if menu_desctription", menu_desctription);
     
     // put order to DB
     var sql5 =
       "INSERT INTO `elunch_orders2`(`Id_sesa_no`,`order_date`,`order_supplier_name`,`order_no`,`order_name`, `order_price`) VALUES ('" +
-      sesa_no2 + "','" + order_date + "','" + supplier + "','" + order_no5 + "','" + req.session.menu_desctription + "','" +  req.session.menu_price + "')";
+      sesa_no2 + "','" + order_date + "','" + supplier + "','" + order_no5 + "','" + menu_desctription + "','" +  menu_price + "')";
 
     db.query(sql5, function(err, results) {
-      console.log("menu_price ",menu_price);
-      console.log("menu_desctription ",menu_desctription);
+      console.log("menu_price po insert ",menu_price);
+      console.log("menu_desctription po insert  ",menu_desctription);
       console.log("Inerted record to DB");
 
     });
@@ -220,7 +223,6 @@ exports.new_order = function(req, res, next) {
   var sql1 =
     "SELECT * FROM `elunch_orders2` WHERE `order_supplier_name`='" +
     mysupplier_name +
-    
     "'";
   
   db.query(sql1, function(err, results) {
