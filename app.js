@@ -15,7 +15,7 @@ const fetch = require('node-fetch');
 const axios = require('axios').default;
 
 
-// var connection2 = mysql.createConnection({
+// var connection = mysql.createConnection({
 //               host     : 'mysql.ct8.pl',
 //               user     : 'm12289_login',
 //               password : 'm12289_login_RZI',

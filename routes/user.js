@@ -141,13 +141,13 @@ exports.new_order = function(req, res, next) {
     var order_date = req.body.order_date;
     var order_no5 = req.body.order_no;
     var menu_desctription,menu_price;
-    var supplier= req.query.supplier;
+    var supplier;
     
   // console.log("userID= " + userId);
   // console.log("first_name= " + req.session.first_name);
   // console.log("sesa_no1= " + sesa_no1);
   console.log("Method: " + req.method);
-  console.log("supplier when GET: ", supplier);
+  // console.log("supplier ", supplier);
 
   if (userId == null) {
     res.redirect("/login");
@@ -164,28 +164,39 @@ exports.new_order = function(req, res, next) {
 
   } //delete
   
-  if (req.method == "POST") {
-    var sesa_no1=req.body.sesa_no1;
+  if (req.method == "POST" ){
     var supplier = req.body.supplier;
-    var order_no=req.body.order_no;
     var order_date=req.body.order_date;
-
+    var order_no=req.body.order_no;
     console.log(
       "post: ", sesa_no1, " ",
       supplier, " ",
       order_date," ",
       "Numer dania ", order_no, " "
     );
-    
-    //supplier="Mucha";
-    
+  } else if (req.method == "GET"){
+    var supplier= req.query.supplier;
+    var order_no=req.body.order_no;
+    if (!supplier) {
+      supplier="Mucha"; // Initial value
+    };
+
+    console.log(
+      "get: ", sesa_no1, " ",
+      supplier, " "
+      
+    );
+  }
+
+  //supplier="Mucha";
+  if (order_no){
     //base order_no, get from menu order_name and order_price
     var sql6 =
-      "SELECT * FROM `elunch_menu2` WHERE `supplier_name`='" +
-      supplier +
-      "' and menu_no = '" +
-      order_no +
-      "'";
+    "SELECT * FROM `elunch_menu2` WHERE `supplier_name`='" +
+    supplier +
+    "' and menu_no = '" +
+    order_no +
+    "'";
 
     db.query(sql6, function(err, results) {
       if (results.length) {
@@ -197,42 +208,39 @@ exports.new_order = function(req, res, next) {
       } else {
         message = "problem z pobraniem danych z bazy menu przed zapisem do bazy order2";
         res.render("index.ejs", { message: message });
+        return;
       }
     });
     // console.log("\n po if order_price2 z sesji: ", req.session.menu_price2 ," \n order_name2 z sesji : ",req.session.order_name2);
     console.log("po if menu_price: ", menu_price );
     console.log("po if menu_desctription", menu_desctription);
-    
     // put order to DB
     var sql5 =
-      "INSERT INTO `elunch_orders2`(`Id_sesa_no`,`order_date`,`order_supplier_name`,`order_no`,`order_name`, `order_price`) VALUES ('" +
-      sesa_no2 + "','" + order_date + "','" + supplier + "','" + order_no5 + "','" + menu_desctription + "','" +  menu_price + "')";
+    "INSERT INTO `elunch_orders2`(`Id_sesa_no`,`order_date`,`order_supplier_name`,`order_no`,`order_name`, `order_price`) VALUES ('" +
+    sesa_no2 + "','" + order_date + "','" + supplier + "','" + order_no5 + "','" + menu_desctription + "','" +  menu_price + "')";
 
     db.query(sql5, function(err, results) {
       console.log("menu_price po insert ",menu_price);
       console.log("menu_desctription po insert  ",menu_desctription);
       console.log("Inerted record to DB");
-
     });
-    
-  } //end of post
-
+  }  
+  
   // Display current orders
-  mysupplier_name=supplier;
   mysupplier_name="Mucha";
   var sql1 =
     "SELECT * FROM `elunch_orders2` WHERE `order_supplier_name`='" +
     mysupplier_name +
     "'";
-  
+    
   db.query(sql1, function(err, results) {
     my_orders = JSON.stringify(results);
     console.log("my_orders: ", my_orders);
   });
 
-  // display menu
-  // mysupplier_name = "Mucha";
-  // var sql="SELECT * FROM `elunch_menu2` WHERE `id`='"+userId+"'";
+    // display menu
+    // mysupplier_name = "Mucha";
+    // var sql="SELECT * FROM `elunch_menu2` WHERE `id`='"+userId+"'";
   var sql3 =
     "SELECT * FROM `elunch_menu2` WHERE `supplier_name`='" +
     mysupplier_name +
@@ -245,7 +253,7 @@ exports.new_order = function(req, res, next) {
     console.log("menu_json: ", menu_json);
     //res.render("new_order.ejs", { fname, menu_json });
   });
-  
+    
   mysupplier_name = "Opoka";
   var sql4 =
     "SELECT * FROM `elunch_menu2` WHERE `supplier_name`='" +
@@ -263,9 +271,7 @@ exports.new_order = function(req, res, next) {
       my_orders
     });
   });
-
-
-
+ 
 };
 //--------------------------------render user details after login--------------------------------
 exports.orders = function(req, res) {
