@@ -231,7 +231,7 @@ exports.new_order = function (req, res, next) {
   }
 
   // Display current orders
-  mysupplier_name = "Mucha";
+ // mysupplier_name = "Mucha";
   var sql1 =
     "SELECT * FROM `elunch_orders2` WHERE 1 Order by id desc";
 
@@ -241,17 +241,13 @@ exports.new_order = function (req, res, next) {
   });
 
   // display menu
-  // mysupplier_name = "Mucha";
+  mysupplier_name = "Mucha";
   // var sql="SELECT * FROM `elunch_menu2` WHERE `id`='"+userId+"'";
   var sql3 =
     "SELECT * FROM `elunch_menu2` WHERE `supplier_name`='" +
     mysupplier_name +
     // "' ORDER BY id DESC '" +
     "'";
-
-  // "' ORDER BY id DESC '" +
-  // "'";
-  // var sql3 = "SELECT * FROM `elunch_menu2` WHERE 1 ";
 
   db.query(sql3, function (err, results) {
     menu_json = JSON.stringify(results);
