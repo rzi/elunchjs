@@ -16,15 +16,24 @@
       var today = now.getFullYear() + "-" + month + "-" + day;
       console.log(today);
       document.getElementById("lunch_order").value=today;
-      document.getElementById("activeSupplier").innerText="Mucha";
+      var my_supplir = document.getElementById("activeSupplier").innerText;
+      if ( my_supplir == ""){
+        
+        my_supplir="Mucha";  
+        document.getElementById("activeSupplier").innerText=my_supplir;
+        console.log ("active supplier",my_supplir );
+      }
+      console.log ("active supplier",my_supplir );
+      //document.getElementById("activeSupplier").innerText="Mucha";
       var my_date=document.getElementById("lunch_order").value
       console.log( "mydate "+ my_date);
-      sendSupplier("Mucha");
+      //sendSupplier("Mucha");
 
       $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
         //console.log(e.target.innerHTML); // newly activated tab
         document.getElementById("activeSupplier").innerText=e.target.innerHTML;
         var my_date1= document.getElementById("lunch_order").value
+        my_supplir=e.target.innerHTML;
         sendSupplier(e.target.innerHTML);
       });
 
@@ -35,7 +44,7 @@
       axios.get('/home/new_order?supplier='+supplier)
         .then(function (response) {
         // handle success
-        console.log(response);
+        //console.log(response);
         })
         .catch(function (error) {
           // handle error
@@ -165,7 +174,7 @@
         Masz do wyborów dwóch dostawców Mucha i Opoka, kliknij odpowiednią
         zakładkę
       </p>
-      <p hidden id="activeSupplier"></p>
+      <p  id="activeSupplier"></p>
       <p hidden id="sesa_no1"><%=sesa_no1%></p>
       <!-- dynamic tabs -->
       <ul class="nav nav-tabs">
