@@ -208,9 +208,8 @@ exports.new_order = function(req, res, next) {
       } else {
         message = "problem z pobraniem danych z bazy menu przed zapisem do bazy order2";
         res.render("index.ejs", { message: message });
-        return;
       }
-    });
+          //console.log("rezultat", rezultat);
     // console.log("\n po if order_price2 z sesji: ", req.session.menu_price2 ," \n order_name2 z sesji : ",req.session.order_name2);
     console.log("po if menu_price: ", menu_price );
     console.log("po if menu_desctription", menu_desctription);
@@ -224,6 +223,9 @@ exports.new_order = function(req, res, next) {
       console.log("menu_desctription po insert  ",menu_desctription);
       console.log("Inerted record to DB");
     });
+
+    });
+
   }  
   
   // Display current orders
@@ -244,7 +246,11 @@ exports.new_order = function(req, res, next) {
   var sql3 =
     "SELECT * FROM `elunch_menu2` WHERE `supplier_name`='" +
     mysupplier_name +
+    // "' ORDER BY id DESC '" +
     "'";
+
+    // "' ORDER BY id DESC '" +
+    // "'";
   // var sql3 = "SELECT * FROM `elunch_menu2` WHERE 1 ";
 
   db.query(sql3, function(err, results) {
