@@ -36,7 +36,7 @@
         my_supplir=e.target.innerHTML;
         sendSupplier(e.target.innerHTML);
       });
-
+      document.getElementById("lunch_order").addEventListener("change", myFunction_calendar);
     } //end of window load
 
     function sendSupplier(supplier){
@@ -94,6 +94,9 @@
           .finally(function () {
             // always executed
           });
+    };
+    function myFunction_calendar() {
+      alert ("calendar change: "+ document.getElementById("lunch_order").value);
     };
   </script>
 </head>
