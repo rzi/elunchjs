@@ -32,9 +32,51 @@
         setCookie("my_date1", my_date1); 
         sendSupplier(e.target.innerHTML,my_date1);
       });
-      document.getElementById("lunch_order").addEventListener("change", myFunction_calendar(today));
-    } //end of window load
+      //  document.getElementById("lunch_order").addEventListener("select", myFunction_calendar(today));
+      document.getElementById("lunch_order").addEventListener("change", function(){
+     
+        var todayAt10 = Date.parse(today + "T10:00:00")/1000;
+        console.log("todayAt10: " + todayAt10);
 
+        var  todayAt00 = Date.parse(today + "T00:00:01")/1000;
+        console.log("todayAt00: " + todayAt00);
+
+        var t_currentDate = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
+        var t_day = t_currentDate.getDate();
+        var t_month = ("0"+ (t_currentDate.getMonth() + 1)).slice(-2);
+        var t_year = t_currentDate.getFullYear();
+        var tommorow =t_year+"-" + t_month+"-" + t_day + "T00:00:01";
+        var tommorow_timestamp = Date.parse(tommorow)/1000;
+        console.log("tommorowAt00: " + tommorow_timestamp);
+
+        var d = new Date();
+        var justNow= d.valueOf();
+        var justNowTimestamp = Math.floor(justNow/1000);
+        console.log( "just now " + justNowTimestamp);  
+        var datePickerValue=document.getElementById("lunch_order").value;
+        var mydatePicker = datePickerValue + "T00:00:01";
+        var mydatePickerTimeStamp =Date.parse(mydatePicker)/1000;
+        console.log("datapicker: " + mydatePicker);
+        alert ("calendar change: "+ document.getElementById("lunch_order").value + "\n"+
+        "datapickerTimeStamp: " + mydatePickerTimeStamp +"\n"+
+        "tommorowAt00: " + tommorow_timestamp +"\n"+
+        "todayAt00: " + todayAt00 +"\n"+
+        "just now " + justNowTimestamp
+        );
+        if (justNowTimestamp >todayAt00 && justNowTimestamp < todayAt10 ){
+          alert( " mozna zamawiać bo nie ma jeszcze 10:00");
+          sendDate(document.getElementById("lunch_order").value);
+        };
+
+        if ( mydatePickerTimeStamp >= tommorow_timestamp){
+          alert( " mozna zamawiać bo to na jutro");
+          sendDate(document.getElementById("lunch_order").value);
+        };
+
+      });
+  
+    } //end of window load
+    
     function sendSupplier(supplier,mydate1){
       // Make a request for a user with a given ID
       axios.get('/home/new_order?supplier='+supplier+'&mydate='+mydate1)
@@ -108,10 +150,18 @@
             // always executed
           });
     };
+    function myFunction_calendar2(){
+      alert("AAAAAAAAA");
+    };
+
     function myFunction_calendar(today) {
       alert ("calendar change: "+ document.getElementById("lunch_order").value);
       var todayAt10 = Date.parse(today + "T10:00:00")/1000;
-      
+      console.log("todayAt10: " + todayAt10);
+
+      var  todayAt00 = Date.parse(today + "T00:00:01")/1000;
+      console.log("todayAt00: " + todayAt00);
+
       var t_currentDate = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
       var t_day = t_currentDate.getDate();
       var t_month = ("0"+ (t_currentDate.getMonth() + 1)).slice(-2);
@@ -119,15 +169,22 @@
       var tommorow =t_year+"-" + t_month+"-" + t_day + "T00:00:01";
       var tommorow_timestamp = Date.parse(tommorow)/1000;
       console.log("tommorowAt00: " + tommorow_timestamp);
-      
-      console.log("todayAt10: " + todayAt10);
 
       var d = new Date();
       var justNow= d.valueOf();
       var justNowTimestamp = Math.floor(justNow/1000);
-      console.log( "just now " + justNowTimestamp);
+      console.log( "just now " + justNowTimestamp);  
+      var datePickerValue=document.getElementById("lunch_order").value;
+      var mydatePicker = datePickerValue + "T00:00:01";
+      console.log("datapicker: " + mydatePicker);
 
-      sendDate(document.getElementById("lunch_order").value);
+      if (justNowTimestamp< todayAt10 && justNowTimestamp<todayAt00){
+        aletr( " mozna zamawiać");
+        sendDate(document.getElementById("lunch_order").value);
+      };
+     
+
+
     };
 
     function setCookie(name, val, days, path, domain, secure) {
