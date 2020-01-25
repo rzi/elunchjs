@@ -13,7 +13,8 @@
       var now = new Date();
       var day = ("0" + now.getDate()).slice(-2);
       var month = ("0" + (now.getMonth() + 1)).slice(-2);
-      var today = now.getFullYear() + "-" + month + "-" + day;
+      var today;
+      today = now.getFullYear() + "-" + month + "-" + day;
       document.getElementById("lunch_order").value=today;
       var my_supplir = document.getElementById("activeSupplier").innerText;
       if ( my_supplir == ""){
@@ -28,10 +29,10 @@
         var my_date1= document.getElementById("lunch_order").value
         my_supplir=e.target.innerHTML;
         setCookie("my_supplier", my_supplier);
-        setCookie("my_date1", my_date1);
+        setCookie("my_date1", my_date1); 
         sendSupplier(e.target.innerHTML,my_date1);
       });
-      document.getElementById("lunch_order").addEventListener("change", myFunction_calendar);
+      document.getElementById("lunch_order").addEventListener("change", myFunction_calendar(today));
     } //end of window load
 
     function sendSupplier(supplier,mydate1){
@@ -107,8 +108,11 @@
             // always executed
           });
     };
-    function myFunction_calendar() {
+    function myFunction_calendar(today) {
       alert ("calendar change: "+ document.getElementById("lunch_order").value);
+      var todayAt10 = Date.parse(today + "T10:00:00")
+      console.log("todayAt10: " + todayAt10);
+
       sendDate(document.getElementById("lunch_order").value);
     };
 
