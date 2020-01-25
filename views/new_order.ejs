@@ -110,8 +110,22 @@
     };
     function myFunction_calendar(today) {
       alert ("calendar change: "+ document.getElementById("lunch_order").value);
-      var todayAt10 = Date.parse(today + "T10:00:00")
+      var todayAt10 = Date.parse(today + "T10:00:00")/1000;
+      
+      var t_currentDate = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
+      var t_day = t_currentDate.getDate();
+      var t_month = ("0"+ (t_currentDate.getMonth() + 1)).slice(-2);
+      var t_year = t_currentDate.getFullYear();
+      var tommorow =t_year+"-" + t_month+"-" + t_day + "T00:00:01";
+      var tommorow_timestamp = Date.parse(tommorow)/1000;
+      console.log("tommorowAt00: " + tommorow_timestamp);
+      
       console.log("todayAt10: " + todayAt10);
+
+      var d = new Date();
+      var justNow= d.valueOf();
+      var justNowTimestamp = Math.floor(justNow/1000);
+      console.log( "just now " + justNowTimestamp);
 
       sendDate(document.getElementById("lunch_order").value);
     };

@@ -12,14 +12,14 @@ var t_day = t_currentDate.getDate();
 var t_month = ("0"+ (t_currentDate.getMonth() + 1)).slice(-2);
 var t_year = t_currentDate.getFullYear();
 var tommorow =t_year+"-" + t_month+"-" + t_day + "T10:00:00";
-console.log(Date.parse(tommorow));
+console.log(Date.parse(tommorow)/1000);
 
 var y_currentDate = new Date(new Date().getTime() - 24 * 60 * 60 * 1000);
 var y_day = y_currentDate.getDate();
 var y_month = ("0"+ (y_currentDate.getMonth() + 1)).slice(-2);
 var y_year = y_currentDate.getFullYear();
 var yesterday =y_year+"-" + y_month+"-" + y_day + "T00:00:01";
-console.log("yesterday "  + Date.parse(yesterday));
+console.log("yesterday "  + Date.parse(yesterday)/1000);
 
 var endTime;
 if (myhour >9 ){
