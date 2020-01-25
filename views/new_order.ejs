@@ -14,34 +14,29 @@
       var day = ("0" + now.getDate()).slice(-2);
       var month = ("0" + (now.getMonth() + 1)).slice(-2);
       var today = now.getFullYear() + "-" + month + "-" + day;
-      console.log(today);
       document.getElementById("lunch_order").value=today;
       var my_supplir = document.getElementById("activeSupplier").innerText;
       if ( my_supplir == ""){
-        
         my_supplir="Mucha";  
         document.getElementById("activeSupplier").innerText=my_supplir;
-        console.log ("active supplier",my_supplir );
       }
-      console.log ("active supplier",my_supplir );
-      //document.getElementById("activeSupplier").innerText="Mucha";
       var my_date=document.getElementById("lunch_order").value
-      console.log( "mydate "+ my_date);
-      //sendSupplier("Mucha");
 
       $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
         //console.log(e.target.innerHTML); // newly activated tab
         document.getElementById("activeSupplier").innerText=e.target.innerHTML;
         var my_date1= document.getElementById("lunch_order").value
         my_supplir=e.target.innerHTML;
-        sendSupplier(e.target.innerHTML);
+        setCookie("my_supplier", my_supplier);
+        setCookie("my_date1", my_date1);
+        sendSupplier(e.target.innerHTML,my_date1);
       });
       document.getElementById("lunch_order").addEventListener("change", myFunction_calendar);
     } //end of window load
 
-    function sendSupplier(supplier){
+    function sendSupplier(supplier,mydate1){
       // Make a request for a user with a given ID
-      axios.get('/home/new_order?supplier='+supplier)
+      axios.get('/home/new_order?supplier='+supplier+'&mydate='+mydate1)
         .then(function (response) {
         // handle success
         //console.log(response);
@@ -55,6 +50,23 @@
         });
     };
 
+    function sendDate(mydate){
+      // Make a request for a user with a given ID
+      axios.get('/home/new_order?mydate='+mydate)
+        .then(function (response) {
+        // handle success
+        //console.log(response);
+        //location.reload();
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
+        })
+        .finally(function () {
+          // always executed
+        });
+    };
+    
     function myFunction_order (value){
       // Make a request for a user with a given ID
           axios.post('/home/new_order', {     
@@ -97,7 +109,54 @@
     };
     function myFunction_calendar() {
       alert ("calendar change: "+ document.getElementById("lunch_order").value);
+      sendDate(document.getElementById("lunch_order").value);
     };
+
+    function setCookie(name, val, days, path, domain, secure) {
+    if (navigator.cookiesEnabled) {
+        const cookieName = encodeURIComponent(name);
+        const cookieVal = encodeURIComponent(val);
+        let cookieText = cookieName + "=" + cookieVal;
+
+        if (typeof days === "number") {
+            const data = new Date();
+            data.setTime(data.getTime() + (days * 24*60*60*1000));
+            cookieText += "; expires=" + data.toGMTString();
+        }
+
+        if (path) {
+            cookieText += "; path=" + path;
+        }
+        if (domain) {
+            cookieText += "; domain=" + domain;
+        }
+        if (secure) {
+            cookieText += "; secure";
+        }
+
+        document.cookie = cookieText;
+    }
+    }
+
+    function deleteCookie(name) {
+        const cookieName = encodeURIComponent(name);
+        document.cookie = cookieName + "=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+    }
+
+    function showCookie(name) {
+        if (document.cookie != "") {
+            const cookies = document.cookie.split(/; */);
+
+            for (let i=0; i<cookies.length; i++) {
+                const cookieName = cookies[i].split("=")[0];
+                const cookieVal = cookies[i].split("=")[1];
+                if (cookieName === decodeURIComponent(name)) {
+                    return decodeURIComponent(cookieVal);
+                }
+            }
+        }
+    }
+
   </script>
 </head>
 <body>
@@ -122,9 +181,15 @@
     <div class="jumbotron">
       <h2>Witaj <%=fname%>,</h2>
       <p>
-        Online możesz zamówić tylko do godziny 10.00, pozostało ci jeszce
-        XXX czasu do zamówienia
+        Online możesz zamówić tylko do godziny 10.00, pozostało ci jeszcze
+        <strong>
+        <span class="h">.</span> h:
+        <span class="m">.</span> m:
+        <span class="s">.</span>s
+        </strong>
+        czasu do zamówienia
       </p>
+
       <p>
         Wybierz datę na kiedy zamawiasz lunch
       </p>
@@ -256,5 +321,7 @@
       </div>
     </div>
   </div>
+  <script src='/public/main.js'>
+  </script>
 </body>
 </html>

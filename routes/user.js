@@ -134,7 +134,7 @@ exports.new_order = function (req, res, next) {
     sesa_no1 = req.session.sesa_no1,
     menu_json,
     menu_json2,
-    my_date,
+    mydate,
     my_orders, order_no;
   var sesa_no2 = req.body.sesa_no1;
   var supplier_post = req.body.supplier;
@@ -142,12 +142,9 @@ exports.new_order = function (req, res, next) {
   var order_no5 = req.body.order_no;
   var menu_desctription, menu_price;
   var supplier;
-
-  // console.log("userID= " + userId);
-  // console.log("first_name= " + req.session.first_name);
-  // console.log("sesa_no1= " + sesa_no1);
+  mydate=req.query.mydate;
   console.log("Method: " + req.method);
-  // console.log("supplier ", supplier);
+  console.log("mydate: "+ mydate);
 
   if (userId == null) {
     res.redirect("/login");
@@ -161,7 +158,6 @@ exports.new_order = function (req, res, next) {
     db.query(sql7, function (err, results) {
       console.log("deleted one row");
     });
-
   } //delete
 
   if (req.method == "POST") {
@@ -175,16 +171,19 @@ exports.new_order = function (req, res, next) {
       order_date, " ",
       "Numer dania ", order_no, " "
     );
+    my_date=order_date;
   } else if (req.method == "GET") {
     var supplier = req.query.supplier;
     var order_no = req.body.order_no;
     if (!supplier) {
       supplier = "Mucha"; // Initial value
     };
-
+    if (!mydate){
+      mydate=req.query.mydate;
+    }
     console.log(
       "get: ", sesa_no1, " ",
-      supplier, " "
+      supplier, " ", mydate
 
     );
   }
@@ -230,10 +229,14 @@ exports.new_order = function (req, res, next) {
 
   }
 
-  // Display current orders
- // mysupplier_name = "Mucha";
-  var sql1 =
-    "SELECT * FROM `elunch_orders2` WHERE 1 Order by id desc";
+  // Display current orders by date 
+  // var sql1 =
+  //   "SELECT * FROM `elunch_orders2` WHERE 1" ;
+  //  var sql1 =
+  //  "SELECT * FROM `elunch_orders2` WHERE `order_date`='" + mydate +"' ORDER BY id DESC" ;
+   var sql1 =
+   "SELECT * FROM `elunch_orders2` WHERE `order_date`='" + mydate +"'";
+   console.log(sql1);
 
   db.query(sql1, function (err, results) {
     my_orders = JSON.stringify(results);

@@ -6,14 +6,12 @@ var express = require('express')
   , user = require('./routes/user')
   , http = require('http')
   , path = require('path');
-//var methodOverride = require('method-override');
 var session = require('express-session');
 var app = express();
 var mysql = require('mysql');
 var bodyParser=require("body-parser");
 const fetch = require('node-fetch');
 const axios = require('axios').default;
-
 
 // var connection = mysql.createConnection({
 //               host     : 'mysql.ct8.pl',
@@ -48,7 +46,6 @@ app.use(session({
             }))
 app.use('/public', express.static('public'));
 // development only
- 
 app.get('/', routes.index);//call for main index page
 app.get('/signup', user.signup);//call for signup page
 app.post('/signup', user.signup);//call for signup post 
