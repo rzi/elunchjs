@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Sample Site</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    
+    <!-- Main component for a primary marketing message or call to action -->
+    <div class="jumbotron">
+      <!-- <h2>Witaj <%=fname%>,</h2> -->
+        <p>
+          Online możesz zamówić tylko do godziny 10.00, pozostało ci jeszcze
+          <strong>
+          <span class="h">.</span> h:
+          <span class="m">.</span> m:
+          <span class="s">.</span>s
+          </strong>
+          czasu do zamówieniac <span id="f">.</span>
+        </p>
+  
+        <p>
+          Wybierz datę na kiedy zamawiasz lunch
+        </p>
+        <input type="date" name="lunch_order" id="lunch_order" value="2020-01-08" />
+        <br /><br />
+
+        <p>
+          Lista twoich aktualnych zamówień:
+        </p>
+        
+        <div>
+          <table id="orders_list"></table>
+        </div>
+        <br>
+  
+
+   
+        <div id= "order_list" class="table-responsive">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">SESA</th>
+                <th scope="col">Data</th>
+                <th scope="col">Dostawca</th>
+                <th scope="col">Numer dania</th>
+                <th scope="col">Danie</th>
+                <th scope="col">Cena</th>
+                <th scope="col">Usuń</th>
+              </tr>
+            </thead>
+            <tbody>
+                 
+                <tr>
+                  <td>1</td>
+                  <td>1</td>
+                  <td>1</td>
+                  <td>1</td>
+                  <td>1</td>
+                  <td>1</td>
+                  <td>1</td>
+                  <td><button type="button" onclick="myFunction_delete(value)" value="1">Usuń</button></td>
+                </tr>
+              
+            </tbody>
+          </table>
+        </div>
+        <br>
+        <p>
+          Masz do wyborów dwóch dostawców Mucha i Opoka, kliknij odpowiednią
+          zakładkę
+        </p>
+        <p hidden id="activeSupplier"></p>
+        <p  hidden id="sesa_no1"></p>
+        <!-- dynamic tabs -->
+        <ul class="nav nav-tabs">
+          <li class="active"><a data-toggle="tab" href="#mucha">Mucha</a></li>
+          <li><a data-toggle="tab" href="#opoka">Opoka</a></li>
+        </ul>
+        <div class="tab-content">
+          <div id="mucha" class="tab-pane fade in active">
+            <h2 hidden id="titleMucha">Mucha</h2>
+            <br>
+            <p>wybierz danie: </p>
+            <!-- <p><%menu_json=JSON.parse(menu_json)%></p>  -->
+            
+            <div class="table-responsive">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Dostawca</th>
+                    <th scope="col">Numer dania</th>
+                    <th scope="col">Danie</th>
+                    <th scope="col">Cena</th>
+                    <th scope="col">Zamów</th>
+                  </tr>
+                </thead>
+                <tbody>
+              
+                  <tr>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td><button type="button" onclick="myFunction_order(value)" value='1'>Zamów nr.
+                        1</button></td>
+                  </tr>
+                 1
+                </tbody>
+              </table>
+            </div>
+            <!-- <div id="myContacts"></div> -->
+          </div>
+          <div id="opoka" class="tab-pane fade">
+            <h2 hidden id="titleOpoka">Opoka</h2>
+            <br>
+            <p>wybierz danie:</p>
+
+            <div class="table-responsive">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Dostawca</th>
+                    <th scope="col">Numer dania</th>
+                    <th scope="col">Danie</th>
+                    <th scope="col">Cena</th>
+                    <th scope="col">Zamów</th>
+                  </tr>
+                </thead>
+                <tbody>
+                
+                  <tr>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td><button type="button" onclick="myFunction_order(value)" value="1">Zamów nr.
+                        1</button></td>
+                  </tr>
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+     
+  <script src='/public/main.js'>
+  </script>
+</body>
+</html>
