@@ -31,32 +31,27 @@
     <div class="jumbotron">
       <h2>Witaj <%=fname%>,</h2>
       <p>
-        Online możesz zamówić tylko do godziny 10.00, pozostało ci jeszcze
+        Online możesz zamówić tylko do godziny 10.00, <p id="myClock"> Pozostało ci jeszcze 
         <strong>
         <span class="h">.</span> h:
         <span class="m">.</span> m:
         <span class="s">.</span>s
         </strong>
-        czasu do zamówieniac <span class="f">.</span>
+        do złożeina zamówienia </p><span id="f">.</span>
       </p>
 
       <p>
         Wybierz datę na kiedy zamawiasz lunch
       </p>
-      <input type="date" name="lunch_order" id="lunch_order" value="2020-01-08" />
-      <br /><br />
+      <input type="date" name="lunch_order" id="lunch_order" value="2020-01-08" /> <p id="mesg" style="color:red; font-size: 14px;"></p>
       <p hidden id="sesa_no1"><%=sesa_no1%></p>
       <p>
         Lista twoich aktualnych zamówień:
       </p>
-      
       <div>
         <table id="orders_list"></table>
       </div>
-      <br>
-
       <p><%my_orders=JSON.parse(my_orders)%></p> 
- 
       <div id= "order_list" class="table-responsive">
         <table class="table table-bordered">
           <thead>
@@ -87,7 +82,7 @@
           </tbody>
         </table>
       </div>
-      <br>
+
       <p>
         Masz do wyborów dwóch dostawców Mucha i Opoka, kliknij odpowiednią
         zakładkę

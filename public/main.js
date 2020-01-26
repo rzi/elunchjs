@@ -32,38 +32,38 @@ $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
 });
 
 document.getElementById("lunch_order").addEventListener("change", function(){
-  var justNow = new Date();
-  var justNowTimestamp = Math.floor(justNow/1000);
-  console.log( "just now " + justNowTimestamp); 
+  // var justNow = new Date();
+  // var justNowTimestamp = Math.floor(justNow/1000);
+  // console.log( "just now " + justNowTimestamp); 
   //alert(justNow.toLocaleString()); 
   
-  var todayAt10 = Date.parse(today + "T10:00:00")/1000;
-  console.log("todayAt10: " + todayAt10);
-  var todayAt00 = Date.parse(today + "T00:00:01")/1000;
-  console.log("todayAt00: " + todayAt00);
+  // var todayAt10 = Date.parse(today + "T10:00:00")/1000;
+  // console.log("todayAt10: " + todayAt10);
+  // var todayAt00 = Date.parse(today + "T00:00:01")/1000;
+  // console.log("todayAt00: " + todayAt00);
 
-  var t_currentDate = new Date(new Date().getTime() + 24 * 60 * 60 * 1000); //tommorow
-  var t_day = t_currentDate.getDate();
-  var t_month = ("0"+ (t_currentDate.getMonth() + 1)).slice(-2);
-  var t_year = t_currentDate.getFullYear();
-  tommorow = t_year+"-" + t_month+"-" + t_day + "T00:00:00";
-  var tommorow_timestamp = Date.parse(tommorow)/1000;
-  console.log("tommorowAt00: " + tommorow_timestamp);
+  // var t_currentDate = new Date(new Date().getTime() + 24 * 60 * 60 * 1000); //tommorow
+  // var t_day = t_currentDate.getDate();
+  // var t_month = ("0"+ (t_currentDate.getMonth() + 1)).slice(-2);
+  // var t_year = t_currentDate.getFullYear();
+  // tommorow = t_year+"-" + t_month+"-" + t_day + "T00:00:00";
+  // var tommorow_timestamp = Date.parse(tommorow)/1000;
+  // console.log("tommorowAt00: " + tommorow_timestamp);
        
-  var datePickerValue=document.getElementById("lunch_order").value;
-  var mydatePicker = datePickerValue + "T"+justNow.toLocaleTimeString();
-  alert(mydatePicker);
-  var mydatePickerTimeStamp =Date.parse(mydatePicker)/1000;
-  console.log("datapicker: " + mydatePicker);
+  // var datePickerValue=document.getElementById("lunch_order").value;
+  // var mydatePicker = datePickerValue + "T"+justNow.toLocaleTimeString();
+  // alert(mydatePicker);
+  // var mydatePickerTimeStamp =Date.parse(mydatePicker)/1000;
+  // console.log("datapicker: " + mydatePicker);
       
-  if (mydatePickerTimeStamp >todayAt00 && mydatePickerTimeStamp < todayAt10 || mydatePickerTimeStamp > tommorow_timestamp){
-    alert( " mozna zamawiać bo nie ma jeszcze 10:00 lub zamówieine jest na następne dni");
-    document.getElementById("f").innerText="1";
-    sendDate(document.getElementById("lunch_order").value);
-  } else{
-    document.getElementById("f").innerText="0";
-  };
- 
+  // if (mydatePickerTimeStamp >todayAt00 && mydatePickerTimeStamp < todayAt10 || mydatePickerTimeStamp > tommorow_timestamp){
+  //   alert( " mozna zamawiać bo nie ma jeszcze 10:00 lub zamówieine jest na następne dni");
+  //   document.getElementById("f").innerText="1";
+  //   sendDate(document.getElementById("lunch_order").value);
+  // } else{
+  //   document.getElementById("f").innerText="0";
+  // };
+  sendDate(document.getElementById("lunch_order").value);
 });
 
 var myhour = now.getHours();
@@ -133,10 +133,19 @@ setInterval(() => {
   if (pickerAt00TimeStamp >= todayAt00 && nowTime >= pickerAt00TimeStamp  && nowTime < todayAt10TimeStamp || pickerAt00TimeStamp >= tommorowAt00TimeStamp  ){
      console.log( " zamawiam" );
      document.getElementById("f").innerText="1";
+     document.getElementById("mesg").innerText=" ";
   }else {
     console.log ( " nic z tego " );
     document.getElementById("f").innerText="0";
+    document.getElementById("mesg").innerText=" *nie mozna zamówić na wybrany dzień";
   }
+
+  if ( nowTime >=todayAt00 && nowTime<= todayAt10TimeStamp){
+    // document.getElementById("myClock").innerText=" aaaaaaaa";
+  } else{
+    document.getElementById("myClock").innerText="";
+  }
+
 
   if (myhour < 10) {
     // console.log("today: " + today);
