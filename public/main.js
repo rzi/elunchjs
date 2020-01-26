@@ -227,7 +227,7 @@ function myFunction_order (value){
       })
       .then(function (response) {
         // handle success
-         location.reload();
+        //  location.reload();
         })
         .catch(function (error) {
           // handle error

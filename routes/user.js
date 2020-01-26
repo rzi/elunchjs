@@ -171,15 +171,19 @@ exports.new_order = function (req, res, next) {
       order_date, " ",
       "Numer dania ", order_no, " "
     );
-    my_date=order_date;
+    mydate=order_date;
+
   } else if (req.method == "GET") {
     var supplier = req.query.supplier;
     var order_no = req.body.order_no;
     if (!supplier) {
       supplier = "Mucha"; // Initial value
     };
-    if (!mydate){
+    if (mydate == "undefined"){
       mydate=req.query.mydate;
+      if (!my_date){
+        my_date="2020-01-26";
+      } 
     }
     console.log(
       "get: ", sesa_no1, " ",
