@@ -78,8 +78,8 @@ exports.dashboard = function(req, res, next) {
     userId = req.session.userId,
     fname = req.session.first_name;
 
-  console.log("userID= " + userId);
-  console.log("first_name= " + req.session.first_name);
+  // console.log("userID= " + userId);
+  // console.log("first_name= " + req.session.first_name);
 
   if (userId == null) {
     res.redirect("/login");
@@ -149,8 +149,8 @@ exports.new_order = function(req, res, next) {
 
   var parts2 = mydate.split('-');
   console.log (parts2[0], parts2[1],  parts2[2]);
-  mydate3 = mydate3 + "-"+ parts2[1] + "-" + parts2[2] ;
-  console.log ("mydate3" + mydate3);
+  mydate3 = parts2[0] + "-"+ parts2[1] + "-" + parts2[2] ;
+  console.log ("mydate3 " + mydate3);
 
   if (userId == null) {
     res.redirect("/login");
