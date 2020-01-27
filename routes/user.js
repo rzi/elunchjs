@@ -145,11 +145,11 @@ exports.new_order = function (req, res, next) {
   mydate=req.query.mydate;
   console.log("Method: " + req.method);
   console.log("mydate: "+ mydate);
-
-  if (userId == null) {
-    res.redirect("/login");
-    return;
-  }
+  sesa_no1="48177";
+  // if (userId == null) {
+  //   res.redirect("/login");
+  //   return;
+  // }
 
   if (req.method == "DELETE") {
     var delete_id = req.body.delete_id;
@@ -161,6 +161,7 @@ exports.new_order = function (req, res, next) {
   } //delete
 
   if (req.method == "POST") {
+    
     var supplier = req.body.supplier;
     console.log("supplier w post: ",supplier);
     var order_date = req.body.order_date;
@@ -181,8 +182,8 @@ exports.new_order = function (req, res, next) {
     };
     if (mydate == "undefined"){
       mydate=req.query.mydate;
-      if (!my_date){
-        my_date="2020-01-26";
+      if (!mydate){
+        mydate="2020-01-26";
       } 
     }
     console.log(

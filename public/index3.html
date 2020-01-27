@@ -2,107 +2,194 @@
 <html>
 
 <head>
-  <title>HTML dynamic table using JavaScript</title>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Hello, Bootstrap Table!</title>
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+    integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table.min.css">
+  <link href="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table.min.css" rel="stylesheet">
+  <script src="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table.min.js"></script>
+
   <script>
-    function load() {
-      generateDynamicTable();
-    }
-
-    var myContacts = [{
-        id: 1,
-        Id_sesa_no: 1,
-        order_date: "2020-01-08",
-        order_supplier_name: "Opoka",
-        order_no: 1,
-        order_name: "Kotlet",
-        order_price: 7
-      },
-      {
-        id: 1,
-        Id_sesa_no: 1,
-        order_date: "2020-01-08",
-        order_supplier_name: "Opoka",
-        order_no: 1,
-        order_name: "Kotlet",
-        order_price: 7
-      }
-    ];
-
-    function myOrder() {
-
-      alert("zamówienie");
-    }
-
-    function generateDynamicTable() {
-      var noOfContacts = myContacts.length;
-
-      if (noOfContacts > 0) {
-
-        // CREATE DYNAMIC TABLE.
-        var table = document.createElement("table");
-        table.style.width = "50%";
-        table.setAttribute("border", "1");
-        table.setAttribute("cellspacing", "0");
-        table.setAttribute("cellpadding", "5");
-
-        // retrieve column header ('Name', 'Email', and 'Mobile')
-
-        var col = []; // define an empty array
-        for (var i = 0; i < noOfContacts; i++) {
-          for (var key in myContacts[i]) {
-            if (col.indexOf(key) === -1) {
-              col.push(key);
-            }
-          }
+  function load() {
+    $(function () {
+      var data = [
+        {
+          'id': 0,
+          'name': 'Item 0',
+          'price': '$0'
+        },
+        {
+          'id': 1,
+          'name': 'Item 1',
+          'price': '$1'
+        },
+        {
+          'id': 2,
+          'name': 'Item 2',
+          'price': '$2'
+        },
+        {
+          'id': 3,
+          'name': 'Item 3',
+          'price': '$3'
+        },
+        {
+          'id': 4,
+          'name': 'Item 4',
+          'price': '$4'
+        },
+        {
+          'id': 5,
+          'name': 'Item 5',
+          'price': '$5'
         }
-        col.push("Zamów");
-        // CREATE TABLE HEAD .
-        var tHead = document.createElement("thead");
+      ]
+      $table.bootstrapTable({ data: data })
+    });
+  
+  }  
+    // function load() {
+    //   generateDynamicTable();
+    //   // your custom ajax request here
 
-        // CREATE ROW FOR TABLE HEAD .
-        var hRow = document.createElement("tr");
 
-        // ADD COLUMN HEADER TO ROW OF TABLE HEAD.
-        for (var i = 0; i < col.length; i++) {
-          var th = document.createElement("th");
-          th.innerHTML = col[i];
-          hRow.appendChild(th);
-        }
-        tHead.appendChild(hRow);
-        table.appendChild(tHead);
+    //   var myContacts = [{
+    //     id: 0,
+    //     Id_sesa_no: 1,
+    //     order_date: "2020-01-08",
+    //     order_supplier_name: "Opoka",
+    //     order_no: 1,
+    //     order_name: "Kotlet",
+    //     order_price: 7
+    //   },
+    //   {
+    //     id: 1,
+    //     Id_sesa_no: 1,
+    //     order_date: "2020-01-08",
+    //     order_supplier_name: "Opoka",
+    //     order_no: 1,
+    //     order_name: "Kotlet",
+    //     order_price: 7
+    //   },
+    //   {
+    //     id: 3,
+    //     Id_sesa_no: 1,
+    //     order_date: "2020-01-08",
+    //     order_supplier_name: "Opoka",
+    //     order_no: 1,
+    //     order_name: "Kotlet",
+    //     order_price: 7
+    //   }
+    //   ];
+    //   var $table = $('#table')
 
-        // CREATE TABLE BODY .
-        var tBody = document.createElement("tbody");
 
-        // ADD COLUMN HEADER TO ROW OF TABLE HEAD.
-        for (var i = 0; i < noOfContacts; i++) {
-          var bRow = document.createElement("tr"); // CREATE ROW FOR EACH RECORD .
+    //   var myvar;
+    //   function myOrder(myvar) {
 
-          for (var j = 0; j < col.length; j++) {
-            var td = document.createElement("td");
-            td.innerHTML = myContacts[i][col[j]];
-            if (j == col.length - 1) {
-              //console.log(j);
-              // td.innerHTML = "zamów !!!"
-              //td.innerHTML = '<input type="button" value = "Zamów" onClick="Javacsript:myOrder(this)">';
+    //     alert("zamówienie" + myvar);
+    //   }
 
-            }
-            bRow.appendChild(td);
-          }
-          tBody.appendChild(bRow);
-        }
-        table.appendChild(tBody);
+    //   function generateDynamicTable() {
+    //     var noOfContacts = myContacts.length;
 
-        // FINALLY ADD THE NEWLY CREATED TABLE WITH JSON DATA TO A CONTAINER.
-        var divContainer = document.getElementById("myContacts");
-        // divContainer.innerHTML = "tabela";
-        divContainer.appendChild(table);
-      }
-    }
+    //     if (noOfContacts > 0) {
+
+    //       // CREATE DYNAMIC TABLE.
+    //       var table = document.createElement("table");
+    //       table.style.width = "50%";
+    //       table.setAttribute("border", "1");
+    //       table.setAttribute("cellspacing", "0");
+    //       table.setAttribute("cellpadding", "5");
+
+    //       // retrieve column header ('Name', 'Email', and 'Mobile')
+
+    //       var col = []; // define an empty array
+    //       for (var i = 0; i < noOfContacts; i++) {
+    //         for (var key in myContacts[i]) {
+    //           if (col.indexOf(key) === -1) {
+    //             col.push(key);
+    //           }
+    //         }
+    //       }
+    //       col.push("Zamów");
+    //       // CREATE TABLE HEAD .
+    //       var tHead = document.createElement("thead");
+
+    //       // CREATE ROW FOR TABLE HEAD .
+    //       var hRow = document.createElement("tr");
+
+    //       // ADD COLUMN HEADER TO ROW OF TABLE HEAD.
+    //       for (var i = 0; i < col.length; i++) {
+    //         var th = document.createElement("th");
+    //         th.innerHTML = col[i];
+    //         hRow.appendChild(th);
+    //       }
+    //       tHead.appendChild(hRow);
+    //       table.appendChild(tHead);
+
+    //       // CREATE TABLE BODY .
+    //       var tBody = document.createElement("tbody");
+
+    //       // ADD COLUMN HEADER TO ROW OF TABLE HEAD.
+    //       for (var i = 0; i < noOfContacts; i++) {
+    //         var bRow = document.createElement("tr"); // CREATE ROW FOR EACH RECORD .
+
+    //         for (var j = 0; j < col.length; j++) {
+    //           var td = document.createElement("td");
+    //           td.innerHTML = myContacts[i][col[j]];
+    //           if (j == col.length - 1) {
+    //             //console.log(j);
+    //             // td.innerHTML = "zamów !!!"
+    //             td.innerHTML = '<input type="button" value ="zamów ' + myContacts[i][col[0]] + '" onClick="Javacsript:myOrder(this.value)">';
+
+    //           }
+    //           bRow.appendChild(td);
+    //         }
+    //         tBody.appendChild(bRow);
+    //       }
+    //       table.appendChild(tBody);
+
+    //       // FINALLY ADD THE NEWLY CREATED TABLE WITH JSON DATA TO A CONTAINER.
+    //       var divContainer = document.getElementById("myContacts");
+    //       // divContainer.innerHTML = "tabela";
+    //       divContainer.appendChild(table);
+    //     }
+    //   }
   </script>
 </head>
 
 <body onload="load()">
   <div id="myContacts"></div>
+
+  <div>
+    <table id="table">
+      <thead>
+        <tr>
+          <th data-field="id">ID</th>
+          <th data-field="name">Item Name</th>
+          <th data-field="price">Item Price</th>
+        </tr>
+      </thead>
+    </table>
+
+  </div>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table.min.js"></script>
+
 </body>
+
 </html>
