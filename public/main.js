@@ -11,6 +11,7 @@ now = new Date();
 day = ("0" + now.getDate()).slice(-2);
 month = ("0" + (now.getMonth() + 1)).slice(-2);
 today = now.getFullYear() + "-" + month + "-" + day;
+console.log("today" + today);
 document.getElementById("lunch_order").value=today;
 
 var my_supplier = document.getElementById("activeSupplier").innerText;
@@ -191,7 +192,8 @@ function sendSupplier(supplier,mydate1){
   axios.get('/home/new_order?supplier='+supplier+'&mydate='+mydate1)
     .then(function (response) {
     // handle success
-    console.log(response);
+    console.log(response.data);
+    // location.reload();
     })
     .catch(function (error) {
       // handle error
@@ -206,8 +208,8 @@ function sendDate(mydate){
   axios.get('/home/new_order?mydate='+mydate)
     .then(function (response) {
     // handle success
-    //console.log(response);
-    //location.reload();
+    console.log(response.data);
+    // location.reload();
     })
     .catch(function (error) {
       // handle error
@@ -228,7 +230,7 @@ function myFunction_order (value){
       .then(function (response) {
         // handle success
         //  location.reload();
-        console.log(response);
+        console.log(response.data);
         })
         .catch(function (error) {
           // handle error
