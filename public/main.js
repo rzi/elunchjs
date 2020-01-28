@@ -184,7 +184,7 @@ setInterval(() => {
   hours  > 0 ? spanH.textContent = hours : spanH.textContent = 0;
   minutes > 0 ? spanM.textContent = minutes : spanM.textContent = 0;
   secs >0 ? spanS.textContent = secs : spanS.textContent = 0;
-  }, 1000);
+  }, 100000);
 
 // Funkcje
 function sendSupplier(supplier,mydate1){
@@ -229,8 +229,8 @@ function myFunction_order (value){
       })
       .then(function (response) {
         // handle success
-        location.reload();
-        //console.log(response.data);
+        //location.reload();
+        console.log(response);
         })
         .catch(function (error) {
           // handle error
