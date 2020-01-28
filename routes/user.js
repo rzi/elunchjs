@@ -135,22 +135,26 @@ exports.new_order = function(req, res, next) {
     menu_json2,
     mydate,
     my_orders,
-    order_no, mydate3;
+    order_no,
+    mydate3;
   var sesa_no2 = req.body.sesa_no1;
   var supplier_post = req.body.supplier;
   var order_date = req.body.order_date;
   var order_no5 = req.body.order_no;
   var menu_desctription, menu_price;
   var supplier;
+
   mydate = req.query.mydate;
   console.log("Method: " + req.method);
   console.log("mydate: " + mydate);
-  sesa_no1 = "48177";
-
-  var parts2 = mydate.split('-');
-  console.log (parts2[0], parts2[1],  parts2[2]);
-  mydate3 = parts2[0] + "-"+ parts2[1] + "-" + parts2[2] ;
-  console.log ("mydate3 " + mydate3);
+  // // sesa_no1 = "48177";
+  // if (!mydate == "undefined") {
+  //   var parts2 = mydate.split("-");
+  //   console.log(parts2[0], parts2[1], parts2[2]);
+  //   mydate3 = parts2[0] + "-" + parts2[1] + "-" + parts2[2];
+  //   console.log("mydate3 " + mydate3);
+  // }
+  // console.log("mydate3: " + mydate3);
 
   if (userId == null) {
     res.redirect("/login");
@@ -165,6 +169,60 @@ exports.new_order = function(req, res, next) {
       console.log("deleted one row");
     });
   } //delete
+
+  if (req.method == "GET") {
+    // Display current orders by date
+    var sql1 =
+      //  "SELECT * FROM `elunch_orders2` WHERE 1" ;
+      //  var sql1 =
+      "SELECT * FROM `elunch_orders2` WHERE `order_date`='" +
+      mydate +
+      "' ORDER BY id DESC";
+    // var sql1 =
+    //  "SELECT * FROM `elunch_orders2` WHERE `order_date`='" + mydate + "'";
+
+    console.log("sql1: " + sql1);
+
+    db.query(sql1, function(err, results) {
+      my_orders = JSON.stringify(results);
+      console.log("my_orders: ", my_orders);
+    });
+
+    // display menu
+    mysupplier_name = "Mucha";
+    // var sql="SELECT * FROM `elunch_menu2` WHERE `id`='"+userId+"'";
+    var sql3 =
+      "SELECT * FROM `elunch_menu2` WHERE `supplier_name`='" +
+      mysupplier_name +
+      // "' ORDER BY id DESC '" +
+      "'";
+
+    db.query(sql3, function(err, results) {
+      menu_json = JSON.stringify(results);
+      // menu_json2 = JSON.stringify(results);
+      console.log("menu_json: ", menu_json);
+      //res.render("new_order.ejs", { fname, menu_json });
+    });
+
+    mysupplier_name = "Opoka";
+    var sql4 =
+      "SELECT * FROM `elunch_menu2` WHERE `supplier_name`='" +
+      mysupplier_name +
+      "'";
+
+    db.query(sql4, function(err, results) {
+      menu_json2 = JSON.stringify(results);
+      console.log("menu_json2: ", menu_json2);
+      res.render("new_order.ejs", {
+        fname,
+        menu_json,
+        menu_json2,
+        sesa_no1,
+        my_orders
+      });
+    });
+    return;
+  }
 
   if (req.method == "POST") {
     var supplier = req.body.supplier;
@@ -192,14 +250,13 @@ exports.new_order = function(req, res, next) {
     }
     if (mydate == "undefined") {
       mydate = req.query.mydate;
-      if (!mydate) {
+      if (!mydate == "undefined") {
         mydate = "2020-01-26";
       }
     }
     console.log("get: ", sesa_no1, " ", supplier, " ", mydate);
   }
 
-  
   if (order_no) {
     //base order_no, get from menu order_name and order_price
     var sql6 =
@@ -248,56 +305,58 @@ exports.new_order = function(req, res, next) {
         console.log("Inerted record to DB");
       });
     });
-  }
-  
-  // Display current orders by date
-  var sql1 =
-    //  "SELECT * FROM `elunch_orders2` WHERE 1" ;
-    //  var sql1 =
-      "SELECT * FROM `elunch_orders2` WHERE `order_date`='" + mydate3 +"' ORDER BY id DESC" ;
+
+    // Display current orders by date
+    var sql1 =
+      //  "SELECT * FROM `elunch_orders2` WHERE 1" ;
+      //  var sql1 =
+      "SELECT * FROM `elunch_orders2` WHERE `order_date`='" +
+      mydate3 +
+      "' ORDER BY id DESC";
     // var sql1 =
     //  "SELECT * FROM `elunch_orders2` WHERE `order_date`='" + mydate + "'";
 
-   console.log(sql1);
+    console.log(sql1);
 
-  db.query(sql1, function(err, results) {
-    my_orders = JSON.stringify(results);
-    console.log("my_orders: ", my_orders);
-  });
-
-  // display menu
-  mysupplier_name = "Mucha";
-  // var sql="SELECT * FROM `elunch_menu2` WHERE `id`='"+userId+"'";
-  var sql3 =
-    "SELECT * FROM `elunch_menu2` WHERE `supplier_name`='" +
-    mysupplier_name +
-    // "' ORDER BY id DESC '" +
-    "'";
-
-  db.query(sql3, function(err, results) {
-    menu_json = JSON.stringify(results);
-    // menu_json2 = JSON.stringify(results);
-    console.log("menu_json: ", menu_json);
-    //res.render("new_order.ejs", { fname, menu_json });
-  });
-
-  mysupplier_name = "Opoka";
-  var sql4 =
-    "SELECT * FROM `elunch_menu2` WHERE `supplier_name`='" +
-    mysupplier_name +
-    "'";
-
-  db.query(sql4, function(err, results) {
-    menu_json2 = JSON.stringify(results);
-    console.log("menu_json2: ", menu_json2);
-    res.render("new_order.ejs", {
-      fname,
-      menu_json,
-      menu_json2,
-      sesa_no1,
-      my_orders
+    db.query(sql1, function(err, results) {
+      my_orders = JSON.stringify(results);
+      console.log("my_orders: ", my_orders);
     });
-  });
+
+    // display menu
+    mysupplier_name = "Mucha";
+    // var sql="SELECT * FROM `elunch_menu2` WHERE `id`='"+userId+"'";
+    var sql3 =
+      "SELECT * FROM `elunch_menu2` WHERE `supplier_name`='" +
+      mysupplier_name +
+      // "' ORDER BY id DESC '" +
+      "'";
+
+    db.query(sql3, function(err, results) {
+      menu_json = JSON.stringify(results);
+      // menu_json2 = JSON.stringify(results);
+      console.log("menu_json: ", menu_json);
+      //res.render("new_order.ejs", { fname, menu_json });
+    });
+
+    mysupplier_name = "Opoka";
+    var sql4 =
+      "SELECT * FROM `elunch_menu2` WHERE `supplier_name`='" +
+      mysupplier_name +
+      "'";
+
+    db.query(sql4, function(err, results) {
+      menu_json2 = JSON.stringify(results);
+      console.log("menu_json2: ", menu_json2);
+      res.render("new_order.ejs", {
+        fname,
+        menu_json,
+        menu_json2,
+        sesa_no1,
+        my_orders
+      });
+    });
+  }
 };
 //--------------------------------render user details after login--------------------------------
 exports.orders = function(req, res) {
