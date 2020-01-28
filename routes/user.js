@@ -1,5 +1,5 @@
 //---------------------------------------------signup page call------------------------------------------------------
-exports.signup = function(req, res) {
+exports.signup = function (req, res) {
   message = "";
   if (req.method == "POST") {
     var post = req.body;
@@ -25,7 +25,7 @@ exports.signup = function(req, res) {
       pass +
       "')";
 
-    var query = db.query(sql, function(err, result) {
+    var query = db.query(sql, function (err, result) {
       message = "Succesfully! Your account has been created.";
       res.render("signup.ejs", { message: message });
     });
@@ -35,7 +35,7 @@ exports.signup = function(req, res) {
 };
 
 //-----------------------------------------------login page call------------------------------------------------------
-exports.login = function(req, res) {
+exports.login = function (req, res) {
   var message = "";
   var sess = req.session;
 
@@ -53,7 +53,7 @@ exports.login = function(req, res) {
       pass +
       "'";
 
-    db.query(sql, function(err, results) {
+    db.query(sql, function (err, results) {
       if (results.length) {
         req.session.userId = results[0].id;
         req.session.first_name = results[0].first_name;
@@ -73,7 +73,7 @@ exports.login = function(req, res) {
 };
 //-----------------------------------------------dashboard page functionality----------------------------------------------
 
-exports.dashboard = function(req, res, next) {
+exports.dashboard = function (req, res, next) {
   var user = req.session.user,
     userId = req.session.userId,
     fname = req.session.first_name;
@@ -88,26 +88,26 @@ exports.dashboard = function(req, res, next) {
 
   var sql = "SELECT * FROM `elunch_users2` WHERE `id`='" + userId + "'";
 
-  db.query(sql, function(err, results) {
+  db.query(sql, function (err, results) {
     res.render("dashboard.ejs", { fname });
     // console.log("user= " + fname);
   });
 };
 //------------------------------------logout functionality----------------------------------------------
-exports.logout = function(req, res) {
-  req.session.destroy(function(err) {
+exports.logout = function (req, res) {
+  req.session.destroy(function (err) {
     res.redirect("/login");
   });
 };
 //--------------------------------render user details after login--------------------------------
-exports.profile = function(req, res) {
+exports.profile = function (req, res) {
   var userId = req.session.userId;
   if (userId == null) {
     res.redirect("/login");
     return;
   }
   var sql = "SELECT * FROM `elunch_users2` WHERE `id`='" + userId + "'";
-  db.query(sql, function(err, result) {
+  db.query(sql, function (err, result) {
     res.render("profile.ejs", { result });
   });
 };
@@ -126,7 +126,7 @@ exports.profile = function(req, res) {
 // };
 //-----------------------------------------------new_user page functionality----------------------------------------------
 
-exports.new_order = function(req, res, next) {
+exports.new_order = function (req, res, next) {
   var user = req.session.user,
     userId = req.session.userId,
     fname = req.session.first_name,
@@ -165,12 +165,21 @@ exports.new_order = function(req, res, next) {
     var delete_id = req.body.delete_id;
     console.log("delete: ", delete_id);
     var sql7 = "DELETE FROM `elunch_orders2` WHERE `id` ='" + delete_id + "'";
-    db.query(sql7, function(err, results) {
+    db.query(sql7, function (err, results) {
       console.log("deleted one row");
     });
   } //delete
 
   if (req.method == "GET") {
+    if (mydate = "undefined") {
+      now = new Date();
+      day = ("0" + now.getDate()).slice(-2);
+      month = ("0" + (now.getMonth() + 1)).slice(-2);
+      today = now.getFullYear() + "-" + month + "-" + day;
+      console.log("Date form GET if mydate = undefined so, mydate = today: " + today);
+      mydate = today;
+    }
+    console.log ("mydate: " + mydate);
     // Display current orders by date
     var sql1 =
       //  "SELECT * FROM `elunch_orders2` WHERE 1" ;
@@ -183,7 +192,7 @@ exports.new_order = function(req, res, next) {
 
     console.log("sql1: " + sql1);
 
-    db.query(sql1, function(err, results) {
+    db.query(sql1, function (err, results) {
       my_orders = JSON.stringify(results);
       console.log("my_orders: ", my_orders);
     });
@@ -197,7 +206,7 @@ exports.new_order = function(req, res, next) {
       // "' ORDER BY id DESC '" +
       "'";
 
-    db.query(sql3, function(err, results) {
+    db.query(sql3, function (err, results) {
       menu_json = JSON.stringify(results);
       // menu_json2 = JSON.stringify(results);
       console.log("menu_json: ", menu_json);
@@ -210,7 +219,7 @@ exports.new_order = function(req, res, next) {
       mysupplier_name +
       "'";
 
-    db.query(sql4, function(err, results) {
+    db.query(sql4, function (err, results) {
       menu_json2 = JSON.stringify(results);
       console.log("menu_json2: ", menu_json2);
       res.render("new_order.ejs", {
@@ -221,7 +230,7 @@ exports.new_order = function(req, res, next) {
         my_orders
       });
     });
-    return;
+    
   }
 
   if (req.method == "POST") {
@@ -266,7 +275,7 @@ exports.new_order = function(req, res, next) {
       order_no +
       "'";
 
-    db.query(sql6, function(err, results) {
+    db.query(sql6, function (err, results) {
       if (results.length) {
         menu_desctription = results[0].menu_desctription;
         console.log("menu_desctription: ", menu_desctription);
@@ -299,7 +308,7 @@ exports.new_order = function(req, res, next) {
         menu_price +
         "')";
 
-      db.query(sql5, function(err, results) {
+      db.query(sql5, function (err, results) {
         console.log("menu_price po insert ", menu_price);
         console.log("menu_desctription po insert  ", menu_desctription);
         console.log("Inerted record to DB");
@@ -318,7 +327,7 @@ exports.new_order = function(req, res, next) {
 
     console.log(sql1);
 
-    db.query(sql1, function(err, results) {
+    db.query(sql1, function (err, results) {
       my_orders = JSON.stringify(results);
       console.log("my_orders: ", my_orders);
     });
@@ -332,7 +341,7 @@ exports.new_order = function(req, res, next) {
       // "' ORDER BY id DESC '" +
       "'";
 
-    db.query(sql3, function(err, results) {
+    db.query(sql3, function (err, results) {
       menu_json = JSON.stringify(results);
       // menu_json2 = JSON.stringify(results);
       console.log("menu_json: ", menu_json);
@@ -345,7 +354,7 @@ exports.new_order = function(req, res, next) {
       mysupplier_name +
       "'";
 
-    db.query(sql4, function(err, results) {
+    db.query(sql4, function (err, results) {
       menu_json2 = JSON.stringify(results);
       console.log("menu_json2: ", menu_json2);
       res.render("new_order.ejs", {
@@ -359,7 +368,7 @@ exports.new_order = function(req, res, next) {
   }
 };
 //--------------------------------render user details after login--------------------------------
-exports.orders = function(req, res) {
+exports.orders = function (req, res) {
   var userId = req.session.userId,
     fname = req.session.first_name,
     sesa_no1 = req.session.sesa_no1,
