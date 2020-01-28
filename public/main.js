@@ -184,7 +184,7 @@ setInterval(() => {
   hours  > 0 ? spanH.textContent = hours : spanH.textContent = 0;
   minutes > 0 ? spanM.textContent = minutes : spanM.textContent = 0;
   secs >0 ? spanS.textContent = secs : spanS.textContent = 0;
-  }, 100000);
+  }, 1000);
 
 // Funkcje
 function sendSupplier(supplier,mydate1){
@@ -192,7 +192,7 @@ function sendSupplier(supplier,mydate1){
   axios.get('/home/new_order?supplier='+supplier+'&mydate='+mydate1)
     .then(function (response) {
     // handle success
-    console.log(response.data);
+    // console.log(response.data);
     // location.reload();
     })
     .catch(function (error) {
@@ -208,8 +208,8 @@ function sendDate(mydate){
   axios.get('/home/new_order?mydate='+mydate)
     .then(function (response) {
     // handle success
-    console.log(response.data);
-    // location.reload();
+    // console.log(response.data);
+    location.reload();
     })
     .catch(function (error) {
       // handle error
@@ -229,8 +229,8 @@ function myFunction_order (value){
       })
       .then(function (response) {
         // handle success
-        //  location.reload();
-        console.log(response.data);
+        location.reload();
+        //console.log(response.data);
         })
         .catch(function (error) {
           // handle error
@@ -303,7 +303,6 @@ function setCookie(name, val, days, path, domain, secure) {
           data.setTime(data.getTime() + (days * 24*60*60*1000));
           cookieText += "; expires=" + data.toGMTString();
       }
-
       if (path) {
           cookieText += "; path=" + path;
       }
