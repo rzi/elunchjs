@@ -15,9 +15,9 @@ const axios = require('axios').default;
 
 // var connection = mysql.createConnection({
 //               host     : 'mysql.ct8.pl',
-//               user     : 'm12289_login',
-//               password : 'm12289_login_RZI',
-//               database : 'm12289_rzi'
+//               user     : 'm12289_elunchjs',
+//               password : 'Elunchjs2020!1',
+//               database : 'm12289_elunchjs'
 //             });
 var connection = mysql.createConnection({
               host     : 'pi.cba.pl',

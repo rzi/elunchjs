@@ -308,7 +308,7 @@ exports.orders = function(req, res, next) {
  
     if (req.method == "POST") {
       // var sql = "SELECT * FROM `elunch_orders2` WHERE `order_date`='" + data_from + "'";
-      var sql = "SELECT * FROM `elunch_orders2` WHERE `order_date` BEETWEN '" + 
+      var sql = "SELECT * FROM `elunch_orders2` WHERE `order_date` BETWEEN '" + 
       data_from +
       "' AND '" +
       data_to +
@@ -317,10 +317,12 @@ exports.orders = function(req, res, next) {
       db.query(sql, function(err, result) {
         ordersList = JSON.stringify(result);
         console.log("ordersList: ", ordersList);
-         res.render("orders.ejs", {ordersList});
+         //res.render("orders.ejs", {ordersList});
+         res.json({ message: result });
       });
     }else if (req.method == "GET"){
       res.render("orders.ejs");
+      //res.json({ message: "result" });
 
     }
 
