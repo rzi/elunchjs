@@ -52,12 +52,15 @@ exports.login = function(req, res) {
       "' and password = '" +
       pass +
       "'";
-
+      var myDateCookies, mySupplierCookies;
     db.query(sql, function(err, results) {
       if (results.length) {
         req.session.userId = results[0].id;
         req.session.first_name = results[0].first_name;
         req.session.sesa_no1 = sesa_no1;
+        req.session.myDateCookies = new Date();
+        req.session.mySupplierCookies = "Mucha";
+        
         // console.log(results[0].id);
         // console.log(results[0].first_name);
         // console.log("sesa: ", sesa_no1);
@@ -300,7 +303,7 @@ exports.orders = function(req, res, next) {
   data_to = req.body.data_to;
   console.log("data_from: ", data_from);
   console.log("data_from: ", data_to);
-
+  console.log("cookies "+ req.session.mySupplierCookies);
   // if (userId == null) {
   //   res.redirect("/login");
   //   return;

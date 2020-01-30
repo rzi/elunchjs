@@ -18,6 +18,8 @@ var my_supplier = document.getElementById("activeSupplier").innerText;
 if ( my_supplier == ""){
   my_supplier="Mucha";  
   document.getElementById("activeSupplier").innerText=my_supplier;
+  setCookie("Supplier", "Mucha","2");
+  setCookie("Date", now,"2");
 }
 
 var my_date=document.getElementById("lunch_order").value
@@ -27,9 +29,13 @@ $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
   document.getElementById("activeSupplier").innerText=e.target.innerHTML;
   var my_date1= document.getElementById("lunch_order").value
   my_supplier=e.target.innerHTML;
-  setCookie("my_supplier", my_supplier);
-  setCookie("my_date1", my_date1); 
-  sendSupplier(e.target.innerHTML,my_date1);
+  // setCookie("my_supplier", my_supplier);
+  // setCookie("my_date1", my_date1); 
+  // sendSupplier(e.target.innerHTML,my_date1);
+ 
+  checkCookie();
+  //getCookie(cookieName);
+
 });
 
 document.getElementById("lunch_order").addEventListener("change", function(){
@@ -292,45 +298,76 @@ function myFunction_calendar(today) {
   };
 
 };
-function setCookie(name, val, days, path, domain, secure) {
-  if (navigator.cookiesEnabled) {
-      const cookieName = encodeURIComponent(name);
-      const cookieVal = encodeURIComponent(val);
-      let cookieText = cookieName + "=" + cookieVal;
+// function setCookie(name, val, days, path, domain, secure) {
+//   if (navigator.cookiesEnabled) {
+//       const cookieName = encodeURIComponent(name);
+//       const cookieVal = encodeURIComponent(val);
+//       let cookieText = cookieName + "=" + cookieVal;
 
-      if (typeof days === "number") {
-          const data = new Date();
-          data.setTime(data.getTime() + (days * 24*60*60*1000));
-          cookieText += "; expires=" + data.toGMTString();
-      }
-      if (path) {
-          cookieText += "; path=" + path;
-      }
-      if (domain) {
-          cookieText += "; domain=" + domain;
-      }
-      if (secure) {
-          cookieText += "; secure";
-      }
+//       if (typeof days === "number") {
+//           const data = new Date();
+//           data.setTime(data.getTime() + (days * 24*60*60*1000));
+//           cookieText += "; expires=" + data.toGMTString();
+//       }
+//       if (path) {
+//           cookieText += "; path=" + path;
+//       }
+//       if (domain) {
+//           cookieText += "; domain=" + domain;
+//       }
+//       if (secure) {
+//           cookieText += "; secure";
+//       }
 
-      document.cookie = cookieText;
+//       document.cookie = cookieText;
+//   }
+// };
+// function deleteCookie(name) {
+//     const cookieName = encodeURIComponent(name);
+//     document.cookie = cookieName + "=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+// };
+// function showCookie(name) {
+//     if (document.cookie != "") {
+//         const cookies = document.cookie.split(/; */);
+
+//         for (let i=0; i<cookies.length; i++) {
+//             const cookieName = cookies[i].split("=")[0];
+//             const cookieVal = cookies[i].split("=")[1];
+//             if (cookieName === decodeURIComponent(name)) {
+//                 return decodeURIComponent(cookieVal);
+//             }
+//         }
+//     }
+// };
+
+function setCookie(cname, cvalue, exdays) {
+  //declares the value of dt as current date
+    var dt = new Date();
+    dt.setTime(dt.getTime() + (exdays*24*60*60*1000));
+    var expires = "expires="+dt.toUTCString();
+    document.cookie = cname + "=" + cvalue + "; " + expires;
+}
+
+function getCookie(cname) {
+  var name = cname + "=";
+  var ca = document.cookie.split(';');
+  for(var i=0; i<ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0)==' ') c = c.substring(1);
+      if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
   }
-};
-function deleteCookie(name) {
-    const cookieName = encodeURIComponent(name);
-    document.cookie = cookieName + "=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
-};
-function showCookie(name) {
-    if (document.cookie != "") {
-        const cookies = document.cookie.split(/; */);
+  return "";
+}
 
-        for (let i=0; i<cookies.length; i++) {
-            const cookieName = cookies[i].split("=")[0];
-            const cookieVal = cookies[i].split("=")[1];
-            if (cookieName === decodeURIComponent(name)) {
-                return decodeURIComponent(cookieVal);
-            }
-        }
-    }
-};
+function checkCookie() {
+  var username=getCookie("username");
+  if (username!="") {
+      alert("Welcome again " + username);
+  }else{
+      username = prompt("Please enter your name:", "");
+      if (username != "" && username != null) {
+          setCookie("username", username, 365);
+      }
+  }
+}
 // Koniec funkcji
