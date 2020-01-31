@@ -217,11 +217,9 @@ exports.new_order = function(req, res, next) {
             "problem z pobraniem danych z bazy menu przed zapisem do bazy order2";
           res.render("index.ejs", { message: message });
         }
-        //console.log("rezultat", rezultat);
-        // console.log("\n po if order_price2 z sesji: ", req.session.menu_price2 ," \n order_name2 z sesji : ",req.session.order_name2);
         console.log("po if menu_price: ", menu_price);
         console.log("po if menu_desctription", menu_desctription);
-        console.log("supplier: ", supplier);
+
         // put order to DB
         var sql5 =
           "INSERT INTO `elunch_orders2`(`Id_sesa_no`,`order_date`,`order_supplier_name`,`order_no`,`order_name`, `order_price`) VALUES ('" +
@@ -237,10 +235,8 @@ exports.new_order = function(req, res, next) {
           "','" +
           menu_price +
           "')";
-
+          console.log("SQL: ", sql5);
         db.query(sql5, function(err, results) {
-          console.log("menu_price po insert ", menu_price);
-          console.log("menu_desctription po insert  ", menu_desctription);
           console.log("Inerted record to DB");
         });
       });
@@ -251,7 +247,7 @@ exports.new_order = function(req, res, next) {
       mydate = today;
     }
   }
-
+    console.log("mydate: " + mydate);
   // display current orders
   var sql1 =
     "SELECT * FROM `elunch_orders2` WHERE `order_date`='" +

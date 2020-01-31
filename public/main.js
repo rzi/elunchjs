@@ -11,77 +11,62 @@ now = new Date();
 day = ("0" + now.getDate()).slice(-2);
 month = ("0" + (now.getMonth() + 1)).slice(-2);
 today = now.getFullYear() + "-" + month + "-" + day;
-console.log("today" + today);
-document.getElementById("lunch_order").value=today;
+console.log("today: " + today);
+var mydatePicker =document.getElementById("lunch_order");
+
+if (!mydatePicker.value) {
+  mydatePicker.value = today;
+} else {
+  mydatePicker.value = getCookie("date");
+}
+console.log("datePicker: " + mydatePicker.value);
 
 var my_supplier = document.getElementById("activeSupplier").innerText;
-if ( my_supplier == ""){
-  my_supplier="Mucha";  
-  document.getElementById("activeSupplier").innerText=my_supplier;
-  setCookie("Supplier", "Mucha","2");
-  setCookie("Date", now,"2");
+
+if (my_supplier == ""){
+  my_supplier = getCookie("supplier");
+  document.getElementById("activeSupplier").innerText = my_supplier;
+  setCookie("supplier", my_supplier, 1);
+}
+
+console.log("supplier: " + my_supplier);
+if (my_supplier == "Mucha"){
+  activaTab('mucha');
+}else{
+  activaTab('opoka');
 }
 
 var my_date=document.getElementById("lunch_order").value
 
 $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-  //console.log(e.target.innerHTML); // newly activated tab
   document.getElementById("activeSupplier").innerText=e.target.innerHTML;
   var my_date1= document.getElementById("lunch_order").value
   my_supplier=e.target.innerHTML;
-  // setCookie("my_supplier", my_supplier);
-  // setCookie("my_date1", my_date1); 
-  // sendSupplier(e.target.innerHTML,my_date1);
- 
-  checkCookie();
-  //getCookie(cookieName);
-
+  setCookie("supplier", my_supplier, 1);
+  console.log ("supplier: "+ getCookie("supplier"));
 });
 
 document.getElementById("lunch_order").addEventListener("change", function(){
-  // var justNow = new Date();
-  // var justNowTimestamp = Math.floor(justNow/1000);
-  // console.log( "just now " + justNowTimestamp); 
-  //alert(justNow.toLocaleString()); 
-  
-  // var todayAt10 = Date.parse(today + "T10:00:00")/1000;
-  // console.log("todayAt10: " + todayAt10);
-  // var todayAt00 = Date.parse(today + "T00:00:01")/1000;
-  // console.log("todayAt00: " + todayAt00);
+  var my_date1 = document.getElementById("lunch_order").value
+  var my_datePicker = new Date(my_date1).getTime();
+  var my_dateCurrent = new Date(today).getTime();
 
-  // var t_currentDate = new Date(new Date().getTime() + 24 * 60 * 60 * 1000); //tommorow
-  // var t_day = t_currentDate.getDate();
-  // var t_month = ("0"+ (t_currentDate.getMonth() + 1)).slice(-2);
-  // var t_year = t_currentDate.getFullYear();
-  // tommorow = t_year+"-" + t_month+"-" + t_day + "T00:00:00";
-  // var tommorow_timestamp = Date.parse(tommorow)/1000;
-  // console.log("tommorowAt00: " + tommorow_timestamp);
-       
-  // var datePickerValue=document.getElementById("lunch_order").value;
-  // var mydatePicker = datePickerValue + "T"+justNow.toLocaleTimeString();
-  // alert(mydatePicker);
-  // var mydatePickerTimeStamp =Date.parse(mydatePicker)/1000;
-  // console.log("datapicker: " + mydatePicker);
-      
-  // if (mydatePickerTimeStamp >todayAt00 && mydatePickerTimeStamp < todayAt10 || mydatePickerTimeStamp > tommorow_timestamp){
-  //   alert( " mozna zamawiać bo nie ma jeszcze 10:00 lub zamówieine jest na następne dni");
-  //   document.getElementById("f").innerText="1";
-  //   sendDate(document.getElementById("lunch_order").value);
-  // } else{
-  //   document.getElementById("f").innerText="0";
-  // };
-  sendDate(document.getElementById("lunch_order").value);
+  if (my_datePicker >= my_dateCurrent ){
+    // alert ("OK");
+
+  } else{
+    alert ("Nie możesz zamowić obiadu wstecz!");
+    document.getElementById("lunch_order").value = today;
+  }
+  console.log("mydatrPicker: " + my_datePicker);
+  console.log("mydatrCurrent: " + my_dateCurrent);
+
+  setCookie("date", my_date1, 1);
+  console.log ("date: " + getCookie("date"));
+  sendDate(my_date1);
 });
 
 var myhour = now.getHours();
-
-// var t_currentDate = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
-// var t_day = t_currentDate.getDate();
-// var t_month = ("0" + (t_currentDate.getMonth() + 1)).slice(-2);
-// var t_year = t_currentDate.getFullYear();
-// var tommorow = t_year + "-" + t_month + "-" + t_day + "T10:00:00";
-// var tommorowTimeStampe = Date.parse(tommorow) / 1000;
-// console.log("tommorow at 10am: " + tommorow);
 
 var y_currentDate = new Date(new Date().getTime() - 24 * 60 * 60 * 1000);
 var y_day = y_currentDate.getDate();
@@ -89,10 +74,10 @@ var y_month = ("0" + (y_currentDate.getMonth() + 1)).slice(-2);
 var y_year = y_currentDate.getFullYear();
 yesterday = y_year + "-" + y_month + "-" + y_day + "T00:00:01";
 var yesterdayTimeStampe = Date.parse(yesterday) / 1000;
-console.log("yesterdayTimeStampe: " + yesterdayTimeStampe);
+// console.log("yesterdayTimeStampe: " + yesterdayTimeStampe);
 
 setInterval(() => {
-  console.log("Start");
+  // console.log("Start");
   // take current value of datapicker  YYYY-MM-DD, 00:00:00
   var datePickerValue=document.getElementById("lunch_order").value;
   var parts = datePickerValue.split('-');
@@ -123,11 +108,6 @@ setInterval(() => {
   tommorow = t_year+"-" + t_month+"-" + t_day + "T00:00:00";
   var tommorowAt00TimeStamp = Date.parse(tommorow)/1000;
   console.log("tommorowAt00TimeStamp: " + tommorowAt00TimeStamp);
-
-  // var mydatePicker = datePickerValue + "T"+justNow.toLocaleTimeString();
-  // alert(mydatePicker);
-  // var mydatePickerTimeStamp =Date.parse(mydatePicker)/1000;
-  // console.log("datapicker: " + mydatePicker);
   console.log(" warunek:");
   console.log("nowTime "+ nowTime1.toLocaleString());
   console.log("pickerAt00TimeStamp "+ mydate1.toDateString());
@@ -153,7 +133,6 @@ setInterval(() => {
     document.getElementById("myClock").innerText="";
   }
 
-
   if (myhour < 10) {
     // console.log("today: " + today);
     var todayAt10 = today + "T10:00:00";
@@ -163,8 +142,6 @@ setInterval(() => {
     endTime = tommorowAt00TimeStamp;
     // console.log("tommorow (endtime  >10): " + endTime + " " + tommorow);
   }
-
-
   
   var mytime = endTime - nowTime;
   // console.log("endTime: " + endTime + " " + Date(endTime).toString());
@@ -195,7 +172,7 @@ setInterval(() => {
 // Funkcje
 function sendSupplier(supplier,mydate1){
   // Make a request for a user with a given ID
-  axios.get('/home/new_order?supplier='+supplier+'&mydate='+mydate1)
+  axios.get('/home/new_order?supplier=' + supplier + '&mydate='+ mydate1)
     .then(function (response) {
     // handle success
     // console.log(response.data);
@@ -209,13 +186,14 @@ function sendSupplier(supplier,mydate1){
       // always executed
     });
 };
+
 function sendDate(mydate){
   // Make a request for a user with a given ID
-  axios.get('/home/new_order?mydate='+mydate)
+  axios.get('/home/new_order?mydate=' + mydate)
     .then(function (response) {
     // handle success
     // console.log(response.data);
-    location.reload();
+    //location.reload();
     })
     .catch(function (error) {
       // handle error
@@ -225,6 +203,7 @@ function sendDate(mydate){
       // always executed
     });
 };
+
 function myFunction_order (value){
   // Make a request for a user with a given ID
       axios.post('/home/new_order', {     
@@ -235,7 +214,7 @@ function myFunction_order (value){
       })
       .then(function (response) {
         // handle success
-        //location.reload();
+        // location.reload();
         console.log(response);
         })
         .catch(function (error) {
@@ -265,9 +244,7 @@ function myFunction_delete (value){
         // always executed
       });
 };
-function myFunction_calendar2(){
-  alert("AAAAAAAAA");
-};
+
 function myFunction_calendar(today) {
   alert ("calendar change: "+ document.getElementById("lunch_order").value);
   var todayAt10 = Date.parse(today + "T10:00:00")/1000;
@@ -298,47 +275,6 @@ function myFunction_calendar(today) {
   };
 
 };
-// function setCookie(name, val, days, path, domain, secure) {
-//   if (navigator.cookiesEnabled) {
-//       const cookieName = encodeURIComponent(name);
-//       const cookieVal = encodeURIComponent(val);
-//       let cookieText = cookieName + "=" + cookieVal;
-
-//       if (typeof days === "number") {
-//           const data = new Date();
-//           data.setTime(data.getTime() + (days * 24*60*60*1000));
-//           cookieText += "; expires=" + data.toGMTString();
-//       }
-//       if (path) {
-//           cookieText += "; path=" + path;
-//       }
-//       if (domain) {
-//           cookieText += "; domain=" + domain;
-//       }
-//       if (secure) {
-//           cookieText += "; secure";
-//       }
-
-//       document.cookie = cookieText;
-//   }
-// };
-// function deleteCookie(name) {
-//     const cookieName = encodeURIComponent(name);
-//     document.cookie = cookieName + "=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
-// };
-// function showCookie(name) {
-//     if (document.cookie != "") {
-//         const cookies = document.cookie.split(/; */);
-
-//         for (let i=0; i<cookies.length; i++) {
-//             const cookieName = cookies[i].split("=")[0];
-//             const cookieVal = cookies[i].split("=")[1];
-//             if (cookieName === decodeURIComponent(name)) {
-//                 return decodeURIComponent(cookieVal);
-//             }
-//         }
-//     }
-// };
 
 function setCookie(cname, cvalue, exdays) {
   //declares the value of dt as current date
@@ -370,4 +306,9 @@ function checkCookie() {
       }
   }
 }
+
+function activaTab(tab){
+  $('.nav-tabs a[href="#' + tab + '"]').tab('show');
+};
+
 // Koniec funkcji
