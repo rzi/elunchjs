@@ -28,7 +28,6 @@ if (my_supplier == ""){
   document.getElementById("activeSupplier").innerText = my_supplier;
   setCookie("supplier", my_supplier, 1);
 }
-
 console.log("supplier: " + my_supplier);
 if (my_supplier == "Mucha"){
   activaTab('mucha');
@@ -40,7 +39,7 @@ var my_date=document.getElementById("lunch_order").value
 
 $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
   document.getElementById("activeSupplier").innerText=e.target.innerHTML;
-  var my_date1= document.getElementById("lunch_order").value
+  // var my_date1= document.getElementById("lunch_order").value
   my_supplier=e.target.innerHTML;
   setCookie("supplier", my_supplier, 1);
   console.log ("supplier: "+ getCookie("supplier"));
