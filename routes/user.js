@@ -242,8 +242,7 @@ exports.new_order = function(req, res, next) {
   mysupplier_name = "Mucha";
   var sql3 =
     "SELECT * FROM `elunch_menu2` WHERE `supplier_name`='" +
-    mysupplier_name +
-    "'";
+    mysupplier_name +"'";
   db.query(sql3, function(err, results) {
     menu_json = JSON.stringify(results);
     console.log("menu_json: ", menu_json);
@@ -251,8 +250,7 @@ exports.new_order = function(req, res, next) {
   mysupplier_name = "Opoka";
   var sql4 =
     "SELECT * FROM `elunch_menu2` WHERE `supplier_name`='" +
-    mysupplier_name +
-    "'";
+    mysupplier_name +"'";
   db.query(sql4, function(err, results) {
     menu_json2 = JSON.stringify(results);
     console.log("menu_json2: ", menu_json2);

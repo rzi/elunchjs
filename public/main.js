@@ -13,7 +13,7 @@ month = ("0" + (now.getMonth() + 1)).slice(-2);
 today = now.getFullYear() + "-" + month + "-" + day;
 console.log("today: " + today);
 var mydatePicker =document.getElementById("lunch_order");
-
+console.log ("picker: "+ mydatePicker.value);
 if (!mydatePicker.value) {
   mydatePicker.value = today;
 } else {
