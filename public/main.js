@@ -193,7 +193,7 @@ function sendDate(mydate){
     .then(function (response) {
     // handle success
     // console.log(response.data);
-    //location.reload();
+    location.reload();
     })
     .catch(function (error) {
       // handle error
@@ -214,7 +214,7 @@ function myFunction_order (value){
       })
       .then(function (response) {
         // handle success
-        // location.reload();
+        location.reload();
         console.log(response);
         })
         .catch(function (error) {
