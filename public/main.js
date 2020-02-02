@@ -96,6 +96,7 @@ setInterval(() => {
 
   var t_currentDate = new Date(new Date().getTime() + 24 * 60 * 60 * 1000); //tommorow
   var t_day = t_currentDate.getDate();
+  t_day = t_day < 10 ? "0" + t_day: t_day;
   var t_month = ("0"+ (t_currentDate.getMonth() + 1)).slice(-2);
   var t_year = t_currentDate.getFullYear();
   tommorow = t_year+"-" + t_month+"-" + t_day + "T00:00:00";
