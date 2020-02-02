@@ -1,17 +1,16 @@
 // Client side js
-
 const spanH = document.querySelector("span.h");
 const spanM = document.querySelector("span.m");
 const spanS = document.querySelector("span.s");
 const spanF = document.querySelector("span.f");
-
 var endTime, endTime, now, today, tommorow, day, month ;
-
+// Get today date in the format YYYY-MM-DD
 now = new Date();
 day = ("0" + now.getDate()).slice(-2);
 month = ("0" + (now.getMonth() + 1)).slice(-2);
 today = now.getFullYear() + "-" + month + "-" + day;
 console.log("today: " + today);
+// Take date from datepicker, if empty take from cookies
 var mydatePicker =document.getElementById("lunch_order");
 console.log ("picker: "+ mydatePicker.value);
 if (!mydatePicker.value) {
@@ -20,11 +19,13 @@ if (!mydatePicker.value) {
   mydatePicker.value = getCookie("date");
 }
 console.log("datePicker: " + mydatePicker.value);
-
+// Get supplier, if empty initlal is Mucha, set active supplier
 var my_supplier = document.getElementById("activeSupplier").innerText;
-
-if (my_supplier == ""){
+if (my_supplier == "" || my_supplier == undefined){
   my_supplier = getCookie("supplier");
+  if (!my_supplier || my_supplier ==""){
+    my_supplier ="Mucha"; 
+  }
   document.getElementById("activeSupplier").innerText = my_supplier;
   setCookie("supplier", my_supplier, 1);
 }
@@ -34,9 +35,8 @@ if (my_supplier == "Mucha"){
 }else{
   activaTab('opoka');
 }
-
 var my_date=document.getElementById("lunch_order").value
-
+// Swetch between suppliers, using cookies to not forget
 $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
   document.getElementById("activeSupplier").innerText=e.target.innerHTML;
   // var my_date1= document.getElementById("lunch_order").value
@@ -44,29 +44,23 @@ $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
   setCookie("supplier", my_supplier, 1);
   console.log ("supplier: "+ getCookie("supplier"));
 });
-
+// change order date and dont allowed to chose date from past
 document.getElementById("lunch_order").addEventListener("change", function(){
   var my_date1 = document.getElementById("lunch_order").value
   var my_datePicker = new Date(my_date1).getTime();
   var my_dateCurrent = new Date(today).getTime();
-
-  if (my_datePicker >= my_dateCurrent ){
+  if (my_datePicker >= my_dateCurrent){
     // alert ("OK");
-
-  } else{
+  } else {
     alert ("Nie możesz zamowić obiadu wstecz!");
     document.getElementById("lunch_order").value = today;
   }
-  console.log("mydatrPicker: " + my_datePicker);
-  console.log("mydatrCurrent: " + my_dateCurrent);
-
   setCookie("date", my_date1, 1);
-  console.log ("date: " + getCookie("date"));
   sendDate(my_date1);
 });
 
+// to define yesterday date in timestamp format
 var myhour = now.getHours();
-
 var y_currentDate = new Date(new Date().getTime() - 24 * 60 * 60 * 1000);
 var y_day = y_currentDate.getDate();
 var y_month = ("0" + (y_currentDate.getMonth() + 1)).slice(-2);
@@ -166,8 +160,7 @@ setInterval(() => {
   hours  > 0 ? spanH.textContent = hours : spanH.textContent = 0;
   minutes > 0 ? spanM.textContent = minutes : spanM.textContent = 0;
   secs >0 ? spanS.textContent = secs : spanS.textContent = 0;
-  }, 100000);
-
+  }, 1000000);
 // Funkcje
 function sendSupplier(supplier,mydate1){
   // Make a request for a user with a given ID
@@ -185,14 +178,13 @@ function sendSupplier(supplier,mydate1){
       // always executed
     });
 };
-
 function sendDate(mydate){
   // Make a request for a user with a given ID
   axios.get('/home/new_order?mydate=' + mydate)
     .then(function (response) {
     // handle success
     // console.log(response.data);
-    location.reload();
+    // location.reload();
     })
     .catch(function (error) {
       // handle error
@@ -202,7 +194,6 @@ function sendDate(mydate){
       // always executed
     });
 };
-
 function myFunction_order (value){
   // Make a request for a user with a given ID
       axios.post('/home/new_order', {     
@@ -214,7 +205,7 @@ function myFunction_order (value){
       .then(function (response) {
         // handle success
         location.reload();
-        console.log(response);
+        // console.log(response);
         })
         .catch(function (error) {
           // handle error
@@ -243,7 +234,6 @@ function myFunction_delete (value){
         // always executed
       });
 };
-
 function myFunction_calendar(today) {
   alert ("calendar change: "+ document.getElementById("lunch_order").value);
   var todayAt10 = Date.parse(today + "T10:00:00")/1000;
@@ -274,7 +264,6 @@ function myFunction_calendar(today) {
   };
 
 };
-
 function setCookie(cname, cvalue, exdays) {
   //declares the value of dt as current date
     var dt = new Date();
@@ -282,7 +271,6 @@ function setCookie(cname, cvalue, exdays) {
     var expires = "expires="+dt.toUTCString();
     document.cookie = cname + "=" + cvalue + "; " + expires;
 }
-
 function getCookie(cname) {
   var name = cname + "=";
   var ca = document.cookie.split(';');
@@ -293,19 +281,6 @@ function getCookie(cname) {
   }
   return "";
 }
-
-function checkCookie() {
-  var username=getCookie("username");
-  if (username!="") {
-      alert("Welcome again " + username);
-  }else{
-      username = prompt("Please enter your name:", "");
-      if (username != "" && username != null) {
-          setCookie("username", username, 365);
-      }
-  }
-}
-
 function activaTab(tab){
   $('.nav-tabs a[href="#' + tab + '"]').tab('show');
 };

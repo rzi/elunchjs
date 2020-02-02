@@ -202,7 +202,6 @@ exports.new_order = function(req, res, next) {
     var mydate = req.query.mydate; //tylko z GET
     console.log("Method: " + req.method);
     console.log("mydate from GET req query: " + mydate);
-
     if (mydate == undefined) {
       now = new Date();
       day = ("0" + now.getDate()).slice(-2);
@@ -220,7 +219,6 @@ exports.new_order = function(req, res, next) {
       console.log("w if ");
     }
     console.log("w if mydate: " + mydate);
-
   } else if(req.method == "POST") {
     mydate=order_date;
   } else if (req.method == "DELETE"){
@@ -230,8 +228,7 @@ exports.new_order = function(req, res, next) {
   // display current orders
   var sql1 =
     "SELECT * FROM `elunch_orders2` WHERE `order_date`='" +
-    mydate +
-    "' ORDER BY id DESC";
+    mydate + "' ORDER BY id DESC";
   console.log("sql1: " + sql1);
   db.query(sql1, function(err, results) {
     my_orders = JSON.stringify(results);
@@ -241,16 +238,14 @@ exports.new_order = function(req, res, next) {
   // display menu
   mysupplier_name = "Mucha";
   var sql3 =
-    "SELECT * FROM `elunch_menu2` WHERE `supplier_name`='" +
-    mysupplier_name +"'";
+    "SELECT * FROM `elunch_menu2` WHERE `supplier_name`='" + mysupplier_name +"'";
   db.query(sql3, function(err, results) {
     menu_json = JSON.stringify(results);
     console.log("menu_json: ", menu_json);
   });
   mysupplier_name = "Opoka";
   var sql4 =
-    "SELECT * FROM `elunch_menu2` WHERE `supplier_name`='" +
-    mysupplier_name +"'";
+    "SELECT * FROM `elunch_menu2` WHERE `supplier_name`='" + mysupplier_name +"'";
   db.query(sql4, function(err, results) {
     menu_json2 = JSON.stringify(results);
     console.log("menu_json2: ", menu_json2);
@@ -288,7 +283,7 @@ exports.orders = function(req, res, next) {
       data_from +
       "' AND '" +
       data_to +
-      "'";
+      "' ORDER BY ID DESC";
     console.log("sql: " + sql);
     db.query(sql, function(err, result) {
       ordersList = JSON.stringify(result);
