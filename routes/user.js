@@ -237,6 +237,35 @@ exports.new_order = function(req, res, next) {
     });
   });
 };
+
+//2
+exports.new_order2 = function(req, res, next) {
+  var user = req.session.user,
+    userId = req.session.userId,
+    fname = req.session.first_name,
+    sesa_no1 = req.session.sesa_no1,
+    mydate,
+    my_orders
+  var order_date = req.body.order_date;
+
+    mydate="2020-02-02";
+     // display current orders
+  var sql1 =
+  "SELECT * FROM `elunch_orders2` WHERE `order_date`='" + mydate + "' ORDER BY id DESC";
+  console.log("sql1: " + sql1);
+ 
+  db.query(sql1, function(err, results) {
+    my_orders = JSON.stringify(results);
+    my_orders2=results.data
+    console.log("my_orders: ", my_orders2);
+    
+    res.render({ my_orders})
+  });
+
+
+  
+};
+
 //--------------------------------render user details after login--------------------------------
 exports.orders = function(req, res, next) {
   var userId = req.session.userId,

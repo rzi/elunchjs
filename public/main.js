@@ -151,6 +151,8 @@ setInterval(() => {
   minutes > 0 ? spanM.textContent = minutes : spanM.textContent = 0;
   secs >0 ? spanS.textContent = secs : spanS.textContent = 0;
   }, 1000);
+
+  
 // Funkcje
 function sendSupplier(supplier,mydate1){
   // Make a request for a user with a given ID
@@ -159,6 +161,8 @@ function sendSupplier(supplier,mydate1){
     // handle success
     // console.log(response.data);
     // location.reload();
+
+    //location.reload();
     })
     .catch(function (error) {
       // handle error
@@ -173,8 +177,7 @@ function sendDate(mydate){
   axios.get('/home/new_order?mydate=' + mydate)
     .then(function (response) {
     // handle success
-    // console.log(response.data);
-    // location.reload();
+    location.reload();
     })
     .catch(function (error) {
       // handle error
@@ -197,7 +200,8 @@ function myFunction_order (value){
         // var $table4 = $('#myorders_list');
         // $table4.bootstrapTable('refresh');
         //location.reload();
-        // console.log(response);
+        //console.log(response);
+
         })
         .catch(function (error) {
           // handle error
