@@ -240,24 +240,37 @@ exports.new_order = function(req, res, next) {
 
 //2
 exports.new_order2 = function(req, res, next) {
-  var user = req.session.user,
-    userId = req.session.userId,
-    fname = req.session.first_name,
-    sesa_no1 = req.session.sesa_no1, mydate, my_orders
-  var order_date = req.body.order_date;
+if (req.method == "POST") {
+  mydate=req.body.my_date;
+  mysupplier=req.body.my_supplier;
+  
+  // display menu
+  mysupplier_name = mysupplier;
+  var sql3 =
+    "SELECT * FROM `elunch_menu2` WHERE `supplier_name`='" + mysupplier_name +"'";
+  console.log("sql3: " + sql3);
+  db.query(sql3, function(err, results) {
+    menu_json = JSON.stringify(results);
+    console.log("menu_json: ", menu_json);
+  });
 
-  mydate="2020-02-02";
+
   // display current orders
   var sql1 =
   "SELECT * FROM `elunch_orders2` WHERE `order_date`='" + mydate + "' ORDER BY id DESC";
   console.log("sql1: " + sql1);
- 
+
   db.query(sql1, function(err, results) {
-    my_orders = JSON.stringify(results.data);
-    my_orders2=results.data
-    console.log("my_orders: ", my_orders2);    
-    res.json("new_order2.ejs", { my_orders});
-  });  
+    orders_json = JSON.stringify(results);
+    console.log("orders_json: ", orders_json);
+    res.json({ table_data: results} );
+  }); 
+  
+} else if (req.method == "GET") {
+  res.render("new_order2.ejs");
+  //res.json({ message: "result" });
+}  
+ 
 };
 //--------------------------------render user details after login--------------------------------
 exports.orders = function(req, res, next) {
