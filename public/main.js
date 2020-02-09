@@ -37,9 +37,13 @@ if (my_supplier == "" || my_supplier == undefined) {
 }
 console.log("supplier: " + my_supplier);
 if (my_supplier == "Mucha") {
-  activaTab("mucha");
+  // activaTab("mucha");
+  var tab= "mucha";
+  $('.nav-tabs a[href="#' + tab + '"]').tab("show");
 } else {
-  activaTab("opoka");
+  // activaTab("opoka");
+  var tab1= "opoka";
+  $('.nav-tabs a[href="#' + tab1 + '"]').tab("show");
 }
 var my_date = document.getElementById("lunch_order").value;
 // Swetch between suppliers, using cookies to not forget
@@ -297,7 +301,5 @@ function getCookie(cname) {
   }
   return "";
 }
-function activaTab(tab) {
-  $('.nav-tabs a[href="#' + tab + '"]').tab("show");
-}
+
 // Koniec funkcji

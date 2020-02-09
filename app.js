@@ -31,6 +31,14 @@ connection.connect();
  global.db = connection;
  global.menu_price;
  global.menu_desctription;
+//  connection.end(function(err) {
+//   // The connection is terminated now
+// });
+// connection.destroy();
+// connection.end(function(err) {
+//   // The connection is terminated now
+// });
+// connection.destroy();
  
 // all environments
 app.set('port', process.env.PORT || 8080);

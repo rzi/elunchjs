@@ -4,11 +4,9 @@
     <meta charset="UTF-8" />
     <title>Sample Site</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link
-      rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <style>
@@ -108,30 +106,71 @@
               <br>
               <p>wybierz danie: </p>
 
-              <p></p> 
-              <div class="table-responsive">
-               <script> $table.bootstrapTable({ data: table_supplier}); </script> 
-              </div>
+              <table
+                id="table_mucha"
+                data-locale="pl-PL"
+                data-show-refresh="true"
+                data-search="true"
+                data-height="400"
+                data-show-export="true"
+                data-click-to-select="true"
+                data-pagination="true"
+                data-show-pagination-switch="true"
+                data-pagination-pre-text="Previous"
+                data-pagination-next-text="Next"
+                data-page-list="[3, 5, 10, 15, all]"
+                data-response-handler="responseHandler" >
 
+                <thead>
+                  <tr>
+                    <th data-field="id">ID</th>
+                    <th data-field="supplier_name">Dostawca</th>
+                    <th data-field="menu_no">Numer dania</th>
+                    <th data-field="menu_desctription">opis Dania</th>
+                    <th data-field="menu_price">Cena</th>
+                    <th data-field="order">Zamów</th>
+                  </tr>
+                </thead>
+              </table>
             </div>
+
             <div id="opoka" class="tab-pane fade">
               <h2 hidden id="titleOpoka">Opoka</h2>
               <br>
               <p>wybierz danie:</p>
-              <p></p>
-              <div class="table-responsive">
-                <script> $table.bootstrapTable({ data: table_supplier}); </script> 
-              </div>
+              <table
+                id="table_opoka"
+                data-locale="pl-PL"
+                data-show-refresh="true"
+                data-search="true"
+                data-height="400"
+                data-show-export="true"
+                data-click-to-select="true"
+                data-pagination="true"
+                data-show-pagination-switch="true"
+                data-pagination-pre-text="Previous"
+                data-pagination-next-text="Next"
+                data-page-list="[3, 5, 10, 15, all]"
+                data-response-handler="responseHandler">
+                <thead>
+                  <tr>
+                    <th data-field="id">ID</th>
+                    <th data-field="supplier_name">Dostawca</th>
+                    <th data-field="menu_no">Numer dania</th>
+                    <th data-field="menu_desctription">opis Dania</th>
+                    <th data-field="menu_price">Cena</th>
+                    <th data-field="order">Zamów</th>
+                  </tr>
+                </thead>
+              </table>
             </div>
-
+          </div>
 
       </div> <!-- jumbotron -->
-    </div>
+    </div> <!-- container -->
     <!-- js -->
     <script src="/public/main.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    
     <link
       rel="stylesheet"
       href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
@@ -143,17 +182,14 @@
       href="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table.min.css"
     />
     <script src="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table.min.js"></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-      crossorigin="anonymous"
-    ></script>
     <script src="https://unpkg.com/tableexport.jquery.plugin/tableExport.min.js"></script>
     <script src="https://unpkg.com/bootstrap-table@1.15.5/dist/extensions/export/bootstrap-table-export.min.js"></script>
     <script src="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table-locale-all.min.js"></script>
     <script>
       window.onload = function() {
         var $table = $("#table");
+        var $table_mucha = $("#table_mucha");
+        var $table_opoka = $("#table_opoka");
         var $remove = $("#remove");
         var selections = [];
         $("#locale").change(function() {
@@ -161,6 +197,7 @@
             locale: $(this).val()
           });
         });
+        
 
         // Make a request for a user with a given ID
         axios
@@ -171,17 +208,38 @@
           .then(function(response) {
             // handle success
             var table_data = response.data.table_data;
+            var table_data2 = JSON.stringify(table_data );
+            console.log("table_data: " + table_data2 );
             $table.bootstrapTable({ data: table_data,
-              columns: [
-         {
-          field: 'operate',
-          title: 'Usuń',
-          align: 'center',
-          clickToSelect: false,
-          events: window.operateEvents,
-          formatter: operateFormatter
-        }]
+              columns: [,,,,,,,
+              {
+                field: 'operate',
+                title: 'Usuń',
+                align: 'center',
+                clickToSelect: false,
+                events: window.operateEvents,
+                formatter: operateFormatter
+              }]
      
+            });
+            var table_supplier = response.data.table_supplier;
+            var table_supplier1 = JSON.stringify(table_supplier );
+            console.log("table_supplier1: " + table_supplier1);
+            $table_mucha.bootstrapTable({data: table_supplier,
+              columns: [,,,,,
+              {
+                field: 'order',
+                title: 'Zamów',
+                align: 'center',
+                clickToSelect: false,
+                events: window.operateEvents2,
+                formatter: operateFormatter2
+              }]
+
+            });
+
+            $table_opoka.bootstrapTable({
+              
             });
             // generateDynamicTable();
           })
@@ -230,6 +288,25 @@
               field: "id",
               values: [row.id]
             });
+          }
+        };
+
+        function operateFormatter2(value, row, index) {
+          return [
+            '<a class="order" href="javascript:void(0)" title="Order">',
+            '<i class="fas fa-utensils"></i>',
+            "</a>"
+          ].join("");
+        }
+
+        window.operateEvents2 = {
+          "click .order": function(e, value, row, index) {
+            // $table.bootstrapTable("order", {
+            //   field: "id",
+            //   values: [row.id]
+            // });
+            alert("Zamów: " + row.id);
+            myFunction_order(row.id);
           }
         };
 

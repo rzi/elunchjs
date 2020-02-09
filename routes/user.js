@@ -261,9 +261,11 @@ if (req.method == "POST") {
   console.log("sql1: " + sql1);
 
   db.query(sql1, function(err, results) {
+    console.log("results: "+ results);
     orders_json = JSON.stringify(results);
     console.log("orders_json: ", orders_json);
-    res.json({ table_data: results} );
+    res.json({ table_data: results, table_supplier: JSON.parse(menu_json) })
+       
   }); 
   
 } else if (req.method == "GET") {
