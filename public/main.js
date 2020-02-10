@@ -247,7 +247,7 @@ function myFunction_order2(value) {
       // handle success
       // var $table4 = $('#myorders_list');
       // $table4.bootstrapTable('refresh');
-      //location.reload();
+      location.reload();
       console.log(response);
     })
     .catch(function(error) {

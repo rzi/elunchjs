@@ -307,8 +307,14 @@ if (req.method == "POST") {
     console.log("order_date: " + order_date);
   });
   res.render("new_order2.ejs");
-}
- 
+} else if (req.method == "DELETE") {
+  var delete_id = req.body.delete_id;
+  console.log("delete: ", delete_id);
+  var sql7 = "DELETE FROM `elunch_orders2` WHERE `id` ='" + delete_id + "'";
+  db.query(sql7, function(err, results) {
+    console.log("deleted one row");
+  });
+} 
 };
 //--------------------------------render user details after login--------------------------------
 exports.orders = function(req, res, next) {
