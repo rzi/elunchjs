@@ -39,7 +39,7 @@
       <!-- Main component for a primary marketing message or call to action -->
       <div class="jumbotron">
           
-          <h2>Witaj ,</h2>
+          <h2 id="fname">Witaj ,</h2>
           <p> Online możesz zamówić lunch na dzisiaj tylko do godziny 10.00, <p id="myClock"> Pozostało ci jeszcze 
             <strong>
               <span class="h">.</span> h:
@@ -92,8 +92,8 @@
             Masz do wyborów dwóch dostawców Mucha i Opoka, kliknij odpowiednią
             zakładkę
           </p>
-          <p hidden id="activeSupplier"></p>
-          <p  hidden id="sesa_no1"></p>
+          <p  id="activeSupplier"></p>
+          <p   id="sesa_no1"></p>
           <!-- dynamic tabs -->
           <ul class="nav nav-tabs">
             <li ><a data-toggle="tab" href="#mucha">Mucha</a></li>
@@ -192,6 +192,7 @@
         var $table_opoka = $("#table_opoka");
         var $remove = $("#remove");
         var selections = [];
+        var fname; 
         $("#locale").change(function() {
           $table.bootstrapTable("refreshOptions", {
             locale: $(this).val()
@@ -207,6 +208,11 @@
           })
           .then(function(response) {
             // handle success
+            fname = response.data.fname;
+            console.log ("fname: "+ fname);
+            document.getElementById("fname").innerText ="Witajjjj", {fname}, ",";
+            document.getElementById("sesa_no1").innerText =fname;
+
             var table_data = response.data.table_data;
             var table_data2 = JSON.stringify(table_data );
             console.log("table_data: " + table_data2 );
@@ -288,6 +294,7 @@
               field: "id",
               values: [row.id]
             });
+            myFunction_delete2(row.id);
           }
         };
 
@@ -305,8 +312,8 @@
             //   field: "id",
             //   values: [row.id]
             // });
-            alert("Zamów: " + row.id);
-            myFunction_order(row.id);
+            // alert("Zamów: " + row.menu_no);
+            myFunction_order2(row.menu_no);
           }
         };
 

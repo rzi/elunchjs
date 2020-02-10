@@ -234,11 +234,56 @@ function myFunction_order(value) {
       // always executed
     });
 }
+function myFunction_order2(value) {
+  // Make a request for a user with a given ID
+  axios
+    .put("/home/new_order2", {
+      sesa_no1: document.getElementById("sesa_no1").innerText,
+      supplier: document.getElementById("activeSupplier").innerText,
+      order_date: document.getElementById("lunch_order").value,
+      order_no: value
+    })
+    .then(function(response) {
+      // handle success
+      // var $table4 = $('#myorders_list');
+      // $table4.bootstrapTable('refresh');
+      //location.reload();
+      console.log(response);
+    })
+    .catch(function(error) {
+      // handle error
+      console.log(error);
+    })
+    .finally(function() {
+      // always executed
+    });
+}
 function myFunction_delete(value) {
   var delete_id = value;
   // Make a request for a user with a given ID
   axios
     .delete("/home/new_order", {
+      data: {
+        delete_id: delete_id
+      }
+    })
+    .then(function(response) {
+      // handle success
+      location.reload();
+    })
+    .catch(function(error) {
+      // handle error
+      console.log(error);
+    })
+    .finally(function() {
+      // always executed
+    });
+}
+function myFunction_delete2(value) {
+  var delete_id = value;
+  // Make a request for a user with a given ID
+  axios
+    .delete("/home/new_order2", {
       data: {
         delete_id: delete_id
       }

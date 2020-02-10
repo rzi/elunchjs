@@ -241,9 +241,11 @@ exports.new_order = function(req, res, next) {
 //2
 exports.new_order2 = function(req, res, next) {
 if (req.method == "POST") {
-  mydate=req.body.my_date;
-  mysupplier=req.body.my_supplier;
-  
+  var mydate=req.body.my_date;
+  var mysupplier=req.body.my_supplier;
+  var sesa_no1 = req.session.sesa_no1;
+  console.log("sesa_no1: " + sesa_no1);
+
   // display menu
   mysupplier_name = mysupplier;
   var sql3 =
@@ -269,9 +271,43 @@ if (req.method == "POST") {
   }); 
   
 } else if (req.method == "GET") {
+  res.render("new_order2.ejs", {fname: "48177"});
+}  else if (req.method == "PUT") {
+  var supplier = req.body.supplier;
+  var order_no = req.body.order_no;
+  var sesa_no1 = req.session.sesa_no1;
+  var order_date = req.body.order_date;
+
+  console.log("Method: " + req.method);
+  console.log("put: ",sesa_no1," ",supplier," ",order_date," ","Numer dania ",order_no," ");
+  //base order_no, get from menu order_name and order_price
+  var sql6 ="SELECT * FROM `elunch_menu2` WHERE `supplier_name`='" +supplier +"' and menu_no = '" + order_no +"'";
+  console.log("sql6: ", sql6);
+  db.query(sql6, function(err, results) {
+    if (results.length) {
+      menu_desctription = results[0].menu_desctription;
+      console.log("menu_desctription: ", menu_desctription);
+      menu_price = results[0].menu_price;
+      //return menu_desctription;
+      console.log("menu_price: ", menu_price);
+    } else {
+      message = "problem z pobraniem danych z bazy menu przed zapisem do bazy order2";
+      res.render("index.ejs", { message: message });
+    }
+    console.log("order_date: ", order_date);
+    // put order to DB
+    var sql5 =
+      "INSERT INTO `elunch_orders2`(`Id_sesa_no`,`order_date`,`order_supplier_name`,`order_no`,`order_name`, `order_price`) VALUES ('" +
+      sesa_no1 +"','" +order_date + "','" + supplier + "','" + order_no + "','" +  menu_desctription +
+      "','" +  menu_price + "')";
+    console.log("SQL: ", sql5);
+    db.query(sql5, function(err, results) {
+      console.log("Inerted record to DB");
+    });
+    console.log("order_date: " + order_date);
+  });
   res.render("new_order2.ejs");
-  //res.json({ message: "result" });
-}  
+}
  
 };
 //--------------------------------render user details after login--------------------------------

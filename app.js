@@ -67,6 +67,7 @@ app.get('/home/new_order', user.new_order);//call for new_order page to order lu
 app.post('/home/new_order', user.new_order);//call for new_order page to order lunch
 app.get('/home/new_order2', user.new_order2);//call for new_order page to order lunch
 app.post('/home/new_order2', user.new_order2);//call for new_order page to order lunch
+app.put('/home/new_order2', user.new_order2);//call for new_order page to order lunch
 app.delete('/home/new_order', user.new_order);//call for new_order page to order lunch
 app.get('/home/orders', user.orders); // list of orders
 app.post('/home/orders', user.orders); // list of orders
