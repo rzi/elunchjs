@@ -29,6 +29,10 @@
       } else {	  
         dayBefore =day-5
       }	  
+
+      if (dayBefore<10){
+        dayBefore = "0" + dayBefore
+      }
       var before_few_days = now.getFullYear() + "-" + month + "-" + dayBefore;
       console.log(today);
       console.log(today);
