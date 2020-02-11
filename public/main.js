@@ -141,14 +141,14 @@ setInterval(() => {
       nowTime < todayAt10TimeStamp) ||
     pickerAt00TimeStamp >= tommorowAt00TimeStamp
   ) {
-    console.log("mogę zamawiać");
+    console.log("mogę zamawiać i usuwać");
     document.getElementById("f").innerText = "1";
     document.getElementById("mesg").innerText = " ";
   } else {
-    console.log("Nie moge zamówić");
+    console.log("Nie moge zamówić ani usuwać");
     document.getElementById("f").innerText = "0";
     document.getElementById("mesg").innerText =
-      " *nie mozna zamówić na wybrany dzień";
+      " *nie mozna zamówić ani usuwać na wybrany dzień";
   }
   if (nowTime >= todayAt00 && nowTime <= todayAt10TimeStamp) {
     // document.getElementById("myClock").innerText=" aaaaaaaa";

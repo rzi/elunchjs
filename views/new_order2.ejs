@@ -46,7 +46,7 @@
               <span class="m">.</span> m:
               <span class="s">.</span>s
             </strong>
-            do złożeina zamówienia </p><span hidden id="f">.</span>
+            do złożeina zamówienia. </p><span hidden id="f"></span>
           </p>
           <p>Wybierz datę na kiedy zamawiasz lunch</p>
           <input type="date" name="lunch_order" id="lunch_order"  /> <p id="mesg" style="color:red; font-size: 14px;"></p>
@@ -294,11 +294,15 @@
 
         window.operateEvents = {
           "click .remove": function(e, value, row, index) {
-            $table.bootstrapTable("remove", {
+            if (document.getElementById("f").innerText == "1"){
+              $table.bootstrapTable("remove", {
               field: "id",
               values: [row.id]
             });
             myFunction_delete2(row.id);
+            } else{
+              alert( "Nie możesz zamówić ani uswać na wybrany dzień. \n Zamówienia można składać online do 10:00 lub telefonicznie");
+            }
           }
         };
 
@@ -312,7 +316,12 @@
 
         window.operateEvents2 = {
           "click .order": function(e, value, row, index) {
-            myFunction_order2(row.menu_no);
+            if (document.getElementById("f").innerText == "1"){
+              myFunction_order2(row.menu_no);
+            } else{
+              alert( "Nie możesz zamówić na wybrany dzień. \n Zamówienia można składać online do 10:00 lub telefonicznie");
+            }    
+            
           }
         };
 
