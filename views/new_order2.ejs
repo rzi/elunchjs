@@ -92,8 +92,8 @@
             Masz do wyborów dwóch dostawców Mucha i Opoka, kliknij odpowiednią
             zakładkę
           </p>
-          <p  id="activeSupplier"></p>
-          <p   id="sesa_no1"></p>
+          <p  hidden id="activeSupplier"></p>
+          <p  hidden id="sesa_no1"></p>
           <!-- dynamic tabs -->
           <ul class="nav nav-tabs">
             <li ><a data-toggle="tab" href="#mucha">Mucha</a></li>
@@ -211,8 +211,6 @@
             fname = response.data.fname;
             console.log ("fname: "+ fname);
             document.getElementById("fname").innerText ="Witaj "+fname + ",";
-            document.getElementById("sesa_no1").innerText =fname;
-
             var table_data = response.data.table_data;
             var table_data2 = JSON.stringify(table_data );
             console.log("table_data: " + table_data2 );
@@ -225,8 +223,7 @@
                 clickToSelect: false,
                 events: window.operateEvents,
                 formatter: operateFormatter
-              }]
-     
+              }]     
             });
             var table_supplier = response.data.table_supplier;
             var table_supplier1 = JSON.stringify(table_supplier );
@@ -244,7 +241,16 @@
 
             });
 
-            $table_opoka.bootstrapTable({
+            $table_opoka.bootstrapTable({data: table_supplier,
+              columns: [,,,,,
+              {
+                field: 'order',
+                title: 'Zamów',
+                align: 'center',
+                clickToSelect: false,
+                events: window.operateEvents2,
+                formatter: operateFormatter2
+              }]
               
             });
             // generateDynamicTable();
@@ -256,8 +262,6 @@
           .finally(function() {
             // always executed
           });
-
-        
 
         function getIdSelections() {
           return $.map($table.bootstrapTable("getSelections"), function(row) {
@@ -308,11 +312,6 @@
 
         window.operateEvents2 = {
           "click .order": function(e, value, row, index) {
-            // $table.bootstrapTable("order", {
-            //   field: "id",
-            //   values: [row.id]
-            // });
-            // alert("Zamów: " + row.menu_no);
             myFunction_order2(row.menu_no);
           }
         };
@@ -339,7 +338,6 @@
           );
         }
       };
-
       // Koniec funkcji
     </script>
   </body>

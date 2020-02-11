@@ -9,6 +9,7 @@ var express = require('express')
 var session = require('express-session');
 var app = express();
 var mysql = require('mysql');
+var  cookieparser = require('cookie-parser');
 var bodyParser=require("body-parser");
 const fetch = require('node-fetch');
 const axios = require('axios').default;
@@ -53,6 +54,7 @@ app.use(session({
               saveUninitialized: true,
               cookie: { maxAge: 60000000 }
             }))
+app.use(cookieparser());
 app.use('/public', express.static('public'));
 // development only
 app.get('/', routes.index);//call for main index page
@@ -68,6 +70,7 @@ app.post('/home/new_order', user.new_order);//call for new_order page to order l
 app.get('/home/new_order2', user.new_order2);//call for new_order page to order lunch
 app.post('/home/new_order2', user.new_order2);//call for new_order page to order lunch
 app.put('/home/new_order2', user.new_order2);//call for new_order page to order lunch
+app.delete('/home/new_order2', user.new_order2);//call for new_order page to order lunch
 app.delete('/home/new_order', user.new_order);//call for new_order page to order lunch
 app.get('/home/orders', user.orders); // list of orders
 app.post('/home/orders', user.orders); // list of orders

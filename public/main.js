@@ -12,17 +12,23 @@ today = now.getFullYear() + "-" + month + "-" + day;
 console.log("today: " + today);
 // Take date from datepicker, if empty take from cookies
 var mydatePicker = document.getElementById("lunch_order");
-if (mydatePicker.value == "") {
+// if (mydatePicker.value == "") {
+//   mydatePicker.value = getCookie("date");
+//   if (
+//     !mydatePicker.value ||
+//     mydatePicker.value == "" ||
+//     mydatePicker.value == undefined
+//   ) {
+//     mydatePicker.value = today;
+//   }
+// } else {
+//   mydatePicker.value = getCookie("date");
+// }
+if (getCookie("date")) {
   mydatePicker.value = getCookie("date");
-  if (
-    !mydatePicker.value ||
-    mydatePicker.value == "" ||
-    mydatePicker.value == undefined
-  ) {
-    mydatePicker.value = today;
-  }
 } else {
-  mydatePicker.value = getCookie("date");
+  mydatePicker.value = today;
+  setCookie("date" , today);
 }
 console.log("datePicker: " + mydatePicker.value);
 // Get supplier, if empty initlal is Mucha, set active supplier
@@ -52,6 +58,7 @@ $('a[data-toggle="tab"]').on("shown.bs.tab", function(e) {
   my_supplier = e.target.innerHTML;
   setCookie("supplier", my_supplier, 1);
   console.log("supplier: " + getCookie("supplier"));
+  location.reload();
 });
 // change order date and dont allowed to chose date from past
 document.getElementById("lunch_order").addEventListener("change", function() {
@@ -59,12 +66,15 @@ document.getElementById("lunch_order").addEventListener("change", function() {
   var my_datePicker = new Date(my_date1).getTime();
   var my_dateCurrent = new Date(today).getTime();
   if (my_datePicker >= my_dateCurrent) {
+    setCookie("date", my_date1, 1);
     // alert ("OK");
   } else {
     alert("Nie możesz zamowić obiadu wstecz!");
     document.getElementById("lunch_order").value = today;
+    setCookie("date", today, 1);
+    my_date1 = today;
   }
-  setCookie("date", my_date1, 1);
+  
   sendDate(my_date1);
 });
 
@@ -173,7 +183,7 @@ setInterval(() => {
   hours > 0 ? (spanH.textContent = hours) : (spanH.textContent = 0);
   minutes > 0 ? (spanM.textContent = minutes) : (spanM.textContent = 0);
   secs > 0 ? (spanS.textContent = secs) : (spanS.textContent = 0);
-}, 100000);
+}, 1000);
 
 // Funkcje
 function sendSupplier(supplier, mydate1) {
