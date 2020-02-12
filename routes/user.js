@@ -424,3 +424,26 @@ exports.orders = function(req, res, next) {
     //res.json({ message: "result" });
   }
 };
+//list
+exports.list = function(req, res, next) {
+var data_list;
+
+data_list = req.body.data_list;
+console.log("data_list1: ", data_list);
+
+if (req.method == "POST") {
+  var sql =
+  "SELECT * FROM `elunch_orders2` WHERE `order_date`='" +
+  data_list +
+  "' ORDER BY id DESC";
+  console.log("sql: " + sql);
+  db.query(sql, function(err, result) {
+   var list = JSON.stringify(result);
+    console.log("list: ", list);
+    //res.render("orders.ejs", {ordersList});
+    res.json({ message: result });
+  });
+} else if (req.method == "GET") {
+  res.render("list.ejs");
+}
+}

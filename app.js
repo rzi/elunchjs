@@ -74,5 +74,7 @@ app.delete('/home/new_order2', user.new_order2);//call for new_order page to ord
 app.delete('/home/new_order', user.new_order);//call for new_order page to order lunch
 app.get('/home/orders', user.orders); // list of orders
 app.post('/home/orders', user.orders); // list of orders
+app.get('/home/new_list', user.list);//call for new_list page to order lunch
+app.post('/home/new_list', user.list);//call for new_list page to order lunch
 //Middleware
 app.listen(8080);

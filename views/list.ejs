@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Sample Site</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <link
+  rel="stylesheet"
+  href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+  integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
+  crossorigin="anonymous"
+/>
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table.min.css"
+/>
+<script src="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table.min.js"></script>
+<script src="https://unpkg.com/tableexport.jquery.plugin/tableExport.min.js"></script>
+<script src="https://unpkg.com/bootstrap-table@1.15.5/dist/extensions/export/bootstrap-table-export.min.js"></script>
+<script src="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table-locale-all.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <!-- Static navbar -->
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="/home/dashboard">Powtót</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/home/logout">Wylogowanie</a></li>
+          </ul>
+        </div>
+        <!--/.nav-collapse -->
+      </div>
+      <!--/.container-fluid -->
+    </nav>
+    <div class="jumbotron">
+        <p>Zamówione dania: 
+          <input type="date" name="data_list" id="data_list"> </input>
+          <button type="button" id="btn" onclick="data_list()">Zatwierdź</button>
+        </p>
+        <div class="table-responsive">
+            <table id="table_list" 
+            class="table table-bordered"
+            data-locale="pl-PL"
+            data-search="true"
+            data-height="400"
+            data-show-export="true"
+            data-click-to-select="true"
+            data-pagination="true"
+            data-show-pagination-switch="true"
+            data-pagination-pre-text="Previous"
+            data-pagination-next-text="Next"
+            data-page-list="[3, 5, 10, 15, all]"
+            data-response-handler="responseHandler">   
+            <thead>
+                <tr>
+                  <th data-field="id">ID</th>
+                  <th data-field="Id_sesa_no">SESA</th>
+                  <th data-field="order_date">Data</th>
+                  <th data-field="order_supplier_name">Dostawca</th>
+                  <th data-field="order_no">Numewr dania</th>
+                  <th data-field="order_name">Danie</th>
+                  <th data-field="order_price">Cena</th>
+                </tr>
+              </thead>       
+            </table>
+        </div>
+    </div>
+    <script>
+        window.onload = function() {
+        $table = $("#table_list");        
+
+        var now = new Date();
+        var day = ("0" + now.getDate()).slice(-2);
+        var month = ("0" + (now.getMonth() + 1)).slice(-2);
+        var today = now.getFullYear() + "-" + month + "-" + day;
+        
+        document.getElementById("data_list").value = today;
+        document.getElementById("btn").addEventListener("click", function () {
+            console.log(" click btn: ");  
+            data_list();      
+        });
+        } //end of window load
+        function data_list() {
+        // Make a request for a user with a given ID
+        axios.post('/home/new_list', {
+            data_list: document.getElementById("data_list").value
+        })
+            .then(function (response) {
+            // handle success
+            // console.log(response.data.message);
+            var mytable=response.data.message;
+            $table.bootstrapTable({ data: mytable});
+            console.log(mytable);
+            //location.reload();
+            })
+            .catch(function (error) {
+            // handle error
+            console.log(error);
+            })
+            .finally(function () {
+            // always executed
+            });
+        };        
+    </script>
+</body>
+</html>
