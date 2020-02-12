@@ -87,10 +87,14 @@
         
         document.getElementById("data_list").value = today;
         document.getElementById("btn").addEventListener("click", function () {
-            console.log(" click btn: ");  
-            data_list();      
+          data_list();      
         });
+        document.getElementById("data_list").addEventListener("change", function() {
+          data_list();  
+        });
+
         } //end of window load
+
         function data_list() {
         // Make a request for a user with a given ID
         axios.post('/home/new_list', {
@@ -98,11 +102,9 @@
         })
             .then(function (response) {
             // handle success
-            // console.log(response.data.message);
-            var mytable=response.data.message;
-            $table.bootstrapTable({ data: mytable});
-            console.log(mytable);
-            //location.reload();
+
+            var mytable = response.data.message;
+            $table.bootstrapTable({ data: mytable });
             })
             .catch(function (error) {
             // handle error
