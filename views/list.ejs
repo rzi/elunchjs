@@ -48,9 +48,12 @@
           <input type="date" name="data_list" id="data_list"> </input>
           <button type="button" id="btn" onclick="data_list()">Zatwierdź</button>
         </p>
+
         <div class="table-responsive">
             <table id="table_list" 
             class="table table-bordered"
+            data-show-refresh="true"
+            data-auto-refresh="true"
             data-locale="pl-PL"
             data-search="true"
             data-height="400"
@@ -64,13 +67,13 @@
             data-response-handler="responseHandler">   
             <thead>
                 <tr>
-                  <th data-field="id">ID</th>
-                  <th data-field="Id_sesa_no">SESA</th>
-                  <th data-field="order_date">Data</th>
+                  <th data-field="first_name">Imię</th>
+                  <th data-field="last_name">Nazwisko</th>
                   <th data-field="order_supplier_name">Dostawca</th>
-                  <th data-field="order_no">Numewr dania</th>
+                  <th data-field="order_no">Numer zamówieina</th>
                   <th data-field="order_name">Danie</th>
-                  <th data-field="order_price">Cena</th>
+                  <!-- <th data-field="order_name">Danie</th>
+                  <th data-field="order_price">Cena</th> -->
                 </tr>
               </thead>       
             </table>
@@ -78,7 +81,8 @@
     </div>
     <script>
         window.onload = function() {
-        $table = $("#table_list");        
+        $table = $("#table_list");
+        var mytable;  
 
         var now = new Date();
         var day = ("0" + now.getDate()).slice(-2);
@@ -103,7 +107,8 @@
             .then(function (response) {
             // handle success
 
-            var mytable = response.data.message;
+            mytable = response.data.message;
+            console.log("mytable",mytable);
             $table.bootstrapTable({ data: mytable });
             })
             .catch(function (error) {

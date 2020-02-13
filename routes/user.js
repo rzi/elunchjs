@@ -432,10 +432,15 @@ data_list = req.body.data_list;
 console.log("data_list1: ", data_list);
 
 if (req.method == "POST") {
-  var sql =
-  "SELECT * FROM `elunch_orders2` WHERE `order_date`='" +
+  // var sql =
+  // "SELECT * FROM `elunch_orders2` WHERE `order_date`='" +
+  // data_list +
+  // "' ORDER BY id DESC";
+
+   var sql =
+  "select first_name, last_name, order_supplier_name,order_no,order_name  from elunch_users2 join  elunch_orders2 on elunch_users2.sesa_no = elunch_orders2.id_sesa_no  WHERE `order_date`='" +
   data_list +
-  "' ORDER BY id DESC";
+  "' ORDER BY  order_no DESC";
   console.log("sql: " + sql);
   db.query(sql, function(err, result) {
    var list = JSON.stringify(result);
