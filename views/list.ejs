@@ -109,6 +109,7 @@
 
             mytable = response.data.message;
             console.log("mytable",mytable);
+            $table.bootstrapTable('destroy')
             $table.bootstrapTable({ data: mytable });
             })
             .catch(function (error) {
