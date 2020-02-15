@@ -4,26 +4,17 @@ const spanM = document.querySelector("span.m");
 const spanS = document.querySelector("span.s");
 const spanF = document.querySelector("span.f");
 var endTime, endTime, now, today, tommorow, day, month;
+
 // Get today date in the format YYYY-MM-DD
 now = new Date();
 day = ("0" + now.getDate()).slice(-2);
 month = ("0" + (now.getMonth() + 1)).slice(-2);
 today = now.getFullYear() + "-" + month + "-" + day;
 console.log("today: " + today);
+
 // Take date from datepicker, if empty take from cookies
 var mydatePicker = document.getElementById("lunch_order");
-// if (mydatePicker.value == "") {
-//   mydatePicker.value = getCookie("date");
-//   if (
-//     !mydatePicker.value ||
-//     mydatePicker.value == "" ||
-//     mydatePicker.value == undefined
-//   ) {
-//     mydatePicker.value = today;
-//   }
-// } else {
-//   mydatePicker.value = getCookie("date");
-// }
+
 if (getCookie("date")) {
   mydatePicker.value = getCookie("date");
 } else {
@@ -31,6 +22,7 @@ if (getCookie("date")) {
   setCookie("date" , today);
 }
 console.log("datePicker: " + mydatePicker.value);
+
 // Get supplier, if empty initlal is Mucha, set active supplier
 var my_supplier = document.getElementById("activeSupplier").innerText;
 if (my_supplier == "" || my_supplier == undefined) {
@@ -41,7 +33,9 @@ if (my_supplier == "" || my_supplier == undefined) {
   document.getElementById("activeSupplier").innerText = my_supplier;
   setCookie("supplier", my_supplier, 1);
 }
+
 console.log("supplier: " + my_supplier);
+
 if (my_supplier == "Mucha") {
   // activaTab("mucha");
   var tab= "mucha";
@@ -51,6 +45,7 @@ if (my_supplier == "Mucha") {
   var tab1= "opoka";
   $('.nav-tabs a[href="#' + tab1 + '"]').tab("show");
 }
+
 var my_date = document.getElementById("lunch_order").value;
 // Swetch between suppliers, using cookies to not forget
 $('a[data-toggle="tab"]').on("shown.bs.tab", function(e) {
@@ -60,6 +55,7 @@ $('a[data-toggle="tab"]').on("shown.bs.tab", function(e) {
   console.log("supplier: " + getCookie("supplier"));
   location.reload();
 });
+
 // change order date and dont allowed to chose date from past
 document.getElementById("lunch_order").addEventListener("change", function() {
   var my_date1 = document.getElementById("lunch_order").value;
@@ -73,12 +69,9 @@ document.getElementById("lunch_order").addEventListener("change", function() {
     document.getElementById("lunch_order").value = today;
     setCookie("date", today, 1);
     my_date1 = today;
-  }
-  
+  }  
   sendDate(my_date1);
 });
-
-
 
 // to define yesterday date in timestamp format
 var myhour = now.getHours();
@@ -107,14 +100,8 @@ setInterval(() => {
   parts[3] = 0;
   parts[4] = 0;
   parts[5] = 0;
-  var mydate1 = new Date(
-    parts[0],
-    parts[1] - 1,
-    parts[2],
-    parts[3],
-    parts[4],
-    parts[5]
-  );
+  var mydate1 = new Date(parts[0], parts[1] - 1, parts[2], parts[3], parts[4], parts[5] );
+
   var pickerAt00TimeStamp = Date.parse(mydate1) / 1000;
   // console.log("pickerAt00TimeStamp " + " " + mydate1.toLocaleString());
   nowTime1 = new Date(); //.getTime();
@@ -126,15 +113,7 @@ setInterval(() => {
   var todayAt10 = today + "T10:00:00";
   // console.log("todayAt10: " + todayAt10);
   var todayAt10TimeStamp = Date.parse(todayAt10) / 1000;
-  // console.log("todayAt10TimeStamp: " + todayAt10TimeStamp);
-  // console.log(" warunek:");
-  // console.log("nowTime "+ nowTime1.toLocaleString());
-  // console.log("pickerAt00TimeStamp "+ mydate1.toDateString());
-  // console.log("nowTime "+ nowTime1);
-  // console.log("todayAt10TimeStamp "+ todayAt10);
-  // console.log("nowTime "+ nowTime1);
-  // console.log("tommorowAt00TimeStamp "+ tommorow);
-  // check day: datapicker = mydate1Timestamp -> YYYY-MM-DD, 00:00:00
+
   if (
     (pickerAt00TimeStamp >= todayAt00 &&
       nowTime >= pickerAt00TimeStamp &&
@@ -150,23 +129,23 @@ setInterval(() => {
     document.getElementById("mesg").innerText =
       " *nie mozna zamówić ani usuwać na wybrany dzień";
   }
+
   if (nowTime >= todayAt00 && nowTime <= todayAt10TimeStamp) {
     // document.getElementById("myClock").innerText=" aaaaaaaa";
   } else {
     document.getElementById("myClock").innerText = "";
   }
+
   if (myhour < 10) {
     // console.log("today: " + today);
     var todayAt10 = today + "T10:00:00";
     endTime = Date.parse(todayAt10) / 1000;
-    // console.log("today (endtime <10): " + endTime + " " + today);
   } else {
     endTime = tommorowAt00TimeStamp;
-    // console.log("tommorow (endtime  >10): " + endTime + " " + tommorow);
   }
+
   var mytime = endTime - nowTime;
-  // console.log("endTime: " + endTime + " " + Date(endTime).toString());
-  // console.log("nowTime: " + nowTime + " " + Date(nowTime).toString());
+ 
   console.log("pozostały czas do zamowienia: " + mytime);
   let hours = Math.floor((endTime / (60 * 60) - nowTime / (60 * 60)) % 24);
   // Przykład - dodanie 0 przeg godziną
@@ -356,5 +335,4 @@ function getCookie(cname) {
   }
   return "";
 }
-
 // Koniec funkcji

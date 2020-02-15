@@ -38,8 +38,7 @@
       </nav>
 
       <!-- Main component for a primary marketing message or call to action -->
-      <div class="jumbotron">
-          
+      <div class="jumbotron">          
           <h2 id="fname">Witaj ,</h2>
           <p> Online możesz zamówić lunch na dzisiaj tylko do godziny 10.00, <p id="myClock"> Pozostało ci jeszcze 
             <strong>
@@ -170,15 +169,8 @@
     <script src="/public/main.js"></script>
     
     <link
-      rel="stylesheet"
-      href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
-      integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
-      crossorigin="anonymous"
-    />
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table.min.css"
-    />
+      rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table.min.css" />
     <script src="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table.min.js"></script>
     <script src="https://unpkg.com/tableexport.jquery.plugin/tableExport.min.js"></script>
     <script src="https://unpkg.com/bootstrap-table@1.15.5/dist/extensions/export/bootstrap-table-export.min.js"></script>
@@ -195,9 +187,7 @@
           $table.bootstrapTable("refreshOptions", {
             locale: $(this).val()
           });
-        });
-        
-
+        }); 
         // Make a request for a user with a given ID
         axios
           .post("/home/new_order2", {
@@ -236,9 +226,7 @@
                 events: window.operateEvents2,
                 formatter: operateFormatter2
               }]
-
             });
-
             $table_opoka.bootstrapTable({data: table_supplier,
               columns: [,,,,,
               {
@@ -248,8 +236,7 @@
                 clickToSelect: false,
                 events: window.operateEvents2,
                 formatter: operateFormatter2
-              }]
-              
+              }]              
             });
             // generateDynamicTable();
           })
