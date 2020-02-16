@@ -311,7 +311,7 @@ exports.new_order2 = function(req, res, next) {
     console.log("sql1: " + sql1);
 
     db.query(sql1, function(err, results) {
-      console.log("results: " + results);
+      //console.log("results: " + results);
       orders_json = JSON.stringify(results);
       console.log("orders_json: ", orders_json);
       res.json({ table_data: results, table_supplier: JSON.parse(menu_json), fname: fname , sesa_no1: sesa_no1});
