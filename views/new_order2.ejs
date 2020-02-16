@@ -13,7 +13,6 @@
   </head>
   <body>
     <div class="container">
-      <!-- Static navbar -->
       <nav  class="navbar navbar-default ">
         <div class="container-fluid">
           <div class="navbar-collapse collapse ">
@@ -28,11 +27,8 @@
               <li><a href="/home/logout">Wylogowanie</a></li>
             </ul>
           </div>
-          <!--/.nav-collapse -->
         </div>
-        <!--/.container-fluid -->
       </nav>
-
       <!-- Main component for a primary marketing message or call to action -->
       <div class="jumbotron">          
           <h2 id="fname">Witaj ,</h2>
@@ -49,25 +45,16 @@
           <p hidden id="sesa_no1"></p>
           <p>
             Lista twoich aktualnych zamówień:
-          </p>
-          <div class="select">
-            <select class="form-control" id="locale">
-              <option value="en-US" >en-US</option>
-              <option value="fr-FR">fr-FR</option>
-              <option value="pl-PL" selected>pl-PL</option>
-            </select>
-          </div>          
+          </p>     
           <table
             id="table"
             data-locale="pl-PL"
             data-search="true"
-            data-height="400"
+            data-height="300"
             data-show-export="true"
-            data-click-to-select="true"
             data-pagination="true"
             data-pagination-pre-text="Poprzedni"
             data-pagination-next-text="Następny"
-            data-pagination-next-text="Next"
             data-page-list="[3, 5, 10, 15, all]"
             data-response-handler="responseHandler"
           >
@@ -109,9 +96,9 @@
                 data-show-export="true"
                 data-click-to-select="true"
                 data-pagination="true"
+                data-show-pagination-switch="true"
                 data-pagination-pre-text="Poprzedni"
                 data-pagination-next-text="Następny"
-                data-pagination-next-text="Next"
                 data-page-list="[3, 5, 10, 15, all]"
                 data-response-handler="responseHandler" >
 
@@ -157,8 +144,8 @@
               </table>
             </div>
           </div>
-      </div> <!-- jumbotron -->
-    </div> <!-- container -->
+      </div>
+    </div>
     <!-- js -->
     <script src="/public/main.js"></script>
     
