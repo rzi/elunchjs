@@ -32,7 +32,7 @@
       <!-- Main component for a primary marketing message or call to action -->
       <div class="jumbotron">          
           <h2 id="fname">Witaj ,</h2>
-          <p> Online możesz zamówić lunch na dzisiaj tylko do godziny 10.00, <p id="myClock"> Pozostało ci jeszcze 
+          <p style="margin-bottom: 0;"> Online możesz zamówić lunch na dzisiaj tylko do godziny 10.00, <p id="myClock"> Pozostało ci jeszcze 
             <strong>
               <span class="h">.</span> h:
               <span class="m">.</span> m:
@@ -40,39 +40,32 @@
             </strong>
             do złożeina zamówienia. </p><span hidden id="f"></span>
           </p>
-          <p>Wybierz datę na kiedy zamawiasz lunch</p>
+          <p style="margin-bottom: 0;">Wybierz datę na kiedy zamawiasz lunch</p>
           <input type="date" name="lunch_order" id="lunch_order"  /> <p id="mesg" style="color:red; font-size: 14px;"></p>
           <p hidden id="sesa_no1"></p>
-          <p>
-            Lista twoich aktualnych zamówień:
-          </p>     
+          <p style="margin-bottom: 0;">Lista twoich aktualnych zamówień:</p>   
           <table
             id="table"
+            class="table"
             data-locale="pl-PL"
             data-search="true"
-            data-height="300"
-            data-show-export="true"
-            data-pagination="true"
-            data-pagination-pre-text="Poprzedni"
-            data-pagination-next-text="Następny"
-            data-page-list="[3, 5, 10, 15, all]"
-            data-response-handler="responseHandler">
+            data-show-export="true">
+
             <thead>
               <tr>
                 <th data-field="id">ID</th>
                 <th data-field="Id_sesa_no">SESA</th>
                 <th data-field="order_date">Data</th>
                 <th data-field="order_supplier_name">Dostawca</th>
-                <th data-field="order_no">Numewr dania</th>
+                <th data-field="order_no">Nr. dania</th>
                 <th data-field="order_name">Danie</th>
                 <th data-field="order_price">Cena</th>
               </tr>
             </thead>
           </table>
-          <p>
-            Masz do wyborów dwóch dostawców Mucha i Opoka, kliknij odpowiednią
-            zakładkę
-          </p>
+          <br>
+          <p>Masz do wyborów dwóch dostawców <strong>Mucha</strong>  i <strong>Opoka</strong> , kliknij odpowiednią
+            zakładkę</p>
           <p  hidden id="activeSupplier"></p>
           <!-- dynamic tabs -->
           <ul class="nav nav-tabs">
@@ -84,9 +77,9 @@
             <div id="mucha" class="tab-pane fade in active">
               <h2 hidden id="titleMucha">Mucha</h2>
               <br>
-              <p>wybierz danie: </p>
-
-              <table
+              <p style="margin-bottom: 0; ">wybierz danie: </p>
+              <table class="table"
+                data-toggle="table"
                 id="table_mucha"
                 data-locale="pl-PL"
                 data-search="true"
@@ -253,7 +246,7 @@
 
         function operateFormatter(value, row, index) {
           return [
-            '<a class="remove" href="javascript:void(0)" title="Remove">',
+            '<a class="remove" href="javascript:void(0)" title="Usuń">',
             '<i class="fa fa-trash"></i>',
             "</a>"
           ].join("");
@@ -275,7 +268,7 @@
 
         function operateFormatter2(value, row, index) {
           return [
-            '<a class="order" href="javascript:void(0)" title="Order">',
+            '<a class="order" href="javascript:void(0)" title="Zamów">',
             '<i class="fas fa-utensils"></i>',
             "</a>"
           ].join("");
