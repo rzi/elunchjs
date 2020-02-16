@@ -451,7 +451,9 @@ exports.orders2 = function(req, res, next) {
       data_from +
       "' AND '" +
       data_to +
-      "' ORDER BY ID DESC";
+      "' AND `Id_sesa_no`='"+
+      sesa_no1 +
+      "' ORDER BY id DESC";
     console.log("sql: " + sql);
     db.query(sql, function(err, result) {
       ordersList = JSON.stringify(result);
