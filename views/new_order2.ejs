@@ -75,7 +75,6 @@
             zakładkę
           </p>
           <p  hidden id="activeSupplier"></p>
-          <p  hidden id="sesa_no1"></p>
           <!-- dynamic tabs -->
           <ul class="nav nav-tabs">
             <li ><a data-toggle="tab" href="#mucha">Mucha</a></li>
@@ -163,7 +162,7 @@
         var $table_opoka = $("#table_opoka");
         var $remove = $("#remove");
         var selections = [];
-        var fname; 
+        var fname, sesa_no1; 
         $("#locale").change(function() {
           $table.bootstrapTable("refreshOptions", {
             locale: $(this).val()
@@ -178,8 +177,10 @@
           .then(function(response) {
             // handle success
             fname = response.data.fname;
-            console.log ("fname: "+ fname);
+            sesa_no1 = response.data.sesa_no1;
+            console.log ("fname: "+ fname + "sesa_no1: " + sesa_no1);
             document.getElementById("fname").innerText ="Witaj "+fname + ",";
+            document.getElementById("sesa_no1").innerText = sesa_no1;
             var table_data = response.data.table_data;
             var table_data2 = JSON.stringify(table_data );
             console.log("table_data: " + table_data2 );

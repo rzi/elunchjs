@@ -59,10 +59,6 @@ exports.login = function(req, res) {
         req.session.sesa_no1 = sesa_no1;
         req.session.myDateCookies = new Date();
         req.session.mySupplierCookies = "Mucha";
-
-        // console.log(results[0].id);
-        // console.log(results[0].first_name);
-        // console.log("sesa: ", sesa_no1);
         res.redirect("/home/dashboard");
       } else {
         message = "Złe dane logowania (sesa lub hasło)";
@@ -302,9 +298,15 @@ exports.new_order2 = function(req, res, next) {
     });
 
     // display current orders
-    var sql1 =
+    // var sql1 =
+    //   "SELECT * FROM `elunch_orders2` WHERE `order_date`='" +
+    //   mydate +
+    //   "' ORDER BY id DESC";
+      var sql1 =
       "SELECT * FROM `elunch_orders2` WHERE `order_date`='" +
       mydate +
+      "' AND `Id_sesa_no`='"+
+      sesa_no1 +
       "' ORDER BY id DESC";
     console.log("sql1: " + sql1);
 
@@ -312,7 +314,7 @@ exports.new_order2 = function(req, res, next) {
       console.log("results: " + results);
       orders_json = JSON.stringify(results);
       console.log("orders_json: ", orders_json);
-      res.json({ table_data: results, table_supplier: JSON.parse(menu_json), fname: fname });
+      res.json({ table_data: results, table_supplier: JSON.parse(menu_json), fname: fname , sesa_no1: sesa_no1});
     });
   } else if (req.method == "GET") {
     res.render("new_order2.ejs");
