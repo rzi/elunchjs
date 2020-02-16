@@ -37,7 +37,7 @@
     <div class="jumbotron">
         <p>Zamówione dania: 
           <input type="date" name="data_list" id="data_list"> </input>
-          <button type="button" id="btn" onclick="data_list()">Zatwierdź</button>
+          <button type="button" id="btn" >Zatwierdź</button>
         </p>
         <div class="table-responsive">
             <table id="table_list" 
@@ -83,7 +83,7 @@
         document.getElementById("data_list").addEventListener("change", function() {
           data_list();  
         });
-
+        data_list();
         } //end of window load
 
         function data_list() {

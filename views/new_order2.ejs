@@ -20,7 +20,7 @@
               <li> <img src="/public/img/logo2.png" with="94" height="45" alt="logo" srcset=""></li>
               <li class="active"><a href="/home/dashboard">Powtót</a></li>
               <li >
-                <a href="/home/orders">Historia zamówień</a>
+                <a href="/home/orders2">Historia zamówień2</a>
               </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
@@ -56,8 +56,7 @@
             data-pagination-pre-text="Poprzedni"
             data-pagination-next-text="Następny"
             data-page-list="[3, 5, 10, 15, all]"
-            data-response-handler="responseHandler"
-          >
+            data-response-handler="responseHandler">
             <thead>
               <tr>
                 <th data-field="id">ID</th>
@@ -100,7 +99,6 @@
                 data-pagination-next-text="Następny"
                 data-page-list="[3, 5, 10, 15, all]"
                 data-response-handler="responseHandler" >
-
                 <thead>
                   <tr>
                     <th data-field="id">ID</th>
@@ -184,6 +182,7 @@
             var table_data = response.data.table_data;
             var table_data2 = JSON.stringify(table_data );
             console.log("table_data: " + table_data2 );
+            $table.bootstrapTable('destroy');
             $table.bootstrapTable({ data: table_data,
               columns: [,,,,,,,
               {
@@ -198,6 +197,7 @@
             var table_supplier = response.data.table_supplier;
             var table_supplier1 = JSON.stringify(table_supplier );
             console.log("table_supplier1: " + table_supplier1);
+            $table_mucha.bootstrapTable('destroy');
             $table_mucha.bootstrapTable({data: table_supplier,
               columns: [,,,,,
               {
@@ -209,6 +209,7 @@
                 formatter: operateFormatter2
               }]
             });
+            $table_opoka.bootstrapTable('destroy');
             $table_opoka.bootstrapTable({data: table_supplier,
               columns: [,,,,,
               {
@@ -220,7 +221,6 @@
                 formatter: operateFormatter2
               }]              
             });
-            // generateDynamicTable();
           })
           .catch(function(error) {
             // handle error
