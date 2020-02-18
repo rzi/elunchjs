@@ -277,7 +277,7 @@
         window.operateEvents2 = {
           "click .order": function(e, value, row, index) {
             if (document.getElementById("f").innerText == "1"){
-              myFunction_order2(row.menu_no);
+              myFunction_order2(row.id);// CHANGE STRATEGY FROM MENU_NO TO ID
             } else{
               alert( "Nie możesz zamówić na wybrany dzień. \n Zamówienia można składać online do 10:00 lub telefonicznie");
             }    

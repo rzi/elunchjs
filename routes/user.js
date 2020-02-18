@@ -294,9 +294,9 @@ exports.new_order2 = function(req, res, next) {
     // display menu
     mysupplier_name = mysupplier;
     var sql3 = "SELECT * FROM `elunch_menu2` WHERE `supplier_name`='" + mysupplier_name +
-    "' AND `id_day`= '0' OR `id_day`='"+
+    "' AND (`id_day`= 0 OR `id_day`='"+
     id_day +
-    "'";
+    "')";
     console.log("sql3: " + sql3);
     db.query(sql3, function(err, results) {
       menu_json = JSON.stringify(results);
@@ -304,19 +304,13 @@ exports.new_order2 = function(req, res, next) {
     });
 
     // display current orders
-    // var sql1 =
-    //   "SELECT * FROM `elunch_orders2` WHERE `order_date`='" +
-    //   mydate +
-    //   "' ORDER BY id DESC";
-
-
       var sql1 =
       "SELECT * FROM `elunch_orders2` WHERE `order_date`='" +
       mydate +
       "' AND `Id_sesa_no`='"+
       sesa_no1 +
         "' ORDER BY id DESC";
-    console.log("sql1: " + sql1);
+      console.log("sql1: " + sql1);
 
     db.query(sql1, function(err, results) {
       //console.log("results: " + results);
@@ -328,9 +322,10 @@ exports.new_order2 = function(req, res, next) {
     res.render("new_order2.ejs");
   } else if (req.method == "PUT") {
     var supplier = req.body.supplier;
-    var order_no = req.body.order_no;
+    var order_no;
     var sesa_no1 = req.session.sesa_no1;
     var order_date = req.body.order_date;
+    var id =req.body.id;
 
     console.log("Method: " + req.method);
     console.log(
@@ -341,18 +336,12 @@ exports.new_order2 = function(req, res, next) {
       " ",
       order_date,
       " ",
-      "Numer dania ",
-      order_no,
-      " "
-    );
-    //base order_no, get from menu order_name and order_price
+      "id ",
+      id);
+    //base id (previously order_no), get from menu order_name and order_price
     var sql6 =
-      "SELECT * FROM `elunch_menu2` WHERE `supplier_name`='" +
-      supplier +
-      "' and menu_no = '" +
-      order_no +
-      "' AND `id_day`= '0' AND `id_day`='"+
-      id_day +
+      "SELECT * FROM `elunch_menu2` WHERE `id`='" +
+      id +
       "'";
     console.log("sql6: ", sql6);
     db.query(sql6, function(err, results) {
@@ -362,6 +351,9 @@ exports.new_order2 = function(req, res, next) {
         menu_price = results[0].menu_price;
         //return menu_desctription;
         console.log("menu_price: ", menu_price);
+        menu_no = results[0].menu_no;
+        //return menu_no;
+        console.log("menu_no: ", menu_no);
       } else {
         message =
           "problem z pobraniem danych z bazy menu przed zapisem do bazy order2";
@@ -377,7 +369,7 @@ exports.new_order2 = function(req, res, next) {
         "','" +
         supplier +
         "','" +
-        order_no +
+        menu_no +
         "','" +
         menu_desctription +
         "','" +

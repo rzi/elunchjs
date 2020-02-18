@@ -206,7 +206,7 @@ function myFunction_order(value) {
       sesa_no1: document.getElementById("sesa_no1").innerText,
       supplier: document.getElementById("activeSupplier").innerText,
       order_date: document.getElementById("lunch_order").value,
-      order_no: value
+      id: value
     })
     .then(function(response) {
       // handle success
@@ -230,7 +230,7 @@ function myFunction_order2(value) {
       sesa_no1: document.getElementById("sesa_no1").innerText,
       supplier: document.getElementById("activeSupplier").innerText,
       order_date: document.getElementById("lunch_order").value,
-      order_no: value
+      id: value
     })
     .then(function(response) {
       // handle success
