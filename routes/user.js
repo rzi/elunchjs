@@ -287,10 +287,16 @@ exports.new_order2 = function(req, res, next) {
     var sesa_no1 = req.session.sesa_no1;
     var fname = req.session.first_name;
     console.log("sesa_no1: " + sesa_no1);
+    var d = new Date();
+    var id_day =parseInt(d.getDay());
+    console.log("id_day: " , id_day);
 
     // display menu
     mysupplier_name = mysupplier;
-    var sql3 = "SELECT * FROM `elunch_menu2` WHERE `supplier_name`='" + mysupplier_name + "'";
+    var sql3 = "SELECT * FROM `elunch_menu2` WHERE `supplier_name`='" + mysupplier_name +
+    "' AND `id_day`= '0' OR `id_day`='"+
+    id_day +
+    "'";
     console.log("sql3: " + sql3);
     db.query(sql3, function(err, results) {
       menu_json = JSON.stringify(results);
@@ -302,12 +308,14 @@ exports.new_order2 = function(req, res, next) {
     //   "SELECT * FROM `elunch_orders2` WHERE `order_date`='" +
     //   mydate +
     //   "' ORDER BY id DESC";
+
+
       var sql1 =
       "SELECT * FROM `elunch_orders2` WHERE `order_date`='" +
       mydate +
       "' AND `Id_sesa_no`='"+
       sesa_no1 +
-      "' ORDER BY id DESC";
+        "' ORDER BY id DESC";
     console.log("sql1: " + sql1);
 
     db.query(sql1, function(err, results) {
@@ -343,6 +351,8 @@ exports.new_order2 = function(req, res, next) {
       supplier +
       "' and menu_no = '" +
       order_no +
+      "' AND `id_day`= '0' AND `id_day`='"+
+      id_day +
       "'";
     console.log("sql6: ", sql6);
     db.query(sql6, function(err, results) {
