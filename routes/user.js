@@ -76,11 +76,11 @@ exports.dashboard = function(req, res, next) {
     userId = req.session.userId,
     fname = req.session.first_name;
 
-  // console.log("userID= " + userId);
+   console.log("userID= " + userId);
   // console.log("first_name= " + req.session.first_name);
 
-  if (userId == 9999) {
-    res.redirect("/admin");
+  if (req.session.sesa_no1 == 9999) {
+    res.render("admin.ejs");
     return;
   }
 
