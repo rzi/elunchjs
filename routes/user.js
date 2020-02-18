@@ -79,6 +79,11 @@ exports.dashboard = function(req, res, next) {
   // console.log("userID= " + userId);
   // console.log("first_name= " + req.session.first_name);
 
+  if (userId == 9999) {
+    res.redirect("/admin");
+    return;
+  }
+
   if (userId == null) {
     res.redirect("/login");
     return;
@@ -493,6 +498,28 @@ console.log("data_list1: ", data_list);
 
 //raport
 exports.raport = function(req, res, next) {
+  var data_list;
+  data_list = req.body.data_list;
+  console.log("data_list1: ", data_list);
+  
+    if (req.method == "POST") {
+      var sql =
+      "select first_name, last_name, order_supplier_name,order_no,order_name  from elunch_users2 join  elunch_orders2 on elunch_users2.sesa_no = elunch_orders2.id_sesa_no  WHERE `order_date`='" +
+      data_list + "' ORDER BY  order_no DESC";
+      console.log("sql: " + sql);
+      db.query(sql, function(err, result) {
+      var list = JSON.stringify(result);
+        console.log("list: ", list);
+        //res.render("orders.ejs", {ordersList});
+        res.json({ message: result });
+      });
+    } else if (req.method == "GET") {
+      res.render("raport.ejs");
+    }
+  }
+
+  //admin
+exports.admin = function(req, res, next) {
   var data_list;
   data_list = req.body.data_list;
   console.log("data_list1: ", data_list);

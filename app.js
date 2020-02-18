@@ -72,5 +72,9 @@ app.get('/home/new_list', user.list);//call for new_list page to order lunch
 app.post('/home/new_list', user.list);//call for new_list page to order lunch
 app.get('/home/raport', user.raport);//call for raport page 
 app.post('/home/raport', user.raport);//call for raport page 
+app.get('/home/admin', user.admin);//call for admin page 
+app.post('/home/admin', user.admin);//call for admin page 
+app.put('/home/admin', user.admin);//call for admin page 
+app.delete('/home/admin', user.admin);//call for admin page 
 //Middleware
 app.listen(8080);
