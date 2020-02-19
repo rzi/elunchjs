@@ -518,24 +518,85 @@ exports.raport = function(req, res, next) {
     }
   }
 
-  //admin
+//admin
 exports.admin = function(req, res, next) {
-  var data_list;
-  data_list = req.body.data_list;
-  console.log("data_list1: ", data_list);
-  
-    if (req.method == "POST") {
-      var sql =
-      "select first_name, last_name, order_supplier_name,order_no,order_name  from elunch_users2 join  elunch_orders2 on elunch_users2.sesa_no = elunch_orders2.id_sesa_no  WHERE `order_date`='" +
-      data_list + "' ORDER BY  order_no DESC";
-      console.log("sql: " + sql);
-      db.query(sql, function(err, result) {
-      var list = JSON.stringify(result);
-        console.log("list: ", list);
-        //res.render("orders.ejs", {ordersList});
-        res.json({ message: result });
-      });
-    } else if (req.method == "GET") {
-      res.render("raport.ejs");
-    }
+  var id = req.body.id;
+  var sesa =req.body.sesa_no;
+  var first_name= req.body.first_name;
+  var last_name = req.body.last_name;
+  var mob_no = req.body.mob_no;
+  var user_name = req.body.user_name;
+  var password = req.body.password;
+   console.log (sesa + " " + first_name + " " + last_name + " " +  mob_no + " " +  user_name + " " + password) ;
+
+  if (req.method == "POST") {
+
+    var sql = "INSERT INTO `elunch_users2`(`sesa_no`,`first_name`,`last_name`,`mob_no`,`user_name`, `password`) VALUES ('" +
+    sesa +
+    "','" +
+    first_name +
+    "','" +
+    last_name +
+    "','" +
+    mob_no +
+    "','" +
+    user_name +
+    "','" +
+    password +
+    "')";
+
+    console.log("sql: " + sql);
+    db.query(sql, function(err, result) {
+      var users = JSON.stringify(result);
+      console.log("users: ", users);
+      res.json({ message: result });
+    });
+
+  } else if (req.method == "GET") {
+    var sql = "select * from elunch_users2 WHERE 1 ORDER BY id DESC";
+    console.log("sql: " + sql);
+    db.query(sql, function(err, result) {
+      var users = JSON.stringify(result);
+      console.log("list: ", users);
+      res.json({ message: result });
+    });
+
+  } else if(req.method == "DELETE"){
+    var delete_id = req.body.delete_id;
+    console.log("delete: ", delete_id);
+    var sql7 = "DELETE FROM `elunch_users2` WHERE `id` ='" + delete_id + "'";
+    db.query(sql7, function(err, results) {
+      console.log("deleted one row");
+    });
+  } else if (req.method == "PUT") {
+    console.log ( "put " + id + " "+ sesa + " " + first_name + " " + last_name + " " +  mob_no + " " +  user_name + " " + password) ; 
+
+    // var sql13 = "UPDATE elunch_users2 SET sesa_no=" +
+    // sesa +
+    // ", first_name='" +
+    // first_name +
+    // "', last_name='" +
+    // last_name +
+    // "', mob_no=" +
+    // mob_no + 
+    // ", user_name='" +
+    // user_name +
+    // "', password=" +
+    // password +
+    // " WHERE id="+
+    // id +
+    // "";
+    
+    var sql13 = "UPDATE elunch_users2 SET sesa_no=" +
+    sesa +
+    " WHERE id="+
+    id +
+    "";
+    console.log("sql13: " + sql13);
+    db.query(sql, function(err, result) {
+    console.log(" updated row no. :" + id);
+    });
+
+    res.render("admin.ejs");
   }
+}

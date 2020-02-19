@@ -31,3 +31,20 @@
   color: black;
   }
   
+  .level-1{
+    border: 2px solid #3dcd58;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    padding: 5px;
+  }
+
+  .level-2{
+    border: 2px solid #3dcd58;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    padding: 5px;
+  }
+
+  .tableUser{
+    padding: 10px;
+  }
