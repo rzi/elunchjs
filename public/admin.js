@@ -26,7 +26,7 @@ window.onload = function() {
                         field: 'update',
                         title: 'Uaktualnij',
                         align: 'center',
-                        clickToSelect: false,
+                        clickToSelect: true,
                         events: window.operateEvents2,
                         formatter: operateFormatter2
                       }]            
@@ -50,40 +50,36 @@ window.onload = function() {
             }
           };  
 
-          window.operateEvents2 = {
-            "click .update": function(e, value, row, index) {
 
-                console.log( " update " + row.id)
-                axios
-                .put("/home/admin", {
-                    id: row.id,
-                    sesa_no: document.getElementById("sesa_no").value,
-                    first_name: document.getElementById("first_name").value,
-                    last_name: document.getElementById("last_name").value,
-                    user_name: document.getElementById("user_name").value,
-                    mob_no: document.getElementById("mob_no").value,
-                    password: document.getElementById("password").value
-                  
-                })
-                .then(function(response) {
-                  // handle success
-                   location.reload();        
-                                      
-                })
-                .catch(function(error) {
-                  // handle error
-                  console.log(error);
-                })
-                .finally(function() {
-                  // always executed
-                }); 
-        
-            }
-        }
 
                
 } //end of onload
-
+window.operateEvents2 = {
+  "click .update": function(e, value, row, index) {
+      console.log( " update " + row.id)
+      axios
+      .put("/home/admin", {
+          id: row.id,
+          sesa_no: document.getElementById("sesa_no").value,
+          first_name: document.getElementById("first_name").value,
+          last_name: document.getElementById("last_name").value,
+          user_name: document.getElementById("user_name").value,
+          mob_no: document.getElementById("mob_no").value,
+          password: document.getElementById("password").value        
+      })
+      .then(function(response) {
+        // handle success
+          location.reload();                            
+      })
+      .catch(function(error) {
+        // handle error
+        console.log(error);
+      })
+      .finally(function() {
+        // always executed
+      });
+  }
+}
 function addUser1(){
     axios
     .post("/home/admin", {

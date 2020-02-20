@@ -571,29 +571,24 @@ exports.admin = function(req, res, next) {
   } else if (req.method == "PUT") {
     console.log ( "put " + id + " "+ sesa + " " + first_name + " " + last_name + " " +  mob_no + " " +  user_name + " " + password) ; 
 
-    // var sql13 = "UPDATE elunch_users2 SET sesa_no=" +
-    // sesa +
-    // ", first_name='" +
-    // first_name +
-    // "', last_name='" +
-    // last_name +
-    // "', mob_no=" +
-    // mob_no + 
-    // ", user_name='" +
-    // user_name +
-    // "', password=" +
-    // password +
-    // " WHERE id="+
-    // id +
-    // "";
-    
     var sql13 = "UPDATE elunch_users2 SET sesa_no=" +
     sesa +
+    ", first_name='" +
+    first_name +
+    "', last_name='" +
+    last_name +
+    "', mob_no=" +
+    mob_no + 
+    ", user_name='" +
+    user_name +
+    "', password=" +
+    password +
     " WHERE id="+
     id +
     "";
+ 
     console.log("sql13: " + sql13);
-    db.query(sql, function(err, result) {
+    db.query(sql13, function(err, result) {
     console.log(" updated row no. :" + id);
     });
 
