@@ -492,7 +492,7 @@ console.log("data_list1: ", data_list);
       res.json({ message: result });
     });
   } else if (req.method == "GET") {
-    res.render("list.ejs");
+    res.render("new_list.ejs");
   }
 }
 
