@@ -42,15 +42,16 @@
         <div class="level-1">
           <p>zarządzanie użytkownikami:</p>
           <div class="addUser">
-            <p>dodaj użytkownika</p>
-
+            <p>dodaj lub uaktualnij użytkownika</p>
+              id <input disabled type="text" id="myid" ><br><br> 
               SESA <input type="text" id="sesa_no"><br><br>
               Imię <input type="text" id="first_name"><br><br>
               Nazwisko <input type="text" id="last_name"><br><br>
               Telefon <input type="text" id="mob_no"><br><br>
               Sktót <input type="text" id="user_name"><br><br>
               Hasło <input type="password" id="password"><br><br>
-              <input type="submit"  onclick="addUser1()" value="Dodaj">              
+              <input  id="btn_add" type="submit"  onclick="addUser1()" value="Dodaj">   <br>
+              <input hidden id ="btn_update" type="submit"  onclick="updateDB()" value="Uaktualnij">           
 
           </div>
           <br>

@@ -527,6 +527,8 @@ exports.admin = function(req, res, next) {
   var mob_no = req.body.mob_no;
   var user_name = req.body.user_name;
   var password = req.body.password;
+  var myid = req.body.myid;
+  var dataForUpdate;
    console.log (sesa + " " + first_name + " " + last_name + " " +  mob_no + " " +  user_name + " " + password) ;
 
   if (req.method == "POST") {
@@ -553,12 +555,20 @@ exports.admin = function(req, res, next) {
     });
 
   } else if (req.method == "GET") {
+   var row = req.query.row;
+   console.log("row: " + row);
+   var sql17 = "SELECT * FROM `elunch_users2` WHERE `id` ='" + row + "'";
+   db.query(sql17, function(err, results) {
+     console.log("row selected :" + results);
+      dataForUpdate =results;
+   });
+
     var sql = "select * from elunch_users2 WHERE 1 ORDER BY id DESC";
     console.log("sql: " + sql);
     db.query(sql, function(err, result) {
       var users = JSON.stringify(result);
       console.log("list: ", users);
-      res.json({ message: result });
+      res.json({ message: result, dataForUpdate:dataForUpdate });
     });
 
   } else if(req.method == "DELETE"){
@@ -569,7 +579,7 @@ exports.admin = function(req, res, next) {
       console.log("deleted one row");
     });
   } else if (req.method == "PUT") {
-    console.log ( "put " + id + " "+ sesa + " " + first_name + " " + last_name + " " +  mob_no + " " +  user_name + " " + password) ; 
+    console.log ( "put " + myid + " "+ sesa + " " + first_name + " " + last_name + " " +  mob_no + " " +  user_name + " " + password) ; 
 
     var sql13 = "UPDATE elunch_users2 SET sesa_no=" +
     sesa +
