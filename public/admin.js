@@ -78,17 +78,50 @@ window.onload = function() {
                 })
                 .then(function(response) {
                   // handle success
-                  console.log(response.data.dataForUpdate[0].id);
-                  document.getElementById("myid").value=response.data.dataForUpdate[0].id;
-                  document.getElementById("sesa_no").value=response.data.dataForUpdate[0].sesa_no;
-                  document.getElementById("first_name").value=response.data.dataForUpdate[0].first_name;
-                  document.getElementById("last_name").value=response.data.dataForUpdate[0].last_name;
-                  document.getElementById("user_name").value=response.data.dataForUpdate[0].user_name;
-                  document.getElementById("mob_no").value=response.data.dataForUpdate[0].mob_no;
-                  document.getElementById("password").value=response.data.dataForUpdate[0].password;
-                  document.getElementById("btn_update").style.display = "block";
-                  document.getElementById("btn_add").style.display = "none";
+                    document.getElementById("myid").value=response.data.dataForUpdate[0].id;
+                    document.getElementById("sesa_no").value=response.data.dataForUpdate[0].sesa_no;
+                    document.getElementById("first_name").value=response.data.dataForUpdate[0].first_name;
+                    document.getElementById("last_name").value=response.data.dataForUpdate[0].last_name;
+                    document.getElementById("user_name").value=response.data.dataForUpdate[0].user_name;
+                    document.getElementById("mob_no").value=response.data.dataForUpdate[0].mob_no;
+                    document.getElementById("password").value=response.data.dataForUpdate[0].password;
+                    document.getElementById("btn_update").style.display = "block";
+                    document.getElementById("btn_add").style.display = "none";
 
+                    //location.reload();                            
+                })
+                .catch(function(error) {
+                  // handle error
+                  console.log(error);
+                })
+                .finally(function() {
+                  // always executed
+                });
+          
+          }
+          function updateRow2(row){
+            console.log( " update " + row)
+                axios
+                .get("/home/admin", {
+                  params: {
+                    row: row
+                  }
+                 
+                })
+                .then(function(response) {
+                  // handle success
+ 
+                  console.log("len menuForUpdate: "+ response.data.menuForUpdate[0].id)
+                  console.log(response.data.menuForUpdate[0].id);
+                    document.getElementById("myid2").value=response.data.menuForUpdate[0].id;
+                    document.getElementById("supplier_name").value=response.data.menuForUpdate[0].supplier_name;
+                    document.getElementById("menu_no").value=response.data.menuForUpdate[0].menu_no;
+                    document.getElementById("menu_desctription").value=response.data.menuForUpdate[0].menu_desctription;
+                    document.getElementById("menu_price").value=response.data.menuForUpdate[0].menu_price;
+                    document.getElementById("id_day").value=response.data.menuForUpdate[0].id_day;
+                    
+                    document.getElementById("btn_update_menu").style.display = "block";
+                    document.getElementById("btn_add_menu").style.display = "none";
                   //location.reload();                            
                 })
                 .catch(function(error) {
@@ -109,7 +142,6 @@ window.onload = function() {
                 myFunction_delete2(row.id);        
             }
           }; 
-
           window.operateEvents2 = {
             "click .update": function(e, value, row, index) {
               updateRow(row.id); 
@@ -117,7 +149,7 @@ window.onload = function() {
           }
           window.operateEvents3 = {
             "click .remove": function(e, value, row, index) {
-                $table.bootstrapTable("remove", {
+                $tableMenu.bootstrapTable("remove", {
                 field: "id",
                 values: [row.id] 
                 })
@@ -126,7 +158,7 @@ window.onload = function() {
           }; 
           window.operateEvents4 = {
             "click .update": function(e, value, row, index) {
-              updateRow(row.id); 
+              updateRow2(row.id); 
             }
           }
                
@@ -135,11 +167,11 @@ window.onload = function() {
 function addMenu1(){
     axios
     .post("/home/admin", {
-      sesa_no: document.getElementById("supplier_name").value,
-      first_name: document.getElementById("menu_no").value,
-      last_name: document.getElementById("menu_desctription").value,
-      mob_no: document.getElementById("menu_price").value,
-      user_name: document.getElementById("id_day").value,
+      supplier_name: document.getElementById("supplier_name").value,
+      menu_no: document.getElementById("menu_no").value,
+      menu_desctription: document.getElementById("menu_desctription").value,
+      menu_price: document.getElementById("menu_price").value,
+      id_day: document.getElementById("id_day").value
     })
     .then(function(response) {
       location.reload();                  
@@ -173,7 +205,6 @@ function addUser1(){
     // always executed
   });
 }
-
 function operateFormatter(value, row, index) {
     return [
       '<a class="remove" href="javascript:void(0)" title="Usuń">',
@@ -273,13 +304,13 @@ function updateMenuDB1(){
   console.log( " updateDB ")
       axios
       .put("/home/admin", {
-          id: document.getElementById("myid").value,
-          sesa_no: document.getElementById("sesa_no").value,
-          first_name: document.getElementById("first_name").value,
-          last_name: document.getElementById("last_name").value,
-          user_name: document.getElementById("user_name").value,
-          mob_no: document.getElementById("mob_no").value,
-          password: document.getElementById("password").value        
+          updateMenu: "updateMenu",
+          myid2: document.getElementById("myid2").value,
+          supplier_name:document.getElementById("supplier_name").value,
+          menu_no:document.getElementById("menu_no").value,
+          menu_desctription:document.getElementById("menu_desctription").value,
+          menu_price:document.getElementById("menu_price").value,
+          id_day:document.getElementById("id_day").value  
       })
       .then(function(response) {
         // handle success
