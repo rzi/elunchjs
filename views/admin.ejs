@@ -83,7 +83,38 @@
         </div>
         <div class="level-2">
           <p>zarządzanie menu</p>
+          <p>dodaj lub uaktualnij menu:</p>
+          <div class="addMenu">
+              id <input disabled type="text" id="myid" ><br><br> 
+              Dostawca <input type="text" id="supplier_name"><br><br>
+              Numer dania <input type="text" id="menu_no"><br><br>
+              Opis dania <input type="text" id="menu_desctription"><br><br>
+              Cena<input type="text" id="menu_price"><br><br>
+              id dnia <input type="text" id="id_day"><br><br>
+              <input  id="btn_add" type="submit"  onclick="addMenu1()" value="Dodaj"><br>
+              <input hidden id ="btn_update" type="submit"  onclick="updateMenuDB1()" value="Uaktualnij">        
+          </div>
+          <br>
+          <div class="tableMenu">
+            <table
+            id="tableMenu"
+            class="table"
+            data-locale="pl-PL"
+            data-search="true"
+            data-show-export="true">
+            <thead>
+              <tr>
+                <th data-field="id">ID</th>
+                <th data-field="supplier_name">Dostawca</th>
+                <th data-field="menu_no">Numer dania</th>
+                <th data-field="menu_desctription">Opis dania</th>
+                <th data-field="menu_price">Cena</th>
+                <th data-field="id_day">id dnia</th>
+              </tr>
+            </thead>
+          </table>
 
+          </div>
 
         </div>
     </div>

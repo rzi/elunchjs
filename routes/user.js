@@ -529,10 +529,13 @@ exports.admin = function(req, res, next) {
   var password = req.body.password;
   var myid = req.body.myid;
   var dataForUpdate;
+  var supplier_name, menu_no, menu_desctription, menu_price,id_day;
+  var user, menu, results2;
+
    console.log (sesa + " " + first_name + " " + last_name + " " +  mob_no + " " +  user_name + " " + password) ;
 
   if (req.method == "POST") {
-
+    // user 
     var sql = "INSERT INTO `elunch_users2`(`sesa_no`,`first_name`,`last_name`,`mob_no`,`user_name`, `password`) VALUES ('" +
     sesa +
     "','" +
@@ -549,35 +552,90 @@ exports.admin = function(req, res, next) {
 
     console.log("sql: " + sql);
     db.query(sql, function(err, result) {
-      var users = JSON.stringify(result);
-      console.log("users: ", users);
-      res.json({ message: result });
+      user = result;
+      var users1 = JSON.stringify(result);
+      console.log("users1: ", users1);
+      // res.json({ message: result });
+    });
+
+    // menu
+    var sql20 = "INSERT INTO `elunch_menu`(`sesa_no`,`supplier_name`,`menu_no`,`menu_desctription`,`menu_price`, `id_day`) VALUES ('" +
+    sesa +
+    "','" +
+    supplier_name +
+    "','" +
+    menu_no +
+    "','" +
+    menu_desctription +
+    "','" +
+    menu_price +
+    "','" +
+    id_day +
+    "')";
+
+    console.log("sql: " + sql20);
+    db.query(sql, function(err, result) {
+      var menu = JSON.stringify(result);
+      console.log("users: ", menu);
+      res.json({ message: user, messageMenu: result });
     });
 
   } else if (req.method == "GET") {
+
+   //user 
    var row = req.query.row;
    console.log("row: " + row);
    var sql17 = "SELECT * FROM `elunch_users2` WHERE `id` ='" + row + "'";
    db.query(sql17, function(err, results) {
-     console.log("row selected :" + results);
+     console.log("row user selected :" + results);
       dataForUpdate =results;
    });
 
-    var sql = "select * from elunch_users2 WHERE 1 ORDER BY id DESC";
-    console.log("sql: " + sql);
-    db.query(sql, function(err, result) {
-      var users = JSON.stringify(result);
-      console.log("list: ", users);
-      res.json({ message: result, dataForUpdate:dataForUpdate });
+    var sql21 = "select * from elunch_menu2 WHERE 1 ORDER BY id DESC";
+    console.log("sql21: " + sql21);
+    db.query(sql21, function(err, results) {
+     results2 = results;
+     console.log("result2: " + results2);
+      // res.json({ message: result, dataForUpdate:dataForUpdate });
     });
 
+    // menu
+    var row = req.query.row;
+    console.log("row: " + row);
+    var sql18 = "SELECT * FROM `elunch_menu2` WHERE `id` ='" + row + "'";
+    db.query(sql18, function(err, results) {
+      console.log("row menu selected :" + results);
+       menuForUpdate = results;
+    });
+ 
+     var sql = "select * from elunch_users2 WHERE 1 ORDER BY id DESC";
+     console.log("sql: " + sql);
+     db.query(sql, function(err, result) {
+       var users = JSON.stringify(result);
+       console.log("user list: ", users);
+       res.json({ message: result, message2: results2, dataForUpdate:dataForUpdate, menuForUpdate: menuForUpdate });
+     });
+
   } else if(req.method == "DELETE"){
+    //user
+    if (req.body.delete_id){
     var delete_id = req.body.delete_id;
-    console.log("delete: ", delete_id);
+    console.log("delete user: ", delete_id);
     var sql7 = "DELETE FROM `elunch_users2` WHERE `id` ='" + delete_id + "'";
     db.query(sql7, function(err, results) {
       console.log("deleted one row");
     });
+  }
+    //menu
+    if (req.body.delete_id3){
+      var mydelete_id = req.body.delete_id3;
+      console.log("delete menu: ", mydelete_id);
+      var sql37 = "DELETE FROM `elunch_menu2` WHERE `id` ='" + mydelete_id + "'";
+      db.query(sql37, function(err, results) {
+        console.log("deleted menu one row");
+      });
+    }
+    
   } else if (req.method == "PUT") {
     console.log ( "put " + myid + " "+ sesa + " " + first_name + " " + last_name + " " +  mob_no + " " +  user_name + " " + password) ; 
 
