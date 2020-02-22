@@ -2,7 +2,7 @@
 <html lang="pl">
 <head>
   <meta charset="UTF-8">
-  <title>Raport</title>
+  <title>Raport menu</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 
@@ -19,6 +19,17 @@
   <script src="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table-locale-all.min.js"></script>
   <link rel="stylesheet" href="/public/css/style.css" type="text/css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style>
+    input#myid2 {width: 30px;}
+    input#supplier_name {width: 55px;}
+    input#menu_no {width: 30px;}
+    input#menu_no {width: 30px;}
+    input#menu_desctription {width: 350px;}
+    input#menu_price {width: 35px;}
+    input#id_day {width: 30px;}
+    input#btn_add_menu {margin-left: 20px;}
+    input#btn_update_menu {margin-left: 20px;}
+  </style>
 </head>
 <body>
   <div class="container">
@@ -27,9 +38,7 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li> <img src="/public/img/logo2.png" with="94" height="45" alt="logo" srcset="" style="margin-right: 20px;"></li>
-            <li class="active"><a href="/home/logout">Powtót</a></li>
-            <li ><a href="/home/new_list">Lista zamówień</a></li>
-            <li ><a href="/home/raport">Raport</a></li>
+            <li class="active"><a href="/home/dashboard">Powtót</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li><a href="/home/logout">Wylogowanie</a></li>
@@ -38,86 +47,42 @@
       </div>
     </nav>
     <div class="jumbotron">
-        <p>Witaj w panelu administracyjnym</p>
-        <div class="level-1">
-          <p>zarządzanie użytkownikami:</p>
-          <div class="addUser">
-            <p>dodaj lub uaktualnij użytkownika</p>
-              id <input disabled type="text" id="myid" ><br><br> 
-              SESA <input type="text" id="sesa_no"><br><br>
-              Imię <input type="text" id="first_name"><br><br>
-              Nazwisko <input type="text" id="last_name"><br><br>
-              Telefon <input type="text" id="mob_no"><br><br>
-              Sktót <input type="text" id="user_name"><br><br>
-              Hasło <input type="password" id="password"><br><br>
-              <input  id="btn_add" type="submit"  onclick="addUser1()" value="Dodaj">   <br>
-              <input hidden id ="btn_update" type="submit"  onclick="updateDB()" value="Uaktualnij">           
-
-          </div>
-          <br>
-          <div class="tableUser">
-            <table
-            id="table"
-            class="table"
-            data-locale="pl-PL"
-            data-search="true"
-            data-show-export="true">
-
-            <thead>
-              <tr>
-                <th data-field="id">ID</th>
-                <th data-field="sesa_no">SESA</th>
-                <th data-field="first_name">Imię</th>
-                <th data-field="last_name">Nazwisk</th>
-                <th data-field="mob_no">Telefon</th>
-                <th data-field="user_name">Nick</th>
-                <th data-field="password">Hasło</th>
-                <th data-field="delete">Usuń</th>
-                <th data-field="update">Uaktualnij</th>
-              </tr>
-            </thead>
-          </table>
-
-          </div>
-
+      <p style="text-align: center;">Witaj w panelu administracyjnym</p>
+      <div class="level-2">
+        <p>Zarządzanie menu (dodaj lub uaktualnij menu:)</p>
+      <div class="addMenu" >
+          id <input disabled type="text" id="myid2">
+          Dostawca <input type="text" id="supplier_name">
+          Numer dania <input type="text" id="menu_no">
+          Opis dania <input type="text" id="menu_desctription">
+          Cena <input type="text" id="menu_price">
+          id dnia <input type="text" id="id_day">
+          <input  id="btn_add_menu" type="submit"  onclick="addMenu1()" value="Dodaj">
+          <input hidden id ="btn_update_menu" type="submit"  onclick="updateMenuDB1()" value="Uaktualnij">        
         </div>
-        <div class="level-2">
-          <p>zarządzanie menu</p>
-          <p>dodaj lub uaktualnij menu:</p>
-          <div class="addMenu">
-              id <input disabled type="text" id="myid2" ><br><br> 
-              Dostawca <input type="text" id="supplier_name"><br><br>
-              Numer dania <input type="text" id="menu_no"><br><br>
-              Opis dania <input type="text" id="menu_desctription"><br><br>
-              Cena<input type="text" id="menu_price"><br><br>
-              id dnia <input type="text" id="id_day"><br><br>
-              <input  id="btn_add_menu" type="submit"  onclick="addMenu1()" value="Dodaj"><br>
-              <input hidden id ="btn_update_menu" type="submit"  onclick="updateMenuDB1()" value="Uaktualnij">        
-          </div>
-          <br>
-          <div class="tableMenu">
-            <table
-            id="tableMenu"
-            class="table"
-            data-locale="pl-PL"
-            data-search="true"
-            data-show-export="true">
-            <thead>
-              <tr>
-                <th data-field="id">ID</th>
-                <th data-field="supplier_name">Dostawca</th>
-                <th data-field="menu_no">Numer dania</th>
-                <th data-field="menu_desctription">Opis dania</th>
-                <th data-field="menu_price">Cena</th>
-                <th data-field="id_day">id dnia</th>
-              </tr>
-            </thead>
+        <br>
+        <div class="tableMenu">
+          <table
+           id="tableMenu"
+           class="table"
+           data-locale="pl-PL"
+           data-search="true"
+           data-show-export="true">
+           <thead>
+            <tr>
+            <th data-field="id">ID</th>
+            <th data-field="supplier_name">Dostawca</th>
+            <th data-field="menu_no">Numer dania</th>
+            <th data-field="menu_desctription">Opis dania</th>
+            <th data-field="menu_price">Cena</th>
+            <th data-field="id_day">id dnia</th>
+            </tr>
+           </thead>
           </table>
-
-          </div>
-
         </div>
+      </div>
     </div>
-    <!-- <script src="/public/menu.js"></script> -->
+  </div>  
+  <script src="/public/menu.js"></script>
 </body>
 </html>

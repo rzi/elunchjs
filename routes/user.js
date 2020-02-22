@@ -714,7 +714,7 @@ exports.admin = function (req, res, next) {
   }
 }
 
-//admin
+//users
 exports.users = function (req, res, next) {
   var id = req.body.id;
   var sesa = req.body.sesa_no;
@@ -728,7 +728,6 @@ exports.users = function (req, res, next) {
   var supplier_name, menu_no, menu_desctription, menu_price, id_day;
   var user, menu, results2;
 
-
   if (req.method == "POST") {
     var sesa = req.session.sesa_no1;
     var first_name = req.body.first_name;
@@ -741,116 +740,84 @@ exports.users = function (req, res, next) {
     var menu_desctription = req.body.menu_desctription;
     var menu_price = req.body.menu_price;
     var id_day = req.body.id_day;
+    var results2, menuForUpdate;
 
     console.log("Method: " + req.method);
     console.log("user: " + sesa + " " + first_name + " " + last_name + " " + mob_no + " " + user_name + " " + password);
-    console.log("menu: " + sesa + " " + supplier_name + " " + menu_no + " " + menu_desctription + " " + menu_price + " " + id_day);
+    var menuForUpdate;
+    var mypost = req.body.mypost;
 
-    if (sesa && first_name && last_name && mob_no && user_name && password) {
-      // user 
-      var sql = "INSERT INTO `elunch_users2`(`sesa_no`,`first_name`,`last_name`,`mob_no`,`user_name`, `password`) VALUES ('" +
-        sesa +
-        "','" +
-        first_name +
-        "','" +
-        last_name +
-        "','" +
-        mob_no +
-        "','" +
-        user_name +
-        "','" +
-        password +
-        "')";
-
-      console.log("POST sql user: " + sql);
-      db.query(sql, function (err, result) {
-        user = result;
-        var users1 = JSON.stringify(result);
-        console.log("users1: ", users1);
-        // res.json({ message: result });
+    if (mypost == "mypost"){
+      var sql21 = "select * from elunch_users2 WHERE 1 ORDER BY id DESC";
+      console.log("sql21: " + sql21);
+      db.query(sql21, function (err, results) {
+        results2 = results;
+        var results3 = JSON.stringify(results);
+        console.log("result3: " + results3);
+        // users
+        var row = req.body.row;
+        if (row >0){
+          console.log("row: " + row);
+          var sql18 = "SELECT * FROM `elunch_users2` WHERE `id` ='" + row + "'";
+          db.query(sql18, function (err, results) {
+            menuForUpdate = results;
+            console.log("row menu selected :" + results);
+            var users2 = JSON.stringify(results);
+            console.log("row menu selected2 :" + users2);
+            console.log("menuForUpdate2" , menuForUpdate);
+            res.json({menuForUpdate: menuForUpdate});
+          });        
+        } else {
+          console.log("res2", results2)
+          res.json({message2: results2});
+          return;
+        }
       });
-    } else if (sesa && supplier_name && menu_no && menu_desctription && menu_price && id_day) {
-      // menu
-      var sql20 = "INSERT INTO `elunch_menu2` (`supplier_name`,`menu_no`,`menu_desctription`,`menu_price`, `id_day`) VALUES ('" +
-        supplier_name +
-        "','" +
-        menu_no +
-        "','" +
-        menu_desctription +
-        "','" +
-        menu_price +
-        "','" +
-        id_day +
-        "')";
-
-      console.log("POST menu sql: " + sql20);
-      db.query(sql20, function (err, result) {
-        var menu = JSON.stringify(result);
-        console.log("menu: ", result);
-        res.json({ message: user, messageMenu: result });
-      });
-
+      
     }
+    if (req.body.addUsers == "addUsers"){
+      console.log ("jestem w ADDUsers");
+      var sesa = req.body.sesa_no;
+      if (sesa && first_name && last_name && mob_no && user_name && password) {
+        // user 
+        var sql = "INSERT INTO `elunch_users2`(`sesa_no`,`first_name`,`last_name`,`mob_no`,`user_name`, `password`) VALUES ('" +
+          sesa +
+          "','" +
+          first_name +
+          "','" +
+          last_name +
+          "','" +
+          mob_no +
+          "','" +
+          user_name +
+          "','" +
+          password +
+          "')";
 
-
+        console.log("POST sql user: " + sql);
+        db.query(sql, function (err, result) {
+          user = result;
+          var users1 = JSON.stringify(result);
+          console.log("users1: ", users1);
+          res.json({ message: result });
+        });
+      }
+    }
   } else if (req.method == "GET") {
-    console.log("Method: " + req.method);
-    //user 
-    var row = req.query.row;
-    console.log("row: " + row);
-    var sql17 = "SELECT * FROM `elunch_users2` WHERE `id` ='" + row + "'";
-    db.query(sql17, function (err, results) {
-      console.log("row user selected :" + results);
-      dataForUpdate = results;
-    });
-
-    var sql21 = "select * from elunch_menu2 WHERE 1 ORDER BY id DESC";
-    console.log("sql21: " + sql21);
-    db.query(sql21, function (err, results) {
-      results2 = results;
-      console.log("result2: " + results2);
-      // res.json({ message: result, dataForUpdate:dataForUpdate });
-    });
-
-    // menu
-    var row = req.query.row;
-    console.log("row: " + row);
-    var sql18 = "SELECT * FROM `elunch_menu2` WHERE `id` ='" + row + "'";
-    db.query(sql18, function (err, results) {
-      console.log("row menu selected :" + results);
-      var menu2 = JSON.stringify(results);
-      console.log("row menu selected :" + menu2);
-      menuForUpdate = results;
-    });
-
-    var sql = "select * from elunch_users2 WHERE 1 ORDER BY id DESC";
-    console.log("sql: " + sql);
-    db.query(sql, function (err, result) {
-      var users = JSON.stringify(result);
-      console.log("user list: ", users);
-      res.json({ message: result, message2: results2, dataForUpdate: dataForUpdate, menuForUpdate: menuForUpdate });
-    });
-
+    console.log("Method: " + req.method);     
+    res.render("users.ejs");
   } else if (req.method == "DELETE") {
     console.log("Method: " + req.method);
     //user
-    if (req.body.delete_id > 0) {
-      var delete_id = req.body.delete_id;
-      console.log("delete user: ", delete_id);
-      var sql7 = "DELETE FROM `elunch_users2` WHERE `id` ='" + delete_id + "'";
-      db.query(sql7, function (err, results) {
-        console.log("deleted user one row " + delete_id);
-      });
-    }
-    //menu
     if (req.body.delete_id3 > 0) {
-      var mydelete_id3 = req.body.delete_id3;
-      console.log("delete menu: ", mydelete_id3);
-      var sql37 = "DELETE FROM `elunch_menu2` WHERE `id` ='" + mydelete_id3 + "'";
-      db.query(sql37, function (err, results) {
-        console.log("deleted menu one row " + mydelete_id3);
+      var delete_id3 = req.body.delete_id3;
+      console.log("delete user: ", delete_id3);
+      var sql7 = "DELETE FROM `elunch_users2` WHERE `id` ='" + delete_id3 + "'";
+      db.query(sql7, function (err, results) {
+        console.log("deleted user one row " + delete_id3);
       });
     }
+    
 
   } else if (req.method == "PUT") {
     console.log("Method: " + req.method);
@@ -878,7 +845,7 @@ exports.users = function (req, res, next) {
     });
 
     var updateMenu = req.body.updateMenu;
-    if (updateMenu == "updateMenu") {
+    if (updateMenu == "updateUsers") {
       var myid2 = req.body.myid2;
       var supplier_name = req.body.supplier_name;
       var menu_no = req.body.menu_no;
@@ -888,7 +855,7 @@ exports.users = function (req, res, next) {
 
       console.log("put " + myid2 + " " + supplier_name + " " + menu_no + " " + menu_desctription + " " + menu_price + " " + id_day );
 
-      var sql23 = "UPDATE elunch_menu2 SET supplier_name='" +
+      var sql23 = "UPDATE elunch_users2 SET supplier_name='" +
         supplier_name +
         "', menu_no=" +
         menu_no +
@@ -914,123 +881,81 @@ exports.users = function (req, res, next) {
 
 //menu
 exports.menu = function (req, res, next) {
-  var id = req.body.id;
   var sesa = req.body.sesa_no;
-  var first_name = req.body.first_name;
-  var last_name = req.body.last_name;
-  var mob_no = req.body.mob_no;
-  var user_name = req.body.user_name;
-  var password = req.body.password;
-  var myid = req.body.myid;
-  var dataForUpdate;
   var supplier_name, menu_no, menu_desctription, menu_price, id_day;
-  var user, menu, results2;
+  var user, menu, results2, menuForUpdate;
 
 
   if (req.method == "POST") {
     var sesa = req.session.sesa_no1;
-    var first_name = req.body.first_name;
-    var last_name = req.body.last_name;
-    var mob_no = req.body.mob_no;
-    var user_name = req.body.user_name;
-    var password = req.body.password;
     var supplier_name = req.body.supplier_name;
     var menu_no = req.body.menu_no;
     var menu_desctription = req.body.menu_desctription;
     var menu_price = req.body.menu_price;
     var id_day = req.body.id_day;
-
+    var mypost = req.body.mypost;
+  
     console.log("Method: " + req.method);
     console.log("menu: " + sesa + " " + supplier_name + " " + menu_no + " " + menu_desctription + " " + menu_price + " " + id_day);
-
-    if (sesa && first_name && last_name && mob_no && user_name && password) {
-      // user 
-      var sql = "INSERT INTO `elunch_users2`(`sesa_no`,`first_name`,`last_name`,`mob_no`,`user_name`, `password`) VALUES ('" +
-        sesa +
-        "','" +
-        first_name +
-        "','" +
-        last_name +
-        "','" +
-        mob_no +
-        "','" +
-        user_name +
-        "','" +
-        password +
-        "')";
-
-      console.log("POST sql user: " + sql);
-      db.query(sql, function (err, result) {
-        user = result;
-        var users1 = JSON.stringify(result);
-        console.log("users1: ", users1);
-        // res.json({ message: result });
+    
+    if (mypost == "mypost"){
+      var menuForUpdate;
+      var sql21 = "select * from elunch_menu2 WHERE 1 ORDER BY id DESC";
+      console.log("sql21: " + sql21);
+      db.query(sql21, function (err, results) {
+        results2 = results;
+        var results3 = JSON.stringify(results);
+        console.log("result3: " + results3);
+        // menu
+        var row = req.body.row;
+        if (row >0){
+          console.log("row: " + row);
+          var sql18 = "SELECT * FROM `elunch_menu2` WHERE `id` ='" + row + "'";
+          db.query(sql18, function (err, results) {
+            menuForUpdate = results;
+            console.log("menuForUpdate1" , menuForUpdate);
+            console.log("row menu selected :" + results);
+            var menu2 = JSON.stringify(results);
+            console.log("row menu selected :" + menu2);
+            console.log("menuForUpdate2" , menuForUpdate);
+            res.json({menuForUpdate: menuForUpdate});
+          });        
+        } else {
+          res.json({message2: results2});
+          return;
+        }
       });
-    } else if (sesa && supplier_name && menu_no && menu_desctription && menu_price && id_day) {
-      // menu
-      var sql20 = "INSERT INTO `elunch_menu2` (`supplier_name`,`menu_no`,`menu_desctription`,`menu_price`, `id_day`) VALUES ('" +
-        supplier_name +
-        "','" +
-        menu_no +
-        "','" +
-        menu_desctription +
-        "','" +
-        menu_price +
-        "','" +
-        id_day +
-        "')";
-
-      console.log("POST menu sql: " + sql20);
-      db.query(sql20, function (err, result) {
-        var menu = JSON.stringify(result);
-        console.log("menu: ", result);
-        res.json({ message: user, messageMenu: result });
-      });
-
     }
-
-
+    if (req.body.addMenu == "addMenu"){
+      console.log ("jestem w ADDMenu");
+      if (sesa && supplier_name && menu_no && menu_desctription && menu_price && id_day) {
+        // menu
+        var sql20 = "INSERT INTO `elunch_menu2` (`supplier_name`,`menu_no`,`menu_desctription`,`menu_price`, `id_day`) VALUES ('" +
+          supplier_name +
+          "','" +
+          menu_no +
+          "','" +
+          menu_desctription +
+          "','" +
+          menu_price +
+          "','" +
+          id_day +
+          "')";
+  
+        console.log("POST menu sql: " + sql20);
+        db.query(sql20, function (err, result) {
+          var menu = JSON.stringify(result);
+          console.log("menu: ", result);
+          res.json({ message: user, messageMenu: result });
+        });
+  
+      }
+    }
   } else if (req.method == "GET") {
-    console.log("Method: " + req.method);
- 
-    var sql21 = "select * from elunch_menu2 WHERE 1 ORDER BY id DESC";
-    console.log("sql21: " + sql21);
-    db.query(sql21, function (err, results) {
-      results2 = results;
-      console.log("result2: " + results2);
-      // res.json({ message: result, dataForUpdate:dataForUpdate });
-    });
-
-    // menu
-    var row = req.query.row;
-    console.log("row: " + row);
-    var sql18 = "SELECT * FROM `elunch_menu2` WHERE `id` ='" + row + "'";
-    db.query(sql18, function (err, results) {
-      console.log("row menu selected :" + results);
-      var menu2 = JSON.stringify(results);
-      console.log("row menu selected :" + menu2);
-      menuForUpdate = results;
-    });
-
-    var sql = "select * from elunch_users2 WHERE 1 ORDER BY id DESC";
-    console.log("sql: " + sql);
-    db.query(sql, function (err, result) {
-      var users = JSON.stringify(result);
-      console.log("user list: ", users);
-      res.json({ message: result, message2: results2, dataForUpdate: dataForUpdate, menuForUpdate: menuForUpdate });
-    });
-
+    console.log("Method: " + req.method);     
+    res.render("menu.ejs");  
   } else if (req.method == "DELETE") {
     console.log("Method: " + req.method);
-    //user
-    if (req.body.delete_id > 0) {
-      var delete_id = req.body.delete_id;
-      console.log("delete user: ", delete_id);
-      var sql7 = "DELETE FROM `elunch_users2` WHERE `id` ='" + delete_id + "'";
-      db.query(sql7, function (err, results) {
-        console.log("deleted user one row " + delete_id);
-      });
-    }
     //menu
     if (req.body.delete_id3 > 0) {
       var mydelete_id3 = req.body.delete_id3;
@@ -1043,7 +968,6 @@ exports.menu = function (req, res, next) {
 
   } else if (req.method == "PUT") {
     console.log("Method: " + req.method);
-
     var updateMenu = req.body.updateMenu;
     if (updateMenu == "updateMenu") {
       var myid2 = req.body.myid2;
@@ -1076,6 +1000,5 @@ exports.menu = function (req, res, next) {
 
     }
     res.render("menu.ejs");
-  }
-  res.render("menu.ejs");
+  }  
 }
