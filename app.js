@@ -84,5 +84,9 @@ app.get('/home/menu', user.menu);//call for admin page
 app.post('/home/menu', user.menu);//call for admin page 
 app.put('/home/menu', user.menu);//call for admin page 
 app.delete('/home/menu', user.menu);//call for admin page 
+app.get('/home/guest', user.guest);//call for admin page 
+app.post('/home/guest', user.guest);//call for admin page 
+app.put('/home/guest', user.guest);//call for admin page 
+app.delete('/home/guest', user.guest);//call for admin page 
 //Middleware
 app.listen(8080);

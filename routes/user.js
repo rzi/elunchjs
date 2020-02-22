@@ -1002,3 +1002,6 @@ exports.menu = function (req, res, next) {
     res.render("menu.ejs");
   }  
 }
+exports.guest = function (req, res, next) {
+  res.render("guest.ejs")
+}
