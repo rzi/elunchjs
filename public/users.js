@@ -1,6 +1,5 @@
 window.onload = function() {
-  var $table = $("#table");
- 
+  var $table = $("#table"); 
   // Make a request for a user with a given ID
     axios
      .post("/home/users", {
@@ -39,42 +38,7 @@ window.onload = function() {
       })
       .finally(function() {
         // always executed
-      }); 
-
-  // function updateRow2(row){
-  //   console.log( " update " + row)
-
-  //   axios
-  //     .post("/home/users", {
-  //         row: row,
-  //         mypost:"mypost"       
-  //     })
-  //     .then(function(response) {
-  //       // handle success
-  //       // console.log(response.data.menuForUpdate[0].id);
-  //       // document.getElementById("id").value=response.data.dataForUpdate[0].id;
-  //       console.log("len menuForUpdate: " + response.data.menuForUpdate[0].sesa_no)
-  //       document.getElementById("myid2").value = response.data.menuForUpdate[0].id
-  //        document.getElementById("sesa_no2").value=response.data.dataForUpdate[0].sesa_no
-        
-  //       document.getElementById("first_name2").value=response.data.dataForUpdate[0].first_name
-  //       document.getElementById("last_name2").value=response.data.dataForUpdate[0].last_name
-  //       document.getElementById("user_name2").value=response.data.dataForUpdate[0].user_name
-  //       document.getElementById("mob_no2").value=response.data.dataForUpdate[0].mob_no
-  //       document.getElementById("password2").value = response.data.dataForUpdate[0].password
-  //       document.getElementById("btn_update").style.display = "block"
-  //       document.getElementById("btn_add").style.display = "none"
-  //       //location.reload();                            
-  //     })
-  //     .catch(function(error) {
-  //       // handle error
-  //        console.log(error);
-  //     })
-  //     .finally(function() {
-  //       // always executed
-  //     });
-          
-  // }  
+      });
   window.operateEvents3 = {
     "click .remove": function(e, value, row, index) {
       $table.bootstrapTable("remove", {
@@ -97,9 +61,11 @@ window.onload = function() {
         document.getElementById("btn_add").style.display = "none"
       //updateRow2(row.id); 
     }
-  }               
+  }                 
 } //end of onload
-
+function passwordFormatter(value) {
+  return '<input disabled type="password" style="width:auto; font-size:18px; border:none; background-color:white;" value="'+value.substring(1)+'"></input>'
+}
 function addUser1(){
     axios
     .post("/home/users", {

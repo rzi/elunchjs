@@ -32,7 +32,6 @@ exports.signup = function (req, res) {
     res.render("signup");
   }
 };
-
 //-----------------------------------------------login page call------------------------------------------------------
 exports.login = function (req, res) {
   var message = "";
@@ -70,7 +69,6 @@ exports.login = function (req, res) {
   }
 };
 //-----------------------------------------------dashboard page functionality----------------------------------------------
-
 exports.dashboard = function (req, res, next) {
   var user = req.session.user,
     userId = req.session.userId,
@@ -281,7 +279,6 @@ exports.new_order = function (req, res, next) {
     });
   });
 };
-
 //2
 exports.new_order2 = function (req, res, next) {
   if (req.method == "POST") {
@@ -471,7 +468,6 @@ exports.orders2 = function (req, res, next) {
     //res.json({ message: "result" });
   }
 };
-
 //list
 exports.list = function (req, res, next) {
   var data_list;
@@ -492,8 +488,7 @@ exports.list = function (req, res, next) {
   } else if (req.method == "GET") {
     res.render("new_list.ejs");
   }
-}
-
+};
 //raport
 exports.raport = function (req, res, next) {
   var data_list;
@@ -514,8 +509,7 @@ exports.raport = function (req, res, next) {
   } else if (req.method == "GET") {
     res.render("raport.ejs");
   }
-}
-
+};
 //admin
 exports.admin = function (req, res, next) {
   var id = req.body.id;
@@ -712,8 +706,7 @@ exports.admin = function (req, res, next) {
     }
     res.render("admin.ejs");
   }
-}
-
+};
 //users
 exports.users = function (req, res, next) {
   var id = req.body.id;
@@ -877,8 +870,7 @@ exports.users = function (req, res, next) {
     }
     res.render("users.ejs");
   }
-}
-
+};
 //menu
 exports.menu = function (req, res, next) {
   var sesa = req.body.sesa_no;
@@ -1003,8 +995,211 @@ exports.menu = function (req, res, next) {
   }  
 }
 exports.guest = function (req, res, next) {
+  if (req.method == "POST") { 
+    var mydate = req.body.my_date;
+    var mysupplier = req.body.my_supplier;
+    var menu_json, orders_json;
+    var sesa_no1 =req.session.sesa_no1; 
+    console.log ("sesa w post: " + sesa_no1);
+    // display menu
+    mysupplier_name = mysupplier;
+    var sql3 = "SELECT * FROM `elunch_menu2` WHERE `supplier_name`='" + mysupplier_name + "'";
+    console.log("sql3: " + sql3);
+    db.query(sql3, function (err, results) {
+      
+      var menu_json1 = JSON.stringify(results);
+      menu_json = results;
+      console.log("menu_json1: ", menu_json1);
+    });
+
+    // display current orders
+    var sql1 =
+      "SELECT * FROM `elunch_gusets2` WHERE 1 ORDER BY id DESC";
+    console.log("sql1: " + sql1);
+
+    db.query(sql1, function (err, results) {
+      //console.log("results: " + results);
+      orders_json =results;
+      var orders_json1 = JSON.stringify(results);
+      console.log("orders_json: ", orders_json1);
+      res.json({ table_data: orders_json, table_supplier: menu_json, sesa_no1: sesa_no1});
+    });
+
+  } else if (req.method == "GET") {
   res.render("guest.ejs")
-}
+  } else if (req.method == "PUT") {
+    var supplier = req.body.supplier;
+    var order_no;
+    var sesa_no1 = req.body.sesa_no1;
+    var order_date = req.body.order_date;
+    var id = req.body.id;
+    var guestName =req.body.guestName;
+    var departament =req.body.departament;
+    var cost_center =req.body.cost_center;
+
+    console.log("Method: " + req.method);
+    console.log(
+      "put: ",
+      sesa_no1,
+      " ",
+      supplier,
+      " ",
+      order_date,
+      " ",
+      "id ",
+      id);
+    //base id (previously order_no), get from menu order_name and order_price
+    var sql6 =
+      "SELECT * FROM `elunch_menu2` WHERE `id`='" +
+      id +
+      "'";
+    console.log("sql6: ", sql6);
+    db.query(sql6, function (err, results) {
+      if (results.length) {
+        menu_desctription = results[0].menu_desctription;
+        console.log("menu_desctription: ", menu_desctription);
+        menu_price = results[0].menu_price;
+        //return menu_desctription;
+        console.log("menu_price: ", menu_price);
+        menu_no = results[0].menu_no;
+        //return menu_no;
+        console.log("menu_no: ", menu_no);
+      } else {
+        message =
+          "problem z pobraniem danych z bazy menu przed zapisem do bazy order2";
+        res.render("index.ejs", { message: message });
+      }
+      console.log("order_date: ", order_date);
+      // put order to DB
+      var sql5 =
+        "INSERT INTO `elunch_gusets2`(`guest_name`,`who_order_sesa`,`data`,`cost_center`,`departament`) VALUES ('" +
+        guestName +
+        "','" +
+        sesa_no1 +
+        "','" +
+        order_date +
+        "','" +
+        departament +
+        "','" +
+        cost_center +
+        "')";
+      console.log("SQL: ", sql5);
+      db.query(sql5, function (err, results) {
+        console.log("Inerted record to DB");
+      });
+    });
+    res.render("guest.ejs");
+  } else if (req.method == "DELETE") {
+    var delete_id3 = req.body.delete_id3;
+    console.log("delete: ", delete_id3);
+    var sql7 = "DELETE FROM `elunch_gusets2` WHERE `id` ='" + delete_id3 + "'";
+    console.log("sql7: ", sql7);
+    db.query(sql7, function (err, results) {
+      console.log("deleted one row");
+    });
+  }
+};
 exports.additional = function (req, res, next) {
-  res.render("additional.ejs")
-}
+  if (req.method == "POST") {
+    var mydate = req.body.my_date;
+    var mysupplier = req.body.my_supplier;
+    var menu_json;
+    // var d = new Date();
+    // var id_day = parseInt(d.getDay());
+    // console.log("id_day: ", id_day);
+
+    // display menu
+    mysupplier_name = mysupplier;
+    var sql3 = "SELECT * FROM `elunch_menu2` WHERE `supplier_name`='" + mysupplier_name + "'";
+    console.log("sql3: " + sql3);
+    db.query(sql3, function (err, results) {
+      menu_json = JSON.stringify(results);
+      console.log("menu_json: ", menu_json);
+    });
+
+    // display current orders
+    var sql1 =
+      "SELECT * FROM `elunch_orders2` WHERE `order_date`='" +
+      mydate +
+      "' ORDER BY id DESC";
+    console.log("sql1: " + sql1);
+
+    db.query(sql1, function (err, results) {
+      //console.log("results: " + results);
+      orders_json = JSON.stringify(results);
+      console.log("orders_json: ", orders_json);
+      res.json({ table_data: results, table_supplier: JSON.parse(menu_json) });
+    });
+  } else if (req.method == "GET") {
+    res.render("additional.ejs");
+  } else if (req.method == "PUT") {
+    var supplier = req.body.supplier;
+    var order_no;
+    var sesa_no1 = req.body.sesa_no1;
+    var order_date = req.body.order_date;
+    var id = req.body.id;
+
+    console.log("Method: " + req.method);
+    console.log(
+      "put: ",
+      sesa_no1,
+      " ",
+      supplier,
+      " ",
+      order_date,
+      " ",
+      "id ",
+      id);
+    //base id (previously order_no), get from menu order_name and order_price
+    var sql6 =
+      "SELECT * FROM `elunch_menu2` WHERE `id`='" +
+      id +
+      "'";
+    console.log("sql6: ", sql6);
+    db.query(sql6, function (err, results) {
+      if (results.length) {
+        menu_desctription = results[0].menu_desctription;
+        console.log("menu_desctription: ", menu_desctription);
+        menu_price = results[0].menu_price;
+        //return menu_desctription;
+        console.log("menu_price: ", menu_price);
+        menu_no = results[0].menu_no;
+        //return menu_no;
+        console.log("menu_no: ", menu_no);
+      } else {
+        message =
+          "problem z pobraniem danych z bazy menu przed zapisem do bazy order2";
+        res.render("index.ejs", { message: message });
+      }
+      console.log("order_date: ", order_date);
+      // put order to DB
+      var sql5 =
+        "INSERT INTO `elunch_orders2`(`Id_sesa_no`,`order_date`,`order_supplier_name`,`order_no`,`order_name`, `order_price`) VALUES ('" +
+        sesa_no1 +
+        "','" +
+        order_date +
+        "','" +
+        supplier +
+        "','" +
+        menu_no +
+        "','" +
+        menu_desctription +
+        "','" +
+        menu_price +
+        "')";
+      console.log("SQL: ", sql5);
+      db.query(sql5, function (err, results) {
+        console.log("Inerted record to DB");
+      });
+    });
+    res.render("new_order2.ejs");
+  } else if (req.method == "DELETE") {
+    var delete_id = req.body.delete_id;
+    console.log("delete: ", delete_id);
+    var sql7 = "DELETE FROM `elunch_orders2` WHERE `id` ='" + delete_id + "'";
+    db.query(sql7, function (err, results) {
+      console.log("deleted one row");
+    });
+  }
+  // res.render("additional.ejs")
+};

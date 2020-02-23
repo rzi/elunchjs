@@ -48,26 +48,49 @@
     </nav>
     <div class="jumbotron">
       <p style="text-align: center;">Aby zamówić obiad dla <strong>gościa</strong>
-         podaj jego imię i nazwisko do jakiego działu przyjechał.</p>
+         podaj jego imię i nazwisko oraz do jakiego działu przyjechał.</p>
       <p> Po zamówieniu zostanie wygenerowany automatyczny mail informujący właściciela działu o kosztach przypisanych na jego MPK</p>
       <div class="level-3">
         <p>Wprowadź dane: </p>
       <div class="addGuest" >
           Imię i  nazwisko gościa <input type="text" id="guestName">
-          <select id="department" name="department">
-            <option value="empty"></option>
-            <option value="hr">HR</option>
-            <option value="finanse">Finanse</option>
-            <option value="produkcja">Produkcja</option>
-            <option value="metody">Metody</option>
-            <option value="sere">SERE</option>
-            <option value="dyrektor">Dyrektor</option>
-            <option value="projekty">Projekty</option>
-            <option value="jakośc">Jakość</option>
+          do kogo: <select id="department" name="department" style="margin: 10px 3px; padding: 3px 10px;">
+            <option value="empty">wybierz ...</option>
+            <option value="IT15000">HR</option>
+            <option value="IT17400">Finanse</option>
+            <option value="IT174050">Produkcja</option>
+            <option value="IT174030">Metody</option>
+            <option value="IT17400">SERE</option>
+            <option value="IT2000">Dyrektor</option>
+            <option value="IT174010">Projekty</option>
+            <option value="IT174020">Jakość</option>
+            <option value="IT174021">Logistyka</option>
             <option value="inny">Inny</option>
-          </select>    
+          </select> 
+           data: <input type="date" name="lunch_order" id="lunch_order"  />              
         </div>
         <br>
+        <p hidden id="sesa_no1"></p>
+        <p  hidden id="activeSupplier"></p>
+        <p style="margin-bottom: 0;">Lista aktualnych zamówień dla gości:</p>   
+        <table
+          id="table"
+          class="table"
+          data-locale="pl-PL"
+          data-search="true"
+          data-show-export="true">
+            <thead>
+              <tr>
+              <th data-field="id">ID</th>
+              <th data-field="guest_name">Imię i nazwisko gościa</th>
+              <th data-field="who_order_sesa">Zamawiający</th>
+              <th data-field="data">Data</th>
+              <th data-field="cost_center">Centrum kosztów</th>
+              <th data-field="departament">Dział</th>
+              </tr>
+            </thead>
+          </table>
+          <br>
         <br>
         <p>Masz do wyborów dwóch dostawców <strong>Mucha</strong>  i <strong>Opoka</strong> , kliknij odpowiednią
           zakładkę</p>
@@ -77,7 +100,6 @@
           <li ><a data-toggle="tab" href="#mucha">Mucha</a></li>
           <li><a data-toggle="tab" href="#opoka">Opoka</a></li>
         </ul>
-
         <div class="tab-content">
           <div id="mucha" class="tab-pane fade in active">
             <h2 hidden id="titleMucha">Mucha</h2>
@@ -85,7 +107,7 @@
             <p style="margin-bottom: 0; ">wybierz danie: </p>
             <table class="table"
               data-toggle="table"
-              id="table_mucha"
+              id="tableMenu"
               data-locale="pl-PL"
               data-search="true"
               data-height="400"
@@ -114,7 +136,7 @@
             <br>
             <p>wybierz danie:</p>
             <table
-              id="table_opoka"
+              id="tableMenu"
               data-locale="pl-PL"
               data-search="true"
               data-height="400"
@@ -143,6 +165,5 @@
     </div>
   </div>
   <script src="/public/guest.js"></script>
-  <script src="/public/main.js"></script>
 </body>
 </html>

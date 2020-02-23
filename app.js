@@ -88,6 +88,11 @@ app.get('/home/additional', user.additional);//call for admin page
 app.post('/home/additional', user.additional);//call for admin page 
 app.put('/home/additional', user.additional);//call for admin page 
 app.delete('/home/additional', user.additional);//call for admin page 
+app.get('/home/guest', user.guest);//call for guest page 
+app.post('/home/guest', user.guest);//call for guest page 
+app.put('/home/guest', user.guest);//call for guest page 
+app.delete('/home/guest', user.guest);//call for guest page 
+
 
 //Middleware
 app.listen(8080);
