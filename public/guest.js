@@ -1,4 +1,4 @@
-window.onload = function() {
+
 var $tableMenu = $("#tableMenu");
 var $table_mucha = $("#table_mucha");
 var $table_opoka = $("#table_opoka");
@@ -53,7 +53,7 @@ $('a[data-toggle="tab"]').on("shown.bs.tab", function(e) {
   my_supplier = e.target.innerHTML;
   setCookie("supplier", my_supplier, 1);
   console.log("supplier: " + getCookie("supplier")); 
-  location.reload();
+   location.reload();
 });
 
 // change order date and dont allowed to chose date from past
@@ -79,7 +79,7 @@ document.getElementById("lunch_order").addEventListener("change", function() {
         console.log("table_data: " + table_data2 );
         $table.bootstrapTable('destroy');
         $table.bootstrapTable({ data: table_data,
-          columns: [,,,,,,
+          columns: [,,,,,,,,,,
               {
                 field: 'operate',
                 title: 'Usuń',
@@ -101,8 +101,8 @@ document.getElementById("lunch_order").addEventListener("change", function() {
                 title: 'Zamów',
                 align: 'center',
                 clickToSelect: false,
-                events: window.operateEvents2,
-                formatter: operateFormatter2
+                events: window.operateEvents4,
+                formatter: operateFormatter4
               }]
             });
             $table_opoka.bootstrapTable('destroy');
@@ -113,8 +113,8 @@ document.getElementById("lunch_order").addEventListener("change", function() {
                 title: 'Zamów',
                 align: 'center',
                 clickToSelect: false,
-                events: window.operateEvents2,
-                formatter: operateFormatter2
+                events: window.operateEvents4,
+                formatter: operateFormatter4
               }]              
             });
           })
@@ -198,7 +198,7 @@ document.getElementById("lunch_order").addEventListener("change", function() {
       if (result == "" || result2 == "empty"){
         alert( "Musisz wpisać imię i nazwisko gościa \n wybrać dział do kogo gość przyjechał i datę");
       } else{
-        myFunction_guest2(row.id);// CHANGE STRATEGY FROM MENU_NO TO ID
+        myFunction_guest2(row.id,row.supplier_name,row.menu_no,row.menu_desctription,row.menu_price);// CHANGE STRATEGY FROM MENU_NO TO ID
       }      
     }
   }     
@@ -212,7 +212,7 @@ document.getElementById("lunch_order").addEventListener("change", function() {
       
     }
   };
-} //end of onload  
+  
 
  function operateFormatter2(value, row, index) {
   return [
@@ -302,17 +302,20 @@ function updateMenuDB1(){
       });
 
 }
-function myFunction_guest2(value) {
+function myFunction_guest2(value,supplier,menu_no,menu_desctription,menu_price) {
   // Make a request for a user with a given ID
   axios
     .put("/home/guest", {
       sesa_no1: document.getElementById("sesa_no1").innerText,
-      supplier: document.getElementById("activeSupplier").innerText,
+      supplier: supplier,
       order_date: document.getElementById("lunch_order").value,
       id: value,
       guestName: document.getElementById("guestName").value,
       departament: document.getElementById("department").options[department.selectedIndex].value,
-      cost_center: document.getElementById("department").options[department.selectedIndex].text
+      cost_center: document.getElementById("department").options[department.selectedIndex].text,
+      menu_no:menu_no,
+      menu_desctription:menu_desctription,
+      menu_price:menu_price
     })
     .then(function(response) {
       // handle success

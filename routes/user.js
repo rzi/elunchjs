@@ -1005,21 +1005,19 @@ exports.guest = function (req, res, next) {
     mysupplier_name = mysupplier;
     var sql3 = "SELECT * FROM `elunch_menu2` WHERE `supplier_name`='" + mysupplier_name + "'";
     console.log("sql3: " + sql3);
-    db.query(sql3, function (err, results) {
-      
+    db.query(sql3, function (err, results) {      
       var menu_json1 = JSON.stringify(results);
       menu_json = results;
       console.log("menu_json1: ", menu_json1);
     });
 
     // display current orders
-    var sql1 =
-      "SELECT * FROM `elunch_gusets2` WHERE 1 ORDER BY id DESC";
+    var sql1 = "SELECT * FROM `elunch_gusets2` WHERE 1 ORDER BY id DESC";
     console.log("sql1: " + sql1);
 
     db.query(sql1, function (err, results) {
       //console.log("results: " + results);
-      orders_json =results;
+      orders_json = results;
       var orders_json1 = JSON.stringify(results);
       console.log("orders_json: ", orders_json1);
       res.json({ table_data: orders_json, table_supplier: menu_json, sesa_no1: sesa_no1});
@@ -1036,6 +1034,10 @@ exports.guest = function (req, res, next) {
     var guestName =req.body.guestName;
     var departament =req.body.departament;
     var cost_center =req.body.cost_center;
+    var menu_no =req.body.menu_no;
+    var menu_desctription = req.body.menu_desctription;
+    var menu_price =req.body.menu_price;
+
 
     console.log("Method: " + req.method);
     console.log(
@@ -1072,7 +1074,7 @@ exports.guest = function (req, res, next) {
       console.log("order_date: ", order_date);
       // put order to DB
       var sql5 =
-        "INSERT INTO `elunch_gusets2`(`guest_name`,`who_order_sesa`,`data`,`cost_center`,`departament`) VALUES ('" +
+        "INSERT INTO `elunch_gusets2`(`guest_name`,`who_order_sesa`,`data`,`cost_center`,`departament`,`supplier`,`menu_no`, `menu_desctription`, `menu_price`) VALUES ('" +
         guestName +
         "','" +
         sesa_no1 +
@@ -1082,6 +1084,14 @@ exports.guest = function (req, res, next) {
         departament +
         "','" +
         cost_center +
+        "','" +
+        supplier +
+        "','" +
+        menu_no +
+        "','" +
+        menu_desctription +
+        "','" +
+        menu_price +       
         "')";
       console.log("SQL: ", sql5);
       db.query(sql5, function (err, results) {
