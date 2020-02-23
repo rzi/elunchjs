@@ -1,5 +1,7 @@
 window.onload = function() {
 var $tableMenu = $("#tableMenu");
+var $table_mucha = $("#table_mucha");
+var $table_opoka = $("#table_opoka");
 var $table = $("#table");
 var sesa_no1;
 
@@ -51,7 +53,7 @@ $('a[data-toggle="tab"]').on("shown.bs.tab", function(e) {
   my_supplier = e.target.innerHTML;
   setCookie("supplier", my_supplier, 1);
   console.log("supplier: " + getCookie("supplier")); 
- // location.reload();
+  location.reload();
 });
 
 // change order date and dont allowed to chose date from past
@@ -87,29 +89,66 @@ document.getElementById("lunch_order").addEventListener("change", function() {
                 formatter: operateFormatter3
               }]     
             });
-        var table_supplier = response.data.table_supplier;
-        var table_supplier1 = JSON.stringify(table_supplier );
-        console.log("table_supplier1: " + table_supplier1);
-        $tableMenu.bootstrapTable('destroy');
-        $tableMenu.bootstrapTable({data: table_supplier,
+
+            var table_supplier = response.data.table_supplier;
+            var table_supplier1 = JSON.stringify(table_supplier );
+            console.log("table_supplier1: " + table_supplier1);
+            $table_mucha.bootstrapTable('destroy');
+            $table_mucha.bootstrapTable({data: table_supplier,
               columns: [,,,,,
               {
                 field: 'order',
                 title: 'Zamów',
                 align: 'center',
                 clickToSelect: false,
-                events: window.operateEvents4,
-                formatter: operateFormatter4
+                events: window.operateEvents2,
+                formatter: operateFormatter2
               }]
-             });                               
-      })
-      .catch(function(error) {
-        // handle error
-         console.log(error);
-      })
-      .finally(function() {
-        // always executed
-      });  
+            });
+            $table_opoka.bootstrapTable('destroy');
+            $table_opoka.bootstrapTable({data: table_supplier,
+              columns: [,,,,,
+              {
+                field: 'order',
+                title: 'Zamów',
+                align: 'center',
+                clickToSelect: false,
+                events: window.operateEvents2,
+                formatter: operateFormatter2
+              }]              
+            });
+          })
+          .catch(function(error) {
+            // handle error
+            console.log(error);
+          })
+          .finally(function() {
+            // always executed
+          });
+
+      //   var table_supplier = response.data.table_supplier;
+      //   var table_supplier1 = JSON.stringify(table_supplier );
+      //   console.log("table_supplier1: " + table_supplier1);
+      //   $tableMenu.bootstrapTable('destroy');
+      //   $tableMenu.bootstrapTable({data: table_supplier,
+      //         columns: [,,,,,
+      //         {
+      //           field: 'order',
+      //           title: 'Zamów',
+      //           align: 'center',
+      //           clickToSelect: false,
+      //           events: window.operateEvents4,
+      //           formatter: operateFormatter4
+      //         }]
+      //        });                               
+      // })
+      // .catch(function(error) {
+      //   // handle error
+      //    console.log(error);
+      // })
+      // .finally(function() {
+      //   // always executed
+      // });  
   function updateRow2(row){
     console.log( " update " + row)
     axios
@@ -163,9 +202,25 @@ document.getElementById("lunch_order").addEventListener("change", function() {
       }      
     }
   }     
+  window.operateEvents2 = {
+    "click .order": function(e, value, row, index) {
+      if (document.getElementById("f").innerText == "1"){
+        myFunction_order2(row.id);// CHANGE STRATEGY FROM MENU_NO TO ID
+      } else{
+        alert( "Nie możesz zamówić na wybrany dzień. \n Zamówienia można składać online do 10:00 lub telefonicznie");
+      }    
+      
+    }
+  };
+} //end of onload  
 
-} //end of onload
-
+ function operateFormatter2(value, row, index) {
+  return [
+    '<a class="order" href="javascript:void(0)" title="Zamów">',
+    '<i class="fas fa-utensils"></i>',
+    "</a>"
+  ].join("");
+}
 function addMenu1(){
     axios
     .post("/home/menu", {
