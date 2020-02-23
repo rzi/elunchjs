@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Raport</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous"/>
+  <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table.min.css" />
+  <script src="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table.min.js"></script>
+  <script src="https://unpkg.com/tableexport.jquery.plugin/tableExport.min.js"></script>
+  <script src="https://unpkg.com/bootstrap-table@1.15.5/dist/extensions/export/bootstrap-table-export.min.js"></script>
+  <script src="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table-locale-all.min.js"></script>
+  <link rel="stylesheet" href="/public/css/style.css" type="text/css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style>
+    input#myid2 {width: 30px;}
+    input#sesa_no2 {width: 55px;}
+    input#first_name2 {width: 140px;}
+    input#last_name2 {width: 140px;}
+    input#mob_no2 {width: 80px;}
+    input#user_name2 {width: 40px;}
+    input#password2 {width: 80px;}
+    input#btn_add {margin-left: 20px;}
+    input#btn_update {margin-left: 20px;}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li> <img src="/public/img/logo2.png" with="94" height="45" alt="logo" srcset="" style="margin-right: 20px;"></li>
+            <li class="active"><a href="/home/dashboard">Powtót</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/home/logout">Wylogowanie</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="jumbotron">
+      <p style="text-align: center;">Aby zamówić obiad dla <strong>gościa</strong>
+         podaj jego imię i nazwisko do jakiego działu przyjechał.</p>
+      <p> Po zamówieniu zostanie wygenerowany automatyczny mail informujący właściciela działu o kosztach przypisanych na jego MPK</p>
+      <div class="level-3">
+        <p>Wprowadź dane: </p>
+      <div class="addGuest" >
+          Imię i  nazwisko gościa <input type="text" id="guestName">
+          <select id="department" name="department">
+            <option value="empty"></option>
+            <option value="hr">HR</option>
+            <option value="finanse">Finanse</option>
+            <option value="produkcja">Produkcja</option>
+            <option value="metody">Metody</option>
+            <option value="sere">SERE</option>
+            <option value="dyrektor">Dyrektor</option>
+            <option value="projekty">Projekty</option>
+            <option value="jakośc">Jakość</option>
+            <option value="inny">Inny</option>
+          </select>    
+        </div>
+        <br>
+        <br>
+        <p>Masz do wyborów dwóch dostawców <strong>Mucha</strong>  i <strong>Opoka</strong> , kliknij odpowiednią
+          zakładkę</p>
+        <p  hidden id="activeSupplier"></p>
+        <!-- dynamic tabs -->
+        <ul class="nav nav-tabs">
+          <li ><a data-toggle="tab" href="#mucha">Mucha</a></li>
+          <li><a data-toggle="tab" href="#opoka">Opoka</a></li>
+        </ul>
+
+        <div class="tab-content">
+          <div id="mucha" class="tab-pane fade in active">
+            <h2 hidden id="titleMucha">Mucha</h2>
+            <br>
+            <p style="margin-bottom: 0; ">wybierz danie: </p>
+            <table class="table"
+              data-toggle="table"
+              id="table_mucha"
+              data-locale="pl-PL"
+              data-search="true"
+              data-height="400"
+              data-show-export="true"
+              data-click-to-select="true"
+              data-pagination="true"
+              data-show-pagination-switch="true"
+              data-pagination-pre-text="Poprzedni"
+              data-pagination-next-text="Następny"
+              data-page-list="[3, 5, 10, 15, all]"
+              data-response-handler="responseHandler" >
+              <thead>
+                <tr>
+                  <th data-field="id">ID</th>
+                  <th data-field="supplier_name">Dostawca</th>
+                  <th data-field="menu_no">Numer dania</th>
+                  <th data-field="menu_desctription">opis Dania</th>
+                  <th data-field="menu_price">Cena</th>
+                  <th data-field="order">Zamów</th>
+                </tr>
+              </thead>
+            </table>
+          </div>
+          <div id="opoka" class="tab-pane fade">
+            <h2 hidden id="titleOpoka">Opoka</h2>
+            <br>
+            <p>wybierz danie:</p>
+            <table
+              id="table_opoka"
+              data-locale="pl-PL"
+              data-search="true"
+              data-height="400"
+              data-show-export="true"
+              data-click-to-select="true"
+              data-pagination="true"
+              data-show-pagination-switch="true"
+              data-pagination-pre-text="Previous"
+              data-pagination-next-text="Next"
+              data-page-list="[3, 5, 10, 15, all]"
+              data-response-handler="responseHandler">
+              <thead>
+                <tr>
+                  <th data-field="id">ID</th>
+                  <th data-field="supplier_name">Dostawca</th>
+                  <th data-field="menu_no">Numer dania</th>
+                  <th data-field="menu_desctription">opis Dania</th>
+                  <th data-field="menu_price">Cena</th>
+                  <th data-field="order">Zamów</th>
+                </tr>
+              </thead>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="/public/guest.js"></script>
+  <script src="/public/main.js"></script>
+</body>
+</html>

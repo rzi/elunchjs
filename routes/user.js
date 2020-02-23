@@ -1005,3 +1005,6 @@ exports.menu = function (req, res, next) {
 exports.guest = function (req, res, next) {
   res.render("guest.ejs")
 }
+exports.additional = function (req, res, next) {
+  res.render("additional.ejs")
+}
