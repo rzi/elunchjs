@@ -1113,10 +1113,22 @@ exports.additional = function (req, res, next) {
   if (req.method == "POST") {
     var mydate = req.body.my_date;
     var mysupplier = req.body.my_supplier;
-    var menu_json;
+    var sesa_no1 = req.session.sesa_no1; 
+    var menu_json, users_json;
     // var d = new Date();
     // var id_day = parseInt(d.getDay());
     // console.log("id_day: ", id_day);
+
+    // display users sesa: name surname
+    var sql27 = "select sesa_no, first_name, last_name  from elunch_users2 WHERE 1 ORDER BY id DESC";
+    console.log("sql27: " + sql27);
+    db.query(sql27, function (err, results) {
+      users_json = results;
+      var results3 = JSON.stringify(results);
+      console.log("sesa_no first last name: " , results3);
+      // users
+     
+    });
 
     // display menu
     mysupplier_name = mysupplier;
@@ -1138,7 +1150,7 @@ exports.additional = function (req, res, next) {
       //console.log("results: " + results);
       orders_json = JSON.stringify(results);
       console.log("orders_json: ", orders_json);
-      res.json({ table_data: results, table_supplier: JSON.parse(menu_json) });
+      res.json({ table_data: results, table_supplier: JSON.parse(menu_json),users_json:users_json });
     });
   } else if (req.method == "GET") {
     res.render("additional.ejs");

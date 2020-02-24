@@ -48,11 +48,7 @@
         <div style="display: flex;">
           <div>
             <p style="margin-bottom: 0;">Wybierz użytkownika:</p>
-            <select
-              id="userDB"
-              name="userDB"
-              style="font-size: 18px; padding: 2px 18px ;"
-            >
+            <select id="userDB" name="userDB" style="font-size: 18px; padding: 2px 18px ;" >
               <option value="empty">wybierz ...</option>
               <option value="48177">Rafał Ziętak</option>
               <option value="1111">Piotr Łebek</option>
@@ -203,6 +199,29 @@
           })
           .then(function(response) {
             // handle success
+            var userDB = document.getElementById("userDB");
+            var users_json = response.data.users_json;
+            var users_json2 = JSON.stringify(users_json);
+            console.log("users_json: " + users_json2);
+            // var j=0;
+            // for (let i=0; i< users_json.length; i++) {
+            //     const el = users_json[i];
+                
+            //     console.log("sesa: " + el.sesa_no);
+            //     var listName = el.first_name + " " + el.last_name;
+            //     console.log("imię i nazwisko: " + listName);
+            //     if (j = 0) {
+            //       console.log ("OK")
+            //       j=j+1
+            //     } else {
+            //       userDB.options[j].value = el.sesa_no;
+            //       userDB.options[j].text = listName;
+            //       j=j+1;
+            //     }
+                
+                               
+            // }
+
             var table_data = response.data.table_data;
             var table_data2 = JSON.stringify(table_data);
             console.log("table_data: " + table_data2);

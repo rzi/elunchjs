@@ -64,7 +64,7 @@ window.onload = function() {
   }                 
 } //end of onload
 function passwordFormatter(value) {
-  return '<input disabled type="password" style="width:auto; font-size:18px; border:none; background-color:white;" value="'+value.substring(1)+'"></input>'
+  return '<input disabled type="password" style="width:auto; font-size:18px; border:none; background-color:rgb(254, 254, 253); " value="'+value.substring(1)+'"></input>'
 }
 function addUser1(){
     axios

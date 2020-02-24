@@ -1,6 +1,5 @@
 // Client side js
 
-
 // Get today date in the format YYYY-MM-DD
 now = new Date();
 day = ("0" + now.getDate()).slice(-2);
