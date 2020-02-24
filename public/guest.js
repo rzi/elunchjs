@@ -79,7 +79,7 @@ document.getElementById("lunch_order").addEventListener("change", function() {
         console.log("table_data: " + table_data2 );
         $table.bootstrapTable('destroy');
         $table.bootstrapTable({ data: table_data,
-          columns: [,,,,,,,,,,
+          columns: [,,,,,,,,,,,,
               {
                 field: 'operate',
                 title: 'Usuń',

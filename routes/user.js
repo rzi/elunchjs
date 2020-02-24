@@ -304,12 +304,16 @@ exports.new_order2 = function (req, res, next) {
     });
 
     // display current orders
+    // var sql1 =
+    //   "SELECT * FROM `elunch_orders2` WHERE `order_date`='" +
+    //   mydate +
+    //   "' AND `Id_sesa_no`='" +
+    //   sesa_no1 +
+    //   "' ORDER BY id DESC";
     var sql1 =
-      "SELECT * FROM `elunch_orders2` WHERE `order_date`='" +
-      mydate +
-      "' AND `Id_sesa_no`='" +
-      sesa_no1 +
-      "' ORDER BY id DESC";
+    "SELECT  elunch_orders2.id, Id_sesa_no ,first_name, last_name, order_date, order_supplier_name, order_no, order_name, order_price FROM elunch_users2 join elunch_orders2 on elunch_users2.sesa_no = elunch_orders2.Id_sesa_no WHERE `order_date`='" +
+    mydate +
+    "' ORDER BY elunch_orders2.id DESC";
     console.log("sql1: " + sql1);
 
     db.query(sql1, function (err, results) {
@@ -447,16 +451,16 @@ exports.orders2 = function (req, res, next) {
   // }
 
   if (req.method == "POST") {
-    // var sql = "SELECT * FROM `elunch_orders2` WHERE `order_date`='" + data_from + "'";
     var sql =
-      "SELECT * FROM `elunch_orders2` WHERE `order_date` BETWEEN '" +
+      "SELECT * FROM elunch_users2 join elunch_orders2 on elunch_users2.sesa_no = elunch_orders2.Id_sesa_no WHERE `order_date` BETWEEN '" +
       data_from +
       "' AND '" +
       data_to +
       "' AND `Id_sesa_no`='" +
       sesa_no1 +
-      "' ORDER BY id DESC";
-    console.log("sql: " + sql);
+      "' ORDER BY elunch_orders2.id DESC";
+
+  console.log("sql: " + sql);
     db.query(sql, function (err, result) {
       ordersList = JSON.stringify(result);
       console.log("ordersList: ", ordersList);
@@ -720,7 +724,6 @@ exports.users = function (req, res, next) {
   var dataForUpdate;
   var supplier_name, menu_no, menu_desctription, menu_price, id_day;
   var user, menu, results2;
-
   if (req.method == "POST") {
     var sesa = req.session.sesa_no1;
     var first_name = req.body.first_name;
@@ -876,8 +879,6 @@ exports.menu = function (req, res, next) {
   var sesa = req.body.sesa_no;
   var supplier_name, menu_no, menu_desctription, menu_price, id_day;
   var user, menu, results2, menuForUpdate;
-
-
   if (req.method == "POST") {
     var sesa = req.session.sesa_no1;
     var supplier_name = req.body.supplier_name;
@@ -1012,7 +1013,7 @@ exports.guest = function (req, res, next) {
     });
 
     // display current orders
-    var sql1 = "SELECT * FROM `elunch_gusets2` WHERE 1 ORDER BY id DESC";
+    var sql1 = "SELECT elunch_gusets2.id, guest_name, who_order_sesa ,first_name, last_name, data, cost_center, departament, supplier, menu_no,menu_desctription, menu_price FROM elunch_users2 join elunch_gusets2 on elunch_users2.sesa_no = elunch_gusets2.who_order_sesa WHERE 1 ORDER BY id DESC";
     console.log("sql1: " + sql1);
 
     db.query(sql1, function (err, results) {
@@ -1139,11 +1140,16 @@ exports.additional = function (req, res, next) {
       console.log("menu_json: ", menu_json);
     });
 
+    //SELECT  sesa_no ,first_name, last_name,order_no, order_date FROM elunch_users2 join elunch_orders2 on elunch_users2.sesa_no = elunch_orders2.Id_sesa_no WHERE 1
     // display current orders
+    // var sql1 =
+    //   "SELECT * FROM `elunch_orders2` WHERE `order_date`='" +
+    //   mydate +
+    //   "' ORDER BY id DESC";
     var sql1 =
-      "SELECT * FROM `elunch_orders2` WHERE `order_date`='" +
+      "SELECT  elunch_orders2.id, Id_sesa_no ,first_name, last_name, order_date, order_supplier_name, order_no, order_name, order_price FROM elunch_users2 join elunch_orders2 on elunch_users2.sesa_no = elunch_orders2.Id_sesa_no WHERE `order_date`='" +
       mydate +
-      "' ORDER BY id DESC";
+      "' ORDER BY elunch_orders2.id DESC";
     console.log("sql1: " + sql1);
 
     db.query(sql1, function (err, results) {
