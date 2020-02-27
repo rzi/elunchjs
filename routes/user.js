@@ -7,11 +7,11 @@ exports.signup = function (req, res) {
     var pass = post.password;
     var fname = post.first_name;
     var lname = post.last_name;
-    var mob = post.mob_no;
+    var mob = post.person_no;
     var sesa_no1 = post.sesa_no1;
 
     var sql =
-      "INSERT INTO `elunch_users2`(`sesa_no`,`first_name`,`last_name`,`mob_no`,`user_name`, `password`) VALUES ('" +
+      "INSERT INTO `elunch_users2`(`sesa_no`,`first_name`,`last_name`,`person_no`,`user_name`, `password`) VALUES ('" +
       sesa_no1 +
       "','" +
       fname +
@@ -24,8 +24,9 @@ exports.signup = function (req, res) {
       "','" +
       pass +
       "')";
+      console.log(sql);
     var query = db.query(sql, function (err, result) {
-      message = "Succesfully! Your account has been created.";
+      message = "Sukces! Twoje konto zostało utworzone.";
       res.render("signup.ejs", { message: message });
     });
   } else {
@@ -520,7 +521,7 @@ exports.admin = function (req, res, next) {
   var sesa = req.body.sesa_no;
   var first_name = req.body.first_name;
   var last_name = req.body.last_name;
-  var mob_no = req.body.mob_no;
+  var person_no = req.body.person_no;
   var user_name = req.body.user_name;
   var password = req.body.password;
   var myid = req.body.myid;
@@ -533,7 +534,7 @@ exports.admin = function (req, res, next) {
     var sesa = req.session.sesa_no1;
     var first_name = req.body.first_name;
     var last_name = req.body.last_name;
-    var mob_no = req.body.mob_no;
+    var person_no = req.body.person_no;
     var user_name = req.body.user_name;
     var password = req.body.password;
     var supplier_name = req.body.supplier_name;
@@ -543,19 +544,19 @@ exports.admin = function (req, res, next) {
     var id_day = req.body.id_day;
 
     console.log("Method: " + req.method);
-    console.log("user: " + sesa + " " + first_name + " " + last_name + " " + mob_no + " " + user_name + " " + password);
+    console.log("user: " + sesa + " " + first_name + " " + last_name + " " + person_no + " " + user_name + " " + password);
     console.log("menu: " + sesa + " " + supplier_name + " " + menu_no + " " + menu_desctription + " " + menu_price + " " + id_day);
 
-    if (sesa && first_name && last_name && mob_no && user_name && password) {
+    if (sesa && first_name && last_name && person_no && user_name && password) {
       // user 
-      var sql = "INSERT INTO `elunch_users2`(`sesa_no`,`first_name`,`last_name`,`mob_no`,`user_name`, `password`) VALUES ('" +
+      var sql = "INSERT INTO `elunch_users2`(`sesa_no`,`first_name`,`last_name`,`person_no`,`user_name`, `password`) VALUES ('" +
         sesa +
         "','" +
         first_name +
         "','" +
         last_name +
         "','" +
-        mob_no +
+        person_no +
         "','" +
         user_name +
         "','" +
@@ -654,7 +655,7 @@ exports.admin = function (req, res, next) {
 
   } else if (req.method == "PUT") {
     console.log("Method: " + req.method);
-    console.log("put " + myid + " " + sesa + " " + first_name + " " + last_name + " " + mob_no + " " + user_name + " " + password);
+    console.log("put " + myid + " " + sesa + " " + first_name + " " + last_name + " " + person_no + " " + user_name + " " + password);
 
     var sql13 = "UPDATE elunch_users2 SET sesa_no=" +
       sesa +
@@ -662,8 +663,8 @@ exports.admin = function (req, res, next) {
       first_name +
       "', last_name='" +
       last_name +
-      "', mob_no=" +
-      mob_no +
+      "', person_no=" +
+      person_no +
       ", user_name='" +
       user_name +
       "', password=" +
@@ -717,7 +718,7 @@ exports.users = function (req, res, next) {
   var sesa = req.body.sesa_no;
   var first_name = req.body.first_name;
   var last_name = req.body.last_name;
-  var mob_no = req.body.mob_no;
+  var person_no = req.body.person_no;
   var user_name = req.body.user_name;
   var password = req.body.password;
   var myid = req.body.myid;
@@ -728,7 +729,7 @@ exports.users = function (req, res, next) {
     var sesa = req.session.sesa_no1;
     var first_name = req.body.first_name;
     var last_name = req.body.last_name;
-    var mob_no = req.body.mob_no;
+    var person_no = req.body.person_no;
     var user_name = req.body.user_name;
     var password = req.body.password;
     var supplier_name = req.body.supplier_name;
@@ -739,7 +740,7 @@ exports.users = function (req, res, next) {
     var results2, menuForUpdate;
 
     console.log("Method: " + req.method);
-    console.log("user: " + sesa + " " + first_name + " " + last_name + " " + mob_no + " " + user_name + " " + password);
+    console.log("user: " + sesa + " " + first_name + " " + last_name + " " + person_no + " " + user_name + " " + password);
     var menuForUpdate;
     var mypost = req.body.mypost;
 
@@ -774,16 +775,16 @@ exports.users = function (req, res, next) {
     if (req.body.addUsers == "addUsers"){
       console.log ("jestem w ADDUsers");
       var sesa = req.body.sesa_no;
-      if (sesa && first_name && last_name && mob_no && user_name && password) {
+      if (sesa && first_name && last_name && person_no && user_name && password) {
         // user 
-        var sql = "INSERT INTO `elunch_users2`(`sesa_no`,`first_name`,`last_name`,`mob_no`,`user_name`, `password`) VALUES ('" +
+        var sql = "INSERT INTO `elunch_users2`(`sesa_no`,`first_name`,`last_name`,`person_no`,`user_name`, `password`) VALUES ('" +
           sesa +
           "','" +
           first_name +
           "','" +
           last_name +
           "','" +
-          mob_no +
+          person_no +
           "','" +
           user_name +
           "','" +
@@ -817,7 +818,7 @@ exports.users = function (req, res, next) {
 
   } else if (req.method == "PUT") {
     console.log("Method: " + req.method);
-    console.log("put " + myid + " " + sesa + " " + first_name + " " + last_name + " " + mob_no + " " + user_name + " " + password);
+    console.log("put " + myid + " " + sesa + " " + first_name + " " + last_name + " " + person_no + " " + user_name + " " + password);
 
     var sql13 = "UPDATE elunch_users2 SET sesa_no=" +
       sesa +
@@ -825,8 +826,8 @@ exports.users = function (req, res, next) {
       first_name +
       "', last_name='" +
       last_name +
-      "', mob_no=" +
-      mob_no +
+      "', person_no=" +
+      person_no +
       ", user_name='" +
       user_name +
       "', password=" +
@@ -835,8 +836,7 @@ exports.users = function (req, res, next) {
       id +
       "";
 
-    console.log("sql13: " + sql13);
-    db.query(sql13, function (err, result) {
+      db.query(sql13, function (err, result) {
       console.log(" updated row no. :" + id);
     });
 

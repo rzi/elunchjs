@@ -12,8 +12,8 @@
                                                            
                     <div class="panel panel-info">
                         <div class="panel-heading">
-                            <div class="panel-title">Sign Up</div>
-                            <div style="float:right; font-size: 85%; position: relative; top:-10px"><a id="signinlink" href="/">Sign In</a></div>
+                            <div class="panel-title">Rejestracja</div>
+                            <div style="float:right; font-size: 85%; position: relative; top:-10px"><a id="signinlink" href="/">Logowanie</a></div>
                         </div> 
                         <div class="panel-body" >
                             <form class="form-horizontal" role="form" method="post" action="/signup" onSubmit="return checkblank(this);">
@@ -21,50 +21,50 @@
                                                                                                             <div class="alert alert-success col-sm-12"><%= message %></div>
                                                                                                 <% } %>
                                 <div id="signupalert" style="display:none" class="alert alert-danger">
-                                    <p>Error:</p>
+                                    <p>Błąd:</p>
                                     <span></span>
                                 </div>
                                 <div class="form-group">
-                                    <label for="sesa_no" class="col-md-3 control-label">SESA Number</label>
+                                    <label for="sesa_no" class="col-md-3 control-label">Numer SESA</label>
                                     <div class="col-md-9">
-                                        <input type="number" class="form-control" name="sesa_no1" placeholder="Sesa">
+                                        <input type="number" class="form-control" name="sesa_no1" placeholder="sesa">
                                     </div>
                                 </div>
                                     
                                 <div class="form-group">
-                                    <label for="first_name" class="col-md-3 control-label">First Name</label>
+                                    <label for="first_name" class="col-md-3 control-label">Imię</label>
                                     <div class="col-md-9">
-                                        <input type="text" class="form-control" name="first_name" placeholder="First Name">
+                                        <input type="text" class="form-control" name="first_name" placeholder="imię">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="last_name" class="col-md-3 control-label">Last Name</label>
+                                    <label for="last_name" class="col-md-3 control-label">Nazwisko</label>
                                     <div class="col-md-9">
-                                        <input type="text" class="form-control" name="last_name" placeholder="Last Name">
+                                        <input type="text" class="form-control" name="last_name" placeholder="nazwisko">
                                     </div>
                                 </div>
                                                                                                 <div class="form-group">
-                                    <label for="mob_no" class="col-md-3 control-label">Mobile Number</label>
+                                    <label for="person_no" class="col-md-3 control-label">Numer akt osobowych</label>
                                     <div class="col-md-9">
-                                        <input type="number" class="form-control" name="mob_no" placeholder="Mobile Number">
+                                        <input type="number" class="form-control" name="person_no" placeholder="numer akt">
                                     </div>
                                 </div>
                                                                                                 <div class="form-group">
-                                    <label for="user_name" class="col-md-3 control-label">User Name</label>
+                                    <label for="user_name" class="col-md-3 control-label">Sktócona nazwa</label>
                                     <div class="col-md-9">
-                                        <input type="text" class="form-control" name="user_name" placeholder="User Name">
+                                        <input type="text" class="form-control" name="user_name" placeholder="sktót">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="password" class="col-md-3 control-label">Password</label>
+                                    <label for="password" class="col-md-3 control-label">Hasło</label>
                                     <div class="col-md-9">
-                                        <input type="password" class="form-control" name="password" placeholder="Password">
+                                        <input type="password" class="form-control" name="password" placeholder="hasło">
                                     </div>
                                 </div> 
                                 <div class="form-group">
                                     <!-- Button -->                                       
                                     <div class="col-md-offset-3 col-md-9">
-                                        <button id="btn-signup" type="submit" class="btn btn-info"><i class="icon-hand-right"></i> &nbsp Sign Up</button>
+                                        <button id="btn-signup" type="submit" class="btn btn-info"><i class="icon-hand-right"></i> &nbsp Zarejestruj</button>
                                     </div>
                                 </div>  
                             </form>

@@ -55,7 +55,7 @@ window.onload = function() {
         document.getElementById("first_name2").value=row.first_name
         document.getElementById("last_name2").value=row.last_name
         document.getElementById("user_name2").value=row.user_name
-        document.getElementById("mob_no2").value=row.mob_no
+        document.getElementById("person_no2").value=row.person_no
         document.getElementById("password2").value = row.password
         document.getElementById("btn_update").style.display = "inline"
         document.getElementById("btn_add").style.display = "none"
@@ -133,7 +133,7 @@ function updateDB(){
           first_name: document.getElementById("first_name2").value,
           last_name: document.getElementById("last_name2").value,
           user_name: document.getElementById("user_name2").value,
-          mob_no: document.getElementById("mob_no2").value,
+          person_no: document.getElementById("person_no2").value,
           password: document.getElementById("password2").value  
       })
       .then(function(response) {
