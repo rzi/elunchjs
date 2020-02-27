@@ -22,11 +22,11 @@
   <style>
     input#myid2 {width: 30px;}
     input#sesa_no2 {width: 55px;}
-    input#first_name2 {width: 120px;}
-    input#last_name2 {width: 120px;}
-    input#person_no2 {width: 80px;}
+    input#first_name2 {width: 110px;}
+    input#last_name2 {width: 110px;}
+    input#person_no2 {width: 70px;}
     input#user_name2 {width: 40px;}
-    input#password2 {width: 80px;}
+    input#password2 {width: 70px;}
     input#btn_add {margin-left: 20px;}
     input#btn_update {margin-left: 20px;}
   </style>
@@ -57,7 +57,11 @@
         Imię <input type="text" id="first_name2">
         Nazwisko <input type="text" id="last_name2">
         Nr akt osobowych <input type="text" id="person_no2">
-        Sktót <input type="text" id="user_name2">
+        <select id="user_name2" name="user_name2" style="padding: 4px 18px ;" >
+          <option value="DVC">DVC</option>
+          <option value="MBC">MBC</option>
+        </select>
+        <!-- Sktót <input type="text" id="user_name2"> -->
         Hasło <input type="password" id="password2">
         <input  id="btn_add" type="submit"  onclick="addUser1()" value="Dodaj">   
         <input hidden id ="btn_update" type="submit"  onclick="updateDB()" value="Uaktualnij">  
@@ -82,7 +86,7 @@
           <th data-field="first_name">Imię</th>
           <th data-field="last_name">Nazwisk</th>
           <th data-field="person_no">Nr. akt osobowych</th>
-          <th data-field="user_name">Nick</th>
+          <th data-field="user_name">Typ</th>
           <th data-field="password" data-formatter="passwordFormatter">Hasło</th>
           <th data-field="delete">Usuń</th>
           <th data-field="update">Uaktualnij</th>

@@ -54,7 +54,7 @@ window.onload = function() {
         document.getElementById("sesa_no2").value=row.sesa_no;
         document.getElementById("first_name2").value=row.first_name
         document.getElementById("last_name2").value=row.last_name
-        document.getElementById("user_name2").value=row.user_name
+        document.getElementById("user_name2").selectedIndex=row.user_name
         document.getElementById("person_no2").value=row.person_no
         document.getElementById("password2").value = row.password
         document.getElementById("btn_update").style.display = "inline"
@@ -73,7 +73,7 @@ function addUser1(){
       sesa_no: document.getElementById("sesa_no2").value,
       first_name: document.getElementById("first_name2").value,
       last_name: document.getElementById("last_name2").value,
-      mob_no: document.getElementById("mob_no2").value,
+      person_no: document.getElementById("person_no2").value,
       user_name: document.getElementById("user_name2").value,
       password: document.getElementById("password2").value 
     })
