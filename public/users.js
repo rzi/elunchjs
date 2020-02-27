@@ -83,7 +83,7 @@ function addUser1() {
   var x = document.getElementById("user_name2").selectedIndex;
   var y = document.getElementById("user_name2").options;
   alert("Index: " + y[x].index + " is " + y[x].text);
-  console.log( y[x].index)
+  //console.log( y[x].index)
   if ( document.getElementById("sesa_no2").value == "" || (y[x].text) == "" ||  
   document.getElementById("first_name2").value == "" && document.getElementById("person_no2").value == "" &&
   document.getElementById("user_name2").value == "" && document.getElementById("password2").value == ""){
