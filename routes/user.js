@@ -331,24 +331,20 @@ exports.new_order2 = function (req, res, next) {
     var sesa_no1 = req.session.sesa_no1;
     var order_date = req.body.order_date;
     var id = req.body.id;
-
+    var founding, deduction;
+    // to check if user aleready order something to setup right deduction (potrącenia) & founding (dofinansowanie) 
+    // Daily founding =7pln
+    // 1. to check if today it was ordered 
+    //    if Yes (deduct from  all of dayli orders founding 7 pln ) 
+    //    if not deduct from founding 7 pln
+    // 2. put to deduction difference between order_price and founding
+    //
     console.log("Method: " + req.method);
-    console.log(
-      "put: ",
-      sesa_no1,
-      " ",
-      supplier,
-      " ",
-      order_date,
-      " ",
-      "id ",
-      id);
+    console.log("put: ", sesa_no1, " ", supplier, " ", order_date, " ", "id ", id);
     //base id (previously order_no), get from menu order_name and order_price
-    var sql6 =
-      "SELECT * FROM `elunch_menu2` WHERE `id`='" +
-      id +
-      "'";
+    var sql6 = "SELECT * FROM `elunch_menu2` WHERE `id`='" + id + "'";
     console.log("sql6: ", sql6);
+
     db.query(sql6, function (err, results) {
       if (results.length) {
         menu_desctription = results[0].menu_desctription;
@@ -365,6 +361,16 @@ exports.new_order2 = function (req, res, next) {
         res.render("index.ejs", { message: message });
       }
       console.log("order_date: ", order_date);
+
+      //
+      var sql2 = "SELECT SUM(`founding`) FROM `elunch_orders2` WHERE `order_date` ='" + order_date + "'";
+      console.log("sql2: " + sql2);
+      db.query(sql2, function (err, results) {
+        // console.log("results: "+ JSON.stringify(results));
+        // var suma =JSON.stringify(results)
+        console.log("sum: " + results)
+      });
+
       // put order to DB
       var sql5 =
         "INSERT INTO `elunch_orders2`(`Id_sesa_no`,`order_date`,`order_supplier_name`,`order_no`,`order_name`, `order_price`) VALUES ('" +
