@@ -372,38 +372,51 @@ exports.new_order2 = function (req, res, next) {
       db.query(sql2, function (err, results) {
         sumOfFounding = Object.values(results[0]);
         console.log("SumOfFounding: " + sumOfFounding)
-        if (sumOfFounding <= 7){
+        if (sumOfFounding < 7){
           founding = dailyFounding - sumOfFounding;
-          deduction = menu_price- sumOfFounding;
+          deduction = menu_price- founding
+          if (menu_price <= 7) { 
+            founding = menu_price
+            if (sumOfFounding + founding >= 7 ){
+              var x = 7 - sumOfFounding
+              console.log("x: " +x)
+              founding = x 
+              console.log("founding :" + founding)
+            }
+            deduction = menu_price            
+          }
+          if (deduction<0) { deduction=0}
         } else{
           founding =0;
           deduction = menu_price;
         }
+              // put order to DB
+      var sql5 =
+      "INSERT INTO `elunch_orders2`(`Id_sesa_no`,`order_date`,`order_supplier_name`,`order_no`,`order_name`, `order_price`, `founding`,`deduction`) VALUES ('" +
+      sesa_no1 +
+      "','" +
+      order_date +
+      "','" +
+      supplier +
+      "','" +
+      menu_no +
+      "','" +
+      menu_desctription +
+      "','" +
+      menu_price +
+      "','" +
+      founding +
+      "','" +
+      deduction +
+      "')";
+    console.log("SQL: ", sql5);
+    db.query(sql5, function (err, results) {
+      console.log("Inerted record to DB");
+    });
+
       });
 
-      // put order to DB
-      var sql5 =
-        "INSERT INTO `elunch_orders2`(`Id_sesa_no`,`order_date`,`order_supplier_name`,`order_no`,`order_name`, `order_price`, `founding`,`deduction`) VALUES ('" +
-        sesa_no1 +
-        "','" +
-        order_date +
-        "','" +
-        supplier +
-        "','" +
-        menu_no +
-        "','" +
-        menu_desctription +
-        "','" +
-        menu_price +
-        "','" +
-        founding +
-        "','" +
-        deduction +
-        "')";
-      console.log("SQL: ", sql5);
-      db.query(sql5, function (err, results) {
-        console.log("Inerted record to DB");
-      });
+
     });
     res.render("new_order2.ejs");
   } else if (req.method == "DELETE") {
