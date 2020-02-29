@@ -375,20 +375,29 @@ exports.new_order2 = function (req, res, next) {
         if (sumOfFounding < 7){
           founding = dailyFounding - sumOfFounding;
           deduction = menu_price- founding
+          console.log("founding :" + founding)
+          console.log("deduction :" + deduction)
           if (menu_price <= 7) { 
             founding = menu_price
+            console.log("founding1 :" + founding)
+            console.log("deduction1 :" + deduction)
             if (sumOfFounding + founding >= 7 ){
               var x = 7 - sumOfFounding
               console.log("x: " +x)
               founding = x 
-              console.log("founding :" + founding)
+              console.log("founding2 :" + founding)
+              console.log("deduction2 :" + deduction)
             }
-            deduction = menu_price            
+            deduction = menu_price - founding    
+            console.log("founding3 :" + founding)
+            console.log("deduction3 :" + deduction)       
           }
           if (deduction<0) { deduction=0}
         } else{
           founding =0;
           deduction = menu_price;
+          console.log("founding4 :" + founding)
+          console.log("deduction4 :" + deduction)
         }
               // put order to DB
       var sql5 =

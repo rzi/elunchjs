@@ -35,12 +35,72 @@
       </div>
     </nav>
     <div class="jumbotron">
-        <p>Raport za: 
- 
-        </p>
- 
-        </div>
+      <p>Rapot za: </p>
+      <!-- <form action="/home/orders" method="post" name="form_orders"> -->
+      Od:<input type="date" name="data_from" id="data_from">
+      Do:<input type="date" name="data_to" id="data_to">
+      <select id="select" name="selectB" style="font-size: 16px; padding: 2px 18px ;" >
+        <option value="empty">wybierz ...</option>
+        <option value="dvc">DVC</option>
+        <option value="mbc">MBC</option>
+        <option value="guests">Goście</option>
+      </select>  
+      <select id="selectSupplier" name="selectSupplier" style="font-size: 16px; padding: 2px 18px ;" >
+        <option value="empty">wybierz ...</option>
+        <option value="opoka">Opoka</option>
+        <option value="mucha">Mucha</option>
+      </select> 
+      <button type="button" id="btn"  >Zatwierdź</button>
+      </p>
+      <div class="table-responsive">
+        <!-- <table id="table" class="table table-bordered"></table> -->
+        <table
+            id="table"
+            data-locale="pl-PL"
+            data-search="true"
+            data-height="530"
+            data-show-export="true"
+            data-pagination="true"
+            data-pagination-pre-text="Poprzedni"
+            data-pagination-next-text="Następny"
+            data-page-list="[3, 5, 10, 15, all]"
+            data-response-handler="responseHandler">
+            <thead>
+              <tr>
+                <th data-field="id">ID</th>
+                <th data-field="Id_sesa_no">SESA</th>
+                <th data-field="first_name">Imię</th>
+                <th data-field="last_name">Nazwisko</th>
+                <th data-field="order_date">Data</th>
+                <th data-field="order_supplier_name">Dostawca</th>
+                <th data-field="order_no">Nr. dania</th>
+                <th data-field="order_name">Danie</th>
+                <th data-field="order_price">Cena</th>
+                <th data-field="founding">Dofinansowanie</th>
+                <th data-field="deduction">Potrącenie</th>
+              </tr>
+            </thead>
+          </table>
+      </div>
     </div>
-  
+  </div>
+     <!-- js -->
+     <script src="/public/raport.js"></script>
+
+     <link
+       rel="stylesheet"
+       href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+       integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
+       crossorigin="anonymous"
+     />
+     <link
+       rel="stylesheet"
+       href="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table.min.css"
+     />
+     <script src="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table.min.js"></script>
+     <script src="https://unpkg.com/tableexport.jquery.plugin/tableExport.min.js"></script>
+     <script src="https://unpkg.com/bootstrap-table@1.15.5/dist/extensions/export/bootstrap-table-export.min.js"></script>
+     <script src="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table-locale-all.min.js"></script>
+    
 </body>
 </html>
