@@ -34,7 +34,7 @@
       Do:<input type="date" name="data_to" id="data_to">
       <button type="button" id="btn"  >Zatwierdź</button>
       </p>
-      <div class="table-responsive">
+      <div id ="table-responsive" class="table-responsive">
         <!-- <table id="table" class="table table-bordered"></table> -->
         <table
             id="table"
@@ -103,7 +103,7 @@
       document.getElementById("data_to").value = today;
       document.getElementById("data_from").value = before_few_days;
       document.getElementById("btn").addEventListener("click", function () {
-         // console.log(" click btn1: ");
+        document.getElementById("table-responsive").style.display = "flex";
          // Make a request for a user with a given ID
          axios.post('/home/orders2', {
             data_from: document.getElementById("data_from").value,
