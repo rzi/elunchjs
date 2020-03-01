@@ -57,6 +57,7 @@ window.onload = function () {
       // alert (myMonth)
       document.getElementById("month").innerHTML = myMonth 
 
+      document.getElementById("table-responsive").style.display = "flex";
        // Make a request for a user with a given ID
        axios.post('/home/raport', {
           data_from: document.getElementById("data_from").value,

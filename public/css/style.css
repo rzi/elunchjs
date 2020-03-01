@@ -48,3 +48,7 @@
   .tableUser{
     padding: 10px;
   }
+  .table-responsive {
+    display: none;
+
+  }

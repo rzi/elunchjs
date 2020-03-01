@@ -17,6 +17,7 @@
   <script src="https://unpkg.com/tableexport.jquery.plugin/tableExport.min.js"></script>
   <script src="https://unpkg.com/bootstrap-table@1.15.5/dist/extensions/export/bootstrap-table-export.min.js"></script>
   <script src="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table-locale-all.min.js"></script>
+  <script src="https://unpkg.com/bootstrap-table@1.16.0/dist/extensions/print/bootstrap-table-print.min.js"></script>
   <link rel="stylesheet" href="/public/css/style.css" type="text/css"/>
 </head>
 <body>
@@ -26,7 +27,7 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li> <img src="/public/img/logo2.png" with="94" height="45" alt="logo" srcset=""style="margin-right: 20px;"></li>
-            <li class="active"><a href="/home/dashboard">Powtót</a></li>
+            <li class="active"><a href="/home/dashboard">Powrót</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li><a href="/home/logout">Wylogowanie</a></li>
@@ -43,6 +44,7 @@
             <table id="table_list" 
             class="table table-bordered"
             data-show-refresh="true"
+            data-show-print="true"
             data-auto-refresh="true"
             data-locale="pl-PL"
             data-search="true"
