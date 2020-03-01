@@ -536,27 +536,76 @@ exports.list = function (req, res, next) {
     res.render("new_list.ejs");
   }
 };
-//raport
+
+// //raport
+// exports.raport = function (req, res, next) {
+//   var data_list;
+//   data_list = req.body.data_list;
+//   console.log("data_list1: ", data_list);
+
+//   if (req.method == "POST") {
+//     var sql =
+//       "select first_name, last_name, order_supplier_name,order_no,order_name  from elunch_users2 join  elunch_orders2 on elunch_users2.sesa_no = elunch_orders2.id_sesa_no  WHERE `order_date`='" +
+//       data_list + "' ORDER BY  order_no DESC";
+//     console.log("sql: " + sql);
+//     db.query(sql, function (err, result) {
+//       var list = JSON.stringify(result);
+//       console.log("list: ", list);
+//       //res.render("orders.ejs", {ordersList});
+//       res.json({ message: result });
+//     });
+//   } else if (req.method == "GET") {
+//     res.render("raport.ejs");
+//   }
+// };
+
+
+//raport2
 exports.raport = function (req, res, next) {
-  var data_list;
-  data_list = req.body.data_list;
-  console.log("data_list1: ", data_list);
+  var data_from,data_to, supplierValue, typeValue;
+  data_from = req.body.data_from;
+  data_to = req.body.data_to;
+  raportValue = req.body.raportValue;
+  typeValue = req.body.typeValue;
+  var founding,deduction, mySQLtext;
+
+  console.log("data_from: ", data_from);
+  console.log("data_to: ", data_to);
+  console.log("raportValue: ", raportValue);
+  console.log("typeValue: ", typeValue);
+  if (raportValue == "founding"){
+  mySQLtext = "SUM(`founding`)"
+  } else if (raportValue == "deduction"){
+    mySQLtext = "SUM(`deduction`)"
+  }
+
+  if (typeValue == "dvc"){
+    mySQLtype = "DVC"
+  } else if (typeValue == "mbc"){
+    mySQLtype = "MBC"
+  }
 
   if (req.method == "POST") {
+
     var sql =
-      "select first_name, last_name, order_supplier_name,order_no,order_name  from elunch_users2 join  elunch_orders2 on elunch_users2.sesa_no = elunch_orders2.id_sesa_no  WHERE `order_date`='" +
-      data_list + "' ORDER BY  order_no DESC";
+      "select "+ mySQLtext +", CONCAT(first_name, ' ', last_name) AS name, person_no, first_name, last_name   from elunch_users2 join  elunch_orders2 on elunch_users2.sesa_no = elunch_orders2.id_sesa_no WHERE `order_date` BETWEEN '" +
+      data_from +
+      "' AND '" +
+      data_to +
+      "' AND `user_name`='" +
+      mySQLtype +
+      "' GROUP BY person_no";
     console.log("sql: " + sql);
     db.query(sql, function (err, result) {
       var list = JSON.stringify(result);
       console.log("list: ", list);
-      //res.render("orders.ejs", {ordersList});
       res.json({ message: result });
     });
   } else if (req.method == "GET") {
     res.render("raport.ejs");
   }
 };
+
 //admin
 exports.admin = function (req, res, next) {
   var id = req.body.id;
