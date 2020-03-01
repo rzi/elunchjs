@@ -40,7 +40,7 @@
           <input type="date" name="data_list" id="data_list"> </input>
           <button type="button" id="btn" >Zatwierdź</button>
         </p>
-        <div class="table-responsive">
+        <div id="table-responsive" class="table-responsive">
             <table id="table_list" 
             class="table table-bordered"
             data-show-refresh="true"
@@ -80,6 +80,7 @@
         
         document.getElementById("data_list").value = today;
         document.getElementById("btn").addEventListener("click", function () {
+          document.getElementById("table-responsive").style.display = "flex";
           data_list();      
         });
         document.getElementById("data_list").addEventListener("change", function() {
