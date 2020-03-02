@@ -56,7 +56,7 @@
           Dostawca <input type="text" id="supplier_name">
           Numer dania <input type="text" id="menu_no">
           Opis dania <input type="text" id="menu_desctription">
-          Cena <input type="text" id="menu_price">
+          Cena <input type="text" id="menu_price" onchange="this.value = this.value.replace(/,/g, '.')">
           id dnia <input type="text" id="id_day">
           <input  id="btn_add_menu" type="submit"  onclick="addMenu1()" value="Dodaj">
           <input hidden id ="btn_update_menu" type="submit"  onclick="updateMenuDB1()" value="Uaktualnij">        
