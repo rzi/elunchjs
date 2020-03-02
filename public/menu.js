@@ -88,6 +88,20 @@ window.onload = function() {
 } //end of onload
 
 function addMenu1(){
+  var supplier_name = document.getElementById("supplier_name").value
+  if (supplier_name == "Opoka" || supplier_name == "Mucha"){
+    //
+     } else {
+      alert (" Wprowadź poprawną nazwę dostawcy zaczynająć od WIELKIEJ pierwszej litery \n Możliwe nazwy to: Opoka i Mucha")
+      document.getElementById("supplier_name").value = ""
+      return
+     }
+     if ( document.getElementById("supplier_name").value == "" ||  
+     document.getElementById("menu_no").value == "" || document.getElementById("menu_desctription").value == "" || 
+     document.getElementById("menu_price").value == "" ||  document.getElementById("id_day").value ==""){
+         alert("uzupełnij wszystkie pola");
+         return
+       }  
     axios
     .post("/home/menu", {
       addMenu:"addMenu",
@@ -144,6 +158,21 @@ function myFunction_delete3(value) {
     });
 }
 function updateMenuDB1(){
+  var supplier_name = document.getElementById("supplier_name").value
+  if (supplier_name == "Opoka" || supplier_name == "Mucha"){
+    //
+     } else {
+      alert (" Wprowadź poprawną nazwę dostawcy zaczynająć od WIELKIEJ pierwszej litery \n Możliwe nazwy to: Opoka i Mucha")
+      document.getElementById("supplier_name").value = ""
+      return
+     }
+  if ( document.getElementById("myid2").value == "" || document.getElementById("supplier_name").value == "" ||  
+  document.getElementById("menu_no").value == "" || document.getElementById("menu_desctription").value == "" || 
+  document.getElementById("menu_price").value == "" ||  document.getElementById("id_day").value ==""){
+      alert("uzupełnij wszystkie pola");
+      return
+    }    
+
   console.log( " updateDB ")
       axios
       .put("/home/menu", {
@@ -167,5 +196,15 @@ function updateMenuDB1(){
         // always executed
       });
 
+}
+function validateSupplier(){
+  var supplier_name = document.getElementById("supplier_name").value
+  if (supplier_name == "Opoka" || supplier_name == "Mucha"){
+    //
+     } else {
+      alert (" Wprowadź poprawną nazwę dostawcy zaczynająć od WIELKIEJ pierwszej litery \n Możliwe nazwy to: Opoka i Mucha")
+      document.getElementById("supplier_name").value = ""
+      return
+     }
 }
 

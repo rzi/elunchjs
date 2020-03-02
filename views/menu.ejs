@@ -53,7 +53,7 @@
         <p>Zarządzanie menu (dodaj lub uaktualnij menu:)</p>
       <div class="addMenu" >
           id <input disabled type="text" id="myid2">
-          Dostawca <input type="text" id="supplier_name">
+          Dostawca <input type="text" id="supplier_name" onchange="validateSupplier()">
           Numer dania <input type="text" id="menu_no">
           Opis dania <input type="text" id="menu_desctription">
           Cena <input type="text" id="menu_price" onchange="this.value = this.value.replace(/,/g, '.')">

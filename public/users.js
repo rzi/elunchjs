@@ -150,6 +150,10 @@ function myFunction_delete3(value) {
 }
 function updateDB() {
   console.log(" updateDB ");
+  if (document.getElementById("user_name2").value == ""){
+    alert("Uzupełnij pole Typ wartością  MBC jeśli wprowadzasz pracownika biura lub DVC jeśli to jest pracownik produkcji \n Pamiętaj o zachowaniu pisowni WIELKIMI literami")
+    return
+  }
   axios
     .put("/home/users", {
       updateUsers: "updateUsers",
