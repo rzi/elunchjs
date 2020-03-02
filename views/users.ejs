@@ -53,17 +53,17 @@
         <p>Zarządzanie użytkownikami (dodaj lub uaktualnij użytkownika:)</p>
         <div class="addUsers">
         id <input disabled type="text" id="myid2" > 
-        SESA <input type="text" id="sesa_no2">
-        Imię <input type="text" id="first_name2">
-        Nazwisko <input type="text" id="last_name2">
-        Nr akt osobowych <input type="text" id="person_no2">
+        SESA <input type="text" id="sesa_no2" placeholder="liczba">
+        Imię <input type="text" id="first_name2" placeholder="tekst">
+        Nazwisko <input type="text" id="last_name2" placeholder="tekst">
+        Nr akt osobowych <input type="text" id="person_no2" placeholder="liczba">
         <select id="user_name2" name="user_name2" style="padding: 4px 18px ;" >
           <option value=""> </option>
           <option value="DVC">DVC</option>
           <option value="MBC">MBC</option>
         </select>
         <!-- Sktót <input type="text" id="user_name2"> -->
-        Hasło <input type="password" id="password2">
+        Hasło <input type="password" id="password2" placeholder="tekst">
         <input  id="btn_add" type="submit"  onclick="addUser1()" value="Dodaj">   
         <input hidden id ="btn_update" type="submit"  onclick="updateDB()" value="Uaktualnij">  
       </div>
