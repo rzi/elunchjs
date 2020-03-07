@@ -56,6 +56,7 @@ exports.login = function(req, res) {
       if (results.length) {
         req.session.userId = results[0].id;
         req.session.first_name = results[0].first_name;
+        req.session.last_name = results[0].last_name;
         req.session.sesa_no1 = sesa_no1;
         req.session.myDateCookies = new Date();
         req.session.mySupplierCookies = "Mucha";
@@ -287,6 +288,7 @@ exports.new_order2 = function(req, res, next) {
     var mysupplier = req.body.my_supplier;
     var sesa_no1 = req.session.sesa_no1;
     var fname = req.session.first_name;
+    var lname = req.session.last_name;
     console.log("sesa_no1: " + sesa_no1);
     var d = new Date();
     var id_day = parseInt(d.getDay());
@@ -329,6 +331,7 @@ exports.new_order2 = function(req, res, next) {
         table_data: results,
         table_supplier: JSON.parse(menu_json),
         fname: fname,
+        lname: lname,
         sesa_no1: sesa_no1
       });
     });
@@ -1292,6 +1295,8 @@ exports.guest = function(req, res, next) {
   } else if (req.method == "GET") {
     res.render("guest.ejs");
   } else if (req.method == "PUT") {
+    const nodemailer = require("nodemailer");
+
     var supplier = req.body.supplier;
     var order_no;
     var sesa_no1 = req.body.sesa_no1;
@@ -1302,20 +1307,51 @@ exports.guest = function(req, res, next) {
     var cost_center = req.body.cost_center;
     var menu_no = req.body.menu_no;
     var menu_desctription = req.body.menu_desctription;
-    var menu_price = req.body.menu_price;
+    var menu_price = req.body.menu_price
+    var emailTo;
 
+    var smtpConfig = {
+      host: "camtronic.nazwa.pl",
+      port: 465,
+      auth: {
+        user: "elunchjs@camtronic.nazwa.pl",
+        pass: "Rafal20!"
+      }
+    };
+    var transporter = nodemailer.createTransport(smtpConfig);
+
+    for (let [key, value] of Object.entries(email)) {
+      if (`${key}` == departament ) {
+        emailTo = `${value}`;
+        console.log("emailTo:" + emailTo);
+      }
+    }
+
+    // in key to: put emailto in production version
+    var mailOptions = {
+      from: "elunchjs@camtronic.nazwa.pl",
+      to: "rafal.zietak@se.com",
+      subject: "Zamówienie Elunch (informacja generowana automatycznie)  ",
+      text: "Cześć, " + "\n" + "Twój pracownik o nr. SESA "+ sesa_no1 + "\n" + "Zamówił obiad na dzień " + order_date + " od dostawcy " + supplier + " dla gościa: "+  guestName + "\n" + "Koszty obiadu obciążą twój MPK działu " + cost_center + " w kwocie " +  menu_price + " zł" + "\n" + "\n" + " Pozdrawia aplikacja Elunch" + "\n" +" dla Schneider Electric" +"\n"+ "\n" + " PS: to mail informacyjny, nie odpowiadamy na niego"
+       
+    };
+
+    transporter.sendMail(mailOptions, function(error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email sent: " + info.response);
+      }
+    });
+
+    transporter.verify((err, success) => {
+      if (err) console.error(err);
+      console.log("Your config is correct");
+    });
+    
     console.log("Method: " + req.method);
-    console.log(
-      "put: ",
-      sesa_no1,
-      " ",
-      supplier,
-      " ",
-      order_date,
-      " ",
-      "id ",
-      id
-    );
+    console.log("put: ", sesa_no1, " ", supplier, " ", order_date, " ", "id ", id);
+
     //base id (previously order_no), get from menu order_name and order_price
     var sql6 = "SELECT * FROM `elunch_menu2` WHERE `id`='" + id + "'";
     console.log("sql6: ", sql6);
@@ -1344,9 +1380,9 @@ exports.guest = function(req, res, next) {
         "','" +
         order_date +
         "','" +
-        departament +
-        "','" +
         cost_center +
+        "','" +
+        departament +
         "','" +
         supplier +
         "','" +
@@ -1361,6 +1397,7 @@ exports.guest = function(req, res, next) {
         console.log("Inerted record to DB");
       });
     });
+
     res.render("guest.ejs");
   } else if (req.method == "DELETE") {
     var delete_id3 = req.body.delete_id3;
@@ -1615,3 +1652,45 @@ exports.additional = function(req, res, next) {
   }
   // res.render("additional.ejs")
 };
+exports.complaint = function(req, res, next) {
+  if (req.method == "POST") {
+    const nodemailer = require("nodemailer");
+    var emailSupplier = req.body.emailSupplier;
+    var emailClient = req.body.emailClient;
+    var emailText = req.body.emailText;
+    console.log(emailClient);
+    console.log(emailText);
+
+    var smtpConfig = {
+      host: "camtronic.nazwa.pl",
+      port: 465,
+      auth: {
+        user: "elunchjs@camtronic.nazwa.pl",
+        pass: "Rafal20!"
+      }
+    };
+    var transporter = nodemailer.createTransport(smtpConfig);
+
+
+    // in key to: put emailto in production version
+    var mailOptions = {
+      from: "elunchjs@camtronic.nazwa.pl",
+      to: "rafal.zietak@se.com",
+      subject: emailText
+    };
+
+    transporter.sendMail(mailOptions, function(error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email sent: " + info.response);
+      }
+    });
+
+    transporter.verify((err, success) => {
+      if (err) console.error(err);
+      console.log("Your config is correct");
+    });
+  }
+  res.render("complaint.ejs")
+}

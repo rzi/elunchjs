@@ -25,6 +25,9 @@
               <li >
                 <a href="/home/guest">Dla Gościa</a>
               </li>
+              <li >
+                <a href="/home/complaint">Reklamacja</a>
+              </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
               <li><a href="/home/logout">Wylogowanie</a></li>
@@ -175,7 +178,11 @@
           .then(function(response) {
             // handle success
             fname = response.data.fname;
+            setCookie("name", fname, 1);
+            lname = response.data.lname;
+            setCookie("surname", lname, 1);
             sesa_no1 = response.data.sesa_no1;
+            setCookie("sesa", sesa_no1, 1);
             console.log ("fname: "+ fname + "sesa_no1: " + sesa_no1);
             document.getElementById("fname").innerText ="Witaj "+fname + ",";
             document.getElementById("sesa_no1").innerText = sesa_no1;

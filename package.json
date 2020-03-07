@@ -28,6 +28,7 @@
     "jszip": "^3.2.2",
     "mysql": "^2.13.0",
     "node-fetch": "^2.6.0",
+    "nodemailer": "^6.4.4",
     "pdfmake": "^0.1.63",
     "req-flash": "0.0.3"
   },

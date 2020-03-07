@@ -13,6 +13,7 @@ var  cookieparser = require('cookie-parser');
 var bodyParser=require("body-parser");
 const fetch = require('node-fetch');
 const axios = require('axios').default;
+const nodemailer = require('nodemailer');
 
 // var connection = mysql.createConnection({
 //               host     : 'mysql.ct8.pl',
@@ -28,10 +29,21 @@ var connection = mysql.createConnection({
               database : 'elunch'
             });
 connection.connect();
- 
- global.db = connection;
- global.menu_price;
- global.menu_desctription;
+global.db = connection;
+
+ email =  {
+  HR: "joanna.laskowska@se.com",
+  Finanse: "pawel.pisarkiewicz@se.com",
+  Produkcja : "rafal.zietak@se.com",
+  Metody : "agnieszka.nalaznik@se.com",
+  SERE: "malgorzata.lekston@se.com",
+  Dyrektor: "piotr.wojsa@se.com",
+  Projekty : "liliana.grzanka@se.com",
+  Jakość: "tomasz.ignasiak@se.com",
+  Logistyka : "pawel.malczyk@se.com",
+  Inny: "katarzyna.orlowska@se.com"
+}
+global.email;
 
 // all environments
 app.set('port', process.env.PORT || 8080);
@@ -92,7 +104,8 @@ app.get('/home/guest', user.guest);//call for guest page
 app.post('/home/guest', user.guest);//call for guest page 
 app.put('/home/guest', user.guest);//call for guest page 
 app.delete('/home/guest', user.guest);//call for guest page 
-
+app.get('/home/complaint', user.complaint);//call for complaint page 
+app.post('/home/complaint', user.complaint);//call for complaint page 
 
 //Middleware
 app.listen(8080);

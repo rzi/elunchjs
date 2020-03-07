@@ -62,6 +62,7 @@ document.getElementById("lunch_order").addEventListener("change", function() {
   setCookie("date", my_date1, 1);
   //sendDate(my_date1);
 });
+
  
   // Make a request for a user with a given ID
     axios
@@ -302,7 +303,7 @@ function updateMenuDB1(){
       });
 
 }
-function myFunction_guest2(value,supplier,menu_no,menu_desctription,menu_price) {
+function myFunction_guest2(value,supplier,menu_no,menu_desctription,menu_price) { 
   // Make a request for a user with a given ID
   axios
     .put("/home/guest", {
@@ -311,16 +312,15 @@ function myFunction_guest2(value,supplier,menu_no,menu_desctription,menu_price) 
       order_date: document.getElementById("lunch_order").value,
       id: value,
       guestName: document.getElementById("guestName").value,
-      departament: document.getElementById("department").options[department.selectedIndex].value,
-      cost_center: document.getElementById("department").options[department.selectedIndex].text,
+      departament: document.getElementById("department").options[department.selectedIndex].text,
+      cost_center: document.getElementById("department").options[department.selectedIndex].value,
       menu_no:menu_no,
       menu_desctription:menu_desctription,
       menu_price:menu_price
     })
     .then(function(response) {
       // handle success
-      // var $table4 = $('#myorders_list');
-      // $table4.bootstrapTable('refresh');
+
       location.reload();
       console.log(response);
     })

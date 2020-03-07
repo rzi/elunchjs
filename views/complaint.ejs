@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Reklamacja</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous"/>
+  <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table.min.css" />
+  <script src="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table.min.js"></script>
+  <script src="https://unpkg.com/tableexport.jquery.plugin/tableExport.min.js"></script>
+  <script src="https://unpkg.com/bootstrap-table@1.15.5/dist/extensions/export/bootstrap-table-export.min.js"></script>
+  <script src="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table-locale-all.min.js"></script>
+  <link rel="stylesheet" href="/public/css/style.css" type="text/css"/>
+</head>
+<body>
+  <div class="container">
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li> <img src="/public/img/logo2.png" with="94" height="45" alt="logo" srcset="" style="margin-right: 20px;"></li>
+            <li class="active"><a href="/home/dashboard">Powrót</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/home/logout">Wylogowanie</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="jumbotron">  
+    <p>Witaj, <span id = "fname"></span></p>
+    <p>Jest nam przykro że danie zamówione u dostawcy nie spełniło twoich oczekiwań.</p>
+    <p>W formularzu poniżej możesz złożyć reklamacje</p>
+    dostawca:<select id="complaint" name="complaint" style="margin: 10px 3px; padding: 3px 10px;">
+      <option value="empty">wybierz ...</option>
+      <option value="mucha@wp.pl">Mucha</option>
+      <option value="opoka@wp.pl">Opoka</option>
+    </select>
+    <p>odbiorca <input type="email" name="emailSupplier" id="emailSupplier" disabled></p> 
+    <p>Nadawca <input type="email" name="emailClient" id="emailClient" disabled></p> 
+    <p>Opisz dostawcy kiedy zamawiałeś jaki numer dania oraz co było nie tak:</p>
+    <p> Opis reklamacji :<textarea name="emailText" id="emailText" cols="50" rows="4"></textarea></p> 
+    <button id="emailSend" >Wyślij</button>
+    <div>
+  </div>
+     <!-- js -->
+     <!-- <script src="/public/raport.js"></script> -->
+
+     <link
+       rel="stylesheet"
+       href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+       integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
+       crossorigin="anonymous"
+     />
+     <link
+       rel="stylesheet"
+       href="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table.min.css"
+     />
+     <script src="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table.min.js"></script>
+     <script src="https://unpkg.com/tableexport.jquery.plugin/tableExport.min.js"></script>
+     <script src="https://unpkg.com/bootstrap-table@1.15.5/dist/extensions/export/bootstrap-table-export.min.js"></script>
+     <script src="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table-locale-all.min.js"></script>
+     <script src="https://unpkg.com/bootstrap-table@1.16.0/dist/extensions/print/bootstrap-table-print.min.js"></script>
+     <script>
+      window.onload = function() {
+        window.document.getElementById("fname").textContent = getCookie("name")
+        var sendTo
+        sendTo = "sesa" + getCookie("sesa")+"@se.com"
+        console.log("sendTo: "+ sendTo);
+        document.getElementById("emailClient").value = sendTo;
+
+        document.getElementById("complaint").addEventListener("change", function() {
+         if (document.getElementById("complaint").options[complaint.selectedIndex].value != "empty") {
+           document.getElementById("emailSupplier").value = document.getElementById("complaint").options[complaint.selectedIndex].value
+         } else{
+           alert ("Musisz wybrać dostawwcę!" )
+           document.getElementById("emailSupplier").value =""
+         }
+        });
+        document.getElementById("emailSend").addEventListener("click", function() {
+          console.log ("sent")
+          axios
+          .post("/home/complaint", {
+            emailSupplier: document.getElementById("emailSupplier").value,
+            emailClient:  document.getElementById("emailClient").value,
+            emailText: document.getElementById("emailText").value            
+          })
+          .then(function(response) {
+            // handle success
+            location.reload();
+            console.log(response);
+            console.log("mail wysłany");  
+          })
+          .catch(function(error) {
+            // handle error
+            console.log(error);
+          })
+          .finally(function() {
+            // always executed
+          });
+        });
+
+      }
+      function getCookie(cname) {
+        var name = cname + "=";
+        var ca = document.cookie.split(";");
+        for (var i = 0; i < ca.length; i++) {
+          var c = ca[i];
+          while (c.charAt(0) == " ") c = c.substring(1);
+          if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+        }
+      return "";
+      }
+      </script>
+</body>
+</html>
