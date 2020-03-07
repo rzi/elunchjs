@@ -1307,7 +1307,7 @@ exports.guest = function(req, res, next) {
     var cost_center = req.body.cost_center;
     var menu_no = req.body.menu_no;
     var menu_desctription = req.body.menu_desctription;
-    var menu_price = req.body.menu_price
+    var menu_price = req.body.menu_price;
     var emailTo;
 
     var smtpConfig = {
@@ -1319,13 +1319,9 @@ exports.guest = function(req, res, next) {
       }
     };
     var transporter = nodemailer.createTransport(smtpConfig);
-
-    for (let [key, value] of Object.entries(email)) {
-      if (`${key}` == departament ) {
-        emailTo = `${value}`;
-        console.log("emailTo:" + emailTo);
-      }
-    }
+   
+    emailTo = email[departament];
+    console.log("emailTo"+ emailTo)
 
     // in key to: put emailto in production version
     var mailOptions = {
