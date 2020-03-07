@@ -48,8 +48,9 @@
         <p>nadawca <input type="email" name="emailClient" id="emailClient" readonly></p> 
         <p>Opisz dostawcy kiedy zamawiałeś jaki numer dania oraz co było nie tak:</p>
         <p> Opis reklamacji :<textarea name="emailText" id="emailText" cols="50" rows="4"></textarea></p>
+        <p>Możesz dodać zdjęcie:</p>
         <input type="file" class = "btn" name="sampleFile" />
-        <input type='submit' class = "btn" value='Wyślij' />
+        <input type='submit' id="btnSend" class = "btn" value='Wyślij' />
       </form>  
     <div>
   </div>
@@ -88,7 +89,12 @@
            document.getElementById("emailSupplier").value =""
          }
         });
-
+        document.getElementById("btnSend").addEventListener("mouseover", function() {
+          console.log("hover")
+          if (document.getElementById("emailClient").value == "" || document.getElementById("emailText").value == "" ){
+            alert ("Uzupełnij odbiorcę lub opis reklamacji")
+          }
+        })
 
       }; //onload
       function getCookie(cname) {

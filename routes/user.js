@@ -1328,8 +1328,8 @@ exports.guest = function(req, res, next) {
       from: "elunchjs@camtronic.nazwa.pl",
       to: "rafal.zietak@se.com",
       subject: "Zamówienie Elunch (informacja generowana automatycznie)  ",
-      text: "Cześć, " + "\n" + "Twój pracownik o nr. SESA "+ sesa_no1 + "\n" + "Zamówił obiad na dzień " + order_date + " od dostawcy " + supplier + " dla gościa: "+  guestName + "\n" + "Koszty obiadu obciążą twój MPK działu " + cost_center + " w kwocie " +  menu_price + " zł" + "\n" + "\n" + " Pozdrawia aplikacja Elunch" + "\n" +" dla Schneider Electric" +"\n"+ "\n" + " PS: to mail informacyjny, nie odpowiadamy na niego",
-      attachments: [{'filename': 'attachment.txt', 'content': data}]
+      text: "Cześć, " + "\n" + "Twój pracownik o nr. SESA "+ sesa_no1 + "\n" + "Zamówił obiad na dzień " + order_date + " od dostawcy " + supplier + " dla gościa: "+  guestName + "\n" + "Koszty obiadu obciążą twój MPK działu " + cost_center + " w kwocie " +  menu_price + " zł" + "\n" + "\n" + " Pozdrawia aplikacja Elunch" + "\n" +" dla Schneider Electric" +"\n"+ "\n" + " PS: to mail informacyjny, nie odpowiadamy na niego"
+     
     };
 
     transporter.sendMail(mailOptions, function(error, info) {
@@ -1706,7 +1706,7 @@ exports.upload = function(req, res, next) {
   let sampleFile = req.files.sampleFile;
 
   // Use the mv() method to place the file somewhere on your server
-  sampleFile.mv('/public/uploads/filename.jpg', function(err) {
+  sampleFile.mv('public/uploads/filename.jpg', function(err) {
     if (err)
       return res.status(500).send(err);
     console.log ("File uploaded!");
@@ -1721,7 +1721,7 @@ exports.upload = function(req, res, next) {
     attachments: [
       {   // stream as an attachment
       filename: 'zdjęcie.jpg',
-      path: '/public/uploads/filename.jpg'
+      path: 'public/uploads/filename.jpg'
       }
     ],
     text: emailText
