@@ -35,19 +35,22 @@
       </div>
     </nav>
     <div class="jumbotron">  
-    <p>Witaj, <span id = "fname"></span></p>
-    <p>Jest nam przykro że danie zamówione u dostawcy nie spełniło twoich oczekiwań.</p>
-    <p>W formularzu poniżej możesz złożyć reklamacje</p>
-    dostawca:<select id="complaint" name="complaint" style="margin: 10px 3px; padding: 3px 10px;">
-      <option value="empty">wybierz ...</option>
-      <option value="mucha@wp.pl">Mucha</option>
-      <option value="opoka@wp.pl">Opoka</option>
-    </select>
-    <p>odbiorca <input type="email" name="emailSupplier" id="emailSupplier" disabled></p> 
-    <p>Nadawca <input type="email" name="emailClient" id="emailClient" disabled></p> 
-    <p>Opisz dostawcy kiedy zamawiałeś jaki numer dania oraz co było nie tak:</p>
-    <p> Opis reklamacji :<textarea name="emailText" id="emailText" cols="50" rows="4"></textarea></p> 
-    <button id="emailSend" >Wyślij</button>
+      <p>Witaj, <span id = "fname"></span></p>
+      <p>Jest nam przykro że danie zamówione u dostawcy nie spełniło twoich oczekiwań.</p>
+      <p>W formularzu poniżej możesz złożyć reklamacje</p>
+      <form ref='uploadForm' id='uploadForm' action='upload' method='post' encType="multipart/form-data">
+        dostawca:<select id="complaint" name="complaint" style="margin: 10px 3px; padding: 3px 10px;">
+          <option value="empty">wybierz ...</option>
+          <option value="mucha@wp.pl">Mucha</option>
+          <option value="opoka@wp.pl">Opoka</option>
+        </select>
+        <p>odbiorca <input type="email" name="emailSupplier" id="emailSupplier" readonly></p> 
+        <p>nadawca <input type="email" name="emailClient" id="emailClient" readonly></p> 
+        <p>Opisz dostawcy kiedy zamawiałeś jaki numer dania oraz co było nie tak:</p>
+        <p> Opis reklamacji :<textarea name="emailText" id="emailText" cols="50" rows="4"></textarea></p>
+        <input type="file" class = "btn" name="sampleFile" />
+        <input type='submit' class = "btn" value='Wyślij' />
+      </form>  
     <div>
   </div>
      <!-- js -->
@@ -70,6 +73,7 @@
      <script src="https://unpkg.com/bootstrap-table@1.16.0/dist/extensions/print/bootstrap-table-print.min.js"></script>
      <script>
       window.onload = function() {
+        
         window.document.getElementById("fname").textContent = getCookie("name")
         var sendTo
         sendTo = "sesa" + getCookie("sesa")+"@se.com"
@@ -84,30 +88,9 @@
            document.getElementById("emailSupplier").value =""
          }
         });
-        document.getElementById("emailSend").addEventListener("click", function() {
-          console.log ("sent")
-          axios
-          .post("/home/complaint", {
-            emailSupplier: document.getElementById("emailSupplier").value,
-            emailClient:  document.getElementById("emailClient").value,
-            emailText: document.getElementById("emailText").value            
-          })
-          .then(function(response) {
-            // handle success
-            location.reload();
-            console.log(response);
-            console.log("mail wysłany");  
-          })
-          .catch(function(error) {
-            // handle error
-            console.log(error);
-          })
-          .finally(function() {
-            // always executed
-          });
-        });
 
-      }
+
+      }; //onload
       function getCookie(cname) {
         var name = cname + "=";
         var ca = document.cookie.split(";");

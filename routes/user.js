@@ -1321,15 +1321,15 @@ exports.guest = function(req, res, next) {
     var transporter = nodemailer.createTransport(smtpConfig);
    
     emailTo = email[departament];
-    console.log("emailTo"+ emailTo)
+    console.log("emailTo "+ emailTo)
 
     // in key to: put emailto in production version
     var mailOptions = {
       from: "elunchjs@camtronic.nazwa.pl",
       to: "rafal.zietak@se.com",
       subject: "Zamówienie Elunch (informacja generowana automatycznie)  ",
-      text: "Cześć, " + "\n" + "Twój pracownik o nr. SESA "+ sesa_no1 + "\n" + "Zamówił obiad na dzień " + order_date + " od dostawcy " + supplier + " dla gościa: "+  guestName + "\n" + "Koszty obiadu obciążą twój MPK działu " + cost_center + " w kwocie " +  menu_price + " zł" + "\n" + "\n" + " Pozdrawia aplikacja Elunch" + "\n" +" dla Schneider Electric" +"\n"+ "\n" + " PS: to mail informacyjny, nie odpowiadamy na niego"
-       
+      text: "Cześć, " + "\n" + "Twój pracownik o nr. SESA "+ sesa_no1 + "\n" + "Zamówił obiad na dzień " + order_date + " od dostawcy " + supplier + " dla gościa: "+  guestName + "\n" + "Koszty obiadu obciążą twój MPK działu " + cost_center + " w kwocie " +  menu_price + " zł" + "\n" + "\n" + " Pozdrawia aplikacja Elunch" + "\n" +" dla Schneider Electric" +"\n"+ "\n" + " PS: to mail informacyjny, nie odpowiadamy na niego",
+      attachments: [{'filename': 'attachment.txt', 'content': data}]
     };
 
     transporter.sendMail(mailOptions, function(error, info) {
@@ -1649,44 +1649,96 @@ exports.additional = function(req, res, next) {
   // res.render("additional.ejs")
 };
 exports.complaint = function(req, res, next) {
-  if (req.method == "POST") {
-    const nodemailer = require("nodemailer");
-    var emailSupplier = req.body.emailSupplier;
-    var emailClient = req.body.emailClient;
-    var emailText = req.body.emailText;
-    console.log(emailClient);
-    console.log(emailText);
+  res.render("complaint.ejs")
+}
 
-    var smtpConfig = {
-      host: "camtronic.nazwa.pl",
-      port: 465,
-      auth: {
-        user: "elunchjs@camtronic.nazwa.pl",
-        pass: "Rafal20!"
-      }
-    };
-    var transporter = nodemailer.createTransport(smtpConfig);
+exports.upload = function(req, res, next) {
+  const nodemailer = require("nodemailer");
+  var fs = require('fs');
+  var emailSupplier = req.body.emailSupplier;
+  var emailClient = req.body.emailClient;
+  var emailText = req.body.emailText;
+  console.log("emailClient " + emailClient);
+  console.log("emailText " + emailText);
+  console.log("emailSupplier " + emailSupplier);
 
+  var smtpConfig = {
+    host: "camtronic.nazwa.pl",
+    port: 465,
+    auth: {
+      user: "elunchjs@camtronic.nazwa.pl",
+      pass: "Rafal20!"
+    }     
+  };
+  var transporter = nodemailer.createTransport(smtpConfig);
+  //console.log (" req.files " + req.files)
+  //console.log (" req.files.photos " + req.files.sampleFile)
 
-    // in key to: put emailto in production version
+  if (!req.files || Object.keys(req.files).length === 0) {
+    //return res.status(400).send('No files were uploaded.');
+    console.log(" without atachement");
+      // in key to: put emailto in production version
     var mailOptions = {
       from: "elunchjs@camtronic.nazwa.pl",
       to: "rafal.zietak@se.com",
-      subject: emailText
+      subject: "Reklamacja" ,
+      text: emailText
     };
 
     transporter.sendMail(mailOptions, function(error, info) {
-      if (error) {
-        console.log(error);
+    if (error) {
+      console.log(error);
       } else {
         console.log("Email sent: " + info.response);
       }
     });
 
     transporter.verify((err, success) => {
-      if (err) console.error(err);
+    if (err) console.error(err);
       console.log("Your config is correct");
     });
+  
+    res.render("new_order2.ejs")
+    return
   }
-  res.render("complaint.ejs")
+
+  // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+  let sampleFile = req.files.sampleFile;
+
+  // Use the mv() method to place the file somewhere on your server
+  sampleFile.mv('/public/uploads/filename.jpg', function(err) {
+    if (err)
+      return res.status(500).send(err);
+    console.log ("File uploaded!");
+ 
+  });
+  
+  // in key to: put emailto in production version
+  var mailOptions = {
+    from: "elunchjs@camtronic.nazwa.pl",
+    to: "rafal.zietak@se.com",
+    subject: "Reklamacja"  ,
+    attachments: [
+      {   // stream as an attachment
+      filename: 'zdjęcie.jpg',
+      path: '/public/uploads/filename.jpg'
+      }
+    ],
+    text: emailText
+  };
+
+  transporter.sendMail(mailOptions, function(error, info) {
+  if (error) {
+    console.log(error);
+    } else {
+      console.log("Email sent: " + info.response);
+    }
+  });
+
+  transporter.verify((err, success) => {
+  if (err) console.error(err);
+    console.log("Your config is correct");
+  });
+ 
+  res.render("new_order2.ejs")
 }

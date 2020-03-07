@@ -14,6 +14,12 @@ var bodyParser=require("body-parser");
 const fetch = require('node-fetch');
 const axios = require('axios').default;
 const nodemailer = require('nodemailer');
+var FormData = require('form-data');
+var fs = require('fs');
+const fileUpload = require('express-fileupload');
+const cors = require('cors');
+const morgan = require('morgan');
+const _ = require('lodash');
 
 // var connection = mysql.createConnection({
 //               host     : 'mysql.ct8.pl',
@@ -60,6 +66,13 @@ app.use(session({
             }))
 app.use(cookieparser());
 app.use('/public', express.static('public'));
+// enable files upload
+app.use(fileUpload({
+  createParentPath: true
+}));
+app.use(cors());
+app.use(morgan('dev'));
+
 // development only
 app.get('/', routes.index);//call for main index page
 app.get('/signup', user.signup);//call for signup page
@@ -105,7 +118,9 @@ app.post('/home/guest', user.guest);//call for guest page
 app.put('/home/guest', user.guest);//call for guest page 
 app.delete('/home/guest', user.guest);//call for guest page 
 app.get('/home/complaint', user.complaint);//call for complaint page 
-app.post('/home/complaint', user.complaint);//call for complaint page 
+app.post('/home/complaint', user.complaint);//call for complaint page
+app.get('/home/complaint', user.complaint);//call for complaint page
+app.post('/home/upload', user.upload);//call for complaint page 
 
 //Middleware
 app.listen(8080);
