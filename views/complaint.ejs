@@ -49,13 +49,13 @@
         <p>Opisz dostawcy kiedy zamawiałeś jaki numer dania oraz co było nie tak:</p>
         <p> Opis reklamacji :<textarea name="emailText" id="emailText" cols="50" rows="4"></textarea></p>
         <p>Możesz dodać zdjęcie:</p>
-        <input type="file" class = "btn" name="sampleFile" />
+        <input type="file" class = "btn btn-secondary" name="sampleFile" />
         <input type='submit' id="btnSend" class = "btn" value='Wyślij' />
       </form>  
     <div>
   </div>
      <!-- js -->
-     <!-- <script src="/public/raport.js"></script> -->
+     <script src="/public/complaint.js"></script>
 
      <link
        rel="stylesheet"
@@ -71,42 +71,6 @@
      <script src="https://unpkg.com/tableexport.jquery.plugin/tableExport.min.js"></script>
      <script src="https://unpkg.com/bootstrap-table@1.15.5/dist/extensions/export/bootstrap-table-export.min.js"></script>
      <script src="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table-locale-all.min.js"></script>
-     <script src="https://unpkg.com/bootstrap-table@1.16.0/dist/extensions/print/bootstrap-table-print.min.js"></script>
-     <script>
-      window.onload = function() {
-        
-        window.document.getElementById("fname").textContent = getCookie("name")
-        var sendTo
-        sendTo = "sesa" + getCookie("sesa")+"@se.com"
-        console.log("sendTo: "+ sendTo);
-        document.getElementById("emailClient").value = sendTo;
-
-        document.getElementById("complaint").addEventListener("change", function() {
-         if (document.getElementById("complaint").options[complaint.selectedIndex].value != "empty") {
-           document.getElementById("emailSupplier").value = document.getElementById("complaint").options[complaint.selectedIndex].value
-         } else{
-           alert ("Musisz wybrać dostawwcę!" )
-           document.getElementById("emailSupplier").value =""
-         }
-        });
-        document.getElementById("btnSend").addEventListener("mouseover", function() {
-          console.log("hover")
-          if (document.getElementById("emailClient").value == "" || document.getElementById("emailText").value == "" ){
-            alert ("Uzupełnij odbiorcę lub opis reklamacji")
-          }
-        })
-
-      }; //onload
-      function getCookie(cname) {
-        var name = cname + "=";
-        var ca = document.cookie.split(";");
-        for (var i = 0; i < ca.length; i++) {
-          var c = ca[i];
-          while (c.charAt(0) == " ") c = c.substring(1);
-          if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
-        }
-      return "";
-      }
-      </script>
+     <script src="https://unpkg.com/bootstrap-table@1.16.0/dist/extensions/print/bootstrap-table-print.min.js"></script>     
 </body>
 </html>

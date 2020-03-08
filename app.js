@@ -75,22 +75,14 @@ app.use(morgan('dev'));
 
 // development only
 app.get('/', routes.index);//call for main index page
-app.get('/signup', user.signup);//call for signup page
-app.post('/signup', user.signup);//call for signup post 
 app.get('/login', routes.index);//call for login page
 app.post('/login', user.login);//call for login post
 app.get('/home/dashboard', user.dashboard);//call for dashboard page after login
 app.get('/home/logout', user.logout);//call for logout
-app.get('/home/profile',user.profile);//to render users profile
-app.get('/home/new_order', user.new_order);//call for new_order page to order lunch
-app.post('/home/new_order', user.new_order);//call for new_order page to order lunch
 app.get('/home/new_order2', user.new_order2);//call for new_order page to order lunch
 app.post('/home/new_order2', user.new_order2);//call for new_order page to order lunch
 app.put('/home/new_order2', user.new_order2);//call for new_order page to order lunch
 app.delete('/home/new_order2', user.new_order2);//call for new_order page to order lunch
-app.delete('/home/new_order', user.new_order);//call for new_order page to order lunch
-app.get('/home/orders', user.orders); // list of orders
-app.post('/home/orders', user.orders); // list of orders
 app.get('/home/orders2', user.orders2); // list of orders2
 app.post('/home/orders2', user.orders2); // list of orders2
 app.get('/home/new_list', user.list);//call for new_list page to order lunch
