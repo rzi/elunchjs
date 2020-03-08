@@ -25,7 +25,6 @@ window.onload = function () {
       dayBefore = "0" + dayBefore
     }
     var before_few_days = now.getFullYear() + "-" + month + "-" + dayBefore;
-    console.log(today); 
     document.getElementById("data_to").value = today;
     document.getElementById("data_from").value = before_few_days;
 
@@ -41,14 +40,13 @@ window.onload = function () {
     })
 
     document.getElementById("btn").addEventListener("click", function () {
-       // console.log(" click btn1: ");
        var mytype = document.getElementById("selectType");
        var typeValue = mytype.options[mytype.selectedIndex].value;
-       console.log("TypeValue " + typeValue )
+       //console.log("TypeValue " + typeValue )
 
        var raport = document.getElementById("selectRaport");
        var raportValue = raport.options[raport.selectedIndex].value;
-       console.log("raportValue " + raportValue )
+       //console.log("raportValue " + raportValue )
       if (typeValue == "empty" || raportValue == "empty" ){
         alert (" Wybierz typ raportu oraz grupę")
         return
@@ -69,7 +67,7 @@ window.onload = function () {
         // handle success
        var table_data = response.data.message;
        var table_data2 = JSON.stringify(table_data );
-          console.log("table_data: " + table_data2 );
+          //console.log("table_data: " + table_data2 );
           $table.bootstrapTable('destroy');
           $table.bootstrapTable({ data: table_data});
           //hide not active column
