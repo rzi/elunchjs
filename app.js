@@ -20,6 +20,7 @@ const fileUpload = require('express-fileupload');
 const cors = require('cors');
 const morgan = require('morgan');
 const _ = require('lodash');
+const favicon = require('express-favicon');
 
 // var connection = mysql.createConnection({
 //               host     : 'mysql.ct8.pl',
@@ -72,6 +73,7 @@ app.use(fileUpload({
 }));
 app.use(cors());
 app.use(morgan('dev'));
+app.use(favicon(__dirname + '/'));
 
 // development only
 app.get('/', routes.index);//call for main index page
