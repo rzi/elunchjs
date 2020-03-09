@@ -73,7 +73,7 @@ app.use(fileUpload({
 }));
 app.use(cors());
 app.use(morgan('dev'));
-app.use(favicon(__dirname + '/'));
+app.use(favicon(__dirname + '/favicon.ico'));
 
 // development only
 app.get('/', routes.index);//call for main index page
