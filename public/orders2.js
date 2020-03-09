@@ -27,7 +27,7 @@ window.onload = function() {
   document.getElementById("data_to").value = today;
   document.getElementById("data_from").value = before_few_days;
   document.getElementById("btn").addEventListener("click", function() {
-    document.getElementById("table-responsive").style.display = "flex";
+    document.getElementById("table-responsive").style.display = "table";
 
     // Make a request for a user with a given ID
     axios
@@ -38,10 +38,13 @@ window.onload = function() {
       .then(function(response) {
         // handle success
         var table_data = response.data.message;
-        var table_data2 = JSON.stringify(table_data);
+
         // console.log("table_data: " + table_data2);
+
         $table.bootstrapTable("destroy");
+
         $table.bootstrapTable({ data: table_data });
+
       })
       .catch(function(error) {
         // handle error
