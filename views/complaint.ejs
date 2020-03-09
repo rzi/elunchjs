@@ -2,7 +2,7 @@
 <html lang="pl">
 <head>
   <meta charset="UTF-8">
-  <title>Raport</title>
+  <title>Reklamacja</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 
@@ -34,65 +34,28 @@
         </div>
       </div>
     </nav>
-    <div class="jumbotron">
-      <p>Raport: </p>
-      Od:<input type="date" name="data_from" id="data_from">
-      Do:<input type="date" name="data_to" id="data_to">
-      <select id="selectType" name="selectType" style="font-size: 16px; padding: 2px 18px ;" >
-        <option value="empty">wybierz ...</option>
-        <option value="dvc">DVC</option>
-        <option value="mbc">MBC</option>        
-      </select>  
-      <select id="selectRaport" name="selectRaport" style="font-size: 16px; padding: 2px 18px ;" >
-        <option value="empty">wybierz ...</option>
-        <option value="founding">Dofinansowanie</option>
-        <option value="deduction">Potrącenie</option>
-      </select> 
-      <button type="button" id="btn"  >Zatwierdź</button>
-      </p>
-      <br>
-      <div id="table-responsive" class="table-responsive">
-        <div id="toolbar" style="display: flex;">
-          <div>
-            <img src="/public/img/logo.png" alt="logo">
-          </div> 
-          <div>
-            <p style="color: green;font-size:small ;">SCHNEIDER ELECTRIC INDUSTRIES POLSKA SP. Z O.O.</p>
-            <p style="font-size: small;" >LISTA PŁAC ZA: <span id="month"> </span></p>
-            <p style="font-size: small;">PRACOWNICY: <span id="workers"> </span></p>
-          </div>
-        </div>
-        <table
-            id="table"
-            data-locale="pl-PL"
-            data-toolbar="#toolbar"
-            data-search="true"
-            data-height="530"
-            data-show-export="true"
-            data-pagination="false"
-            data-show-footer="true"
-            data-show-print="true"
-            data-pagination-pre-text="Poprzedni"
-            data-pagination-next-text="Następny"
-            data-page-list="[3, 5, 10, 15, all]"
-            data-response-handler="responseHandler">
-            <thead>
-              <tr>
-                <th data-field="person_no">Nr. akt pracownika</th>
-                <th data-field="name">Imię i nazwisko</th>
-                <th data-field="text_name" data-formatter="operateFormatter6">Nazwa składnika</th>
-                <th data-field="text_no" data-formatter="operateFormatter7">Nr. składnika</th>
-                <th data-field="SUM(`founding`)"  data-footer-formatter="priceFormatter1">Kwota</th>
-                <th data-field="SUM(`deduction`)"  data-footer-formatter="priceFormatter2">Kwota</th>
-                <th data-field="text_comments" data-formatter="operateFormatter5">Komentarz</th>
-              </tr>
-            </thead>
-          </table>
-      </div>
-    </div>
+    <div class="jumbotron">  
+      <p>Witaj, <span id = "fname"></span></p>
+      <p>Jest nam przykro że danie zamówione u dostawcy nie spełniło twoich oczekiwań.</p>
+      <p>W formularzu poniżej możesz złożyć reklamacje</p>
+      <form ref='uploadForm' id='uploadForm' action='upload' method='post' encType="multipart/form-data">
+        dostawca:<select id="complaint" name="complaint" style="margin: 10px 3px; padding: 3px 10px;">
+          <option value="empty">wybierz ...</option>
+          <option value="mucha@wp.pl">Mucha</option>
+          <option value="opoka@wp.pl">Opoka</option>
+        </select>
+        <p>odbiorca <input type="email" name="emailSupplier" id="emailSupplier" readonly></p> 
+        <p>nadawca <input type="email" name="emailClient" id="emailClient" readonly></p> 
+        <p>Opisz dostawcy kiedy zamawiałeś jaki numer dania oraz co było nie tak:</p>
+        <p> Opis reklamacji :<textarea name="emailText" id="emailText" cols="50" rows="4"></textarea></p>
+        <p>Możesz dodać zdjęcie:</p>
+        <input type="file" class = "btn btn-secondary" name="sampleFile" />
+        <input type='submit' id="btnSend" class = "btn" value='Wyślij' />
+      </form>  
+    <div>
   </div>
      <!-- js -->
-     <script src="/public/raport.js"></script>
+     <script src="/public/complaint.js"></script>
 
      <link
        rel="stylesheet"
@@ -108,7 +71,6 @@
      <script src="https://unpkg.com/tableexport.jquery.plugin/tableExport.min.js"></script>
      <script src="https://unpkg.com/bootstrap-table@1.15.5/dist/extensions/export/bootstrap-table-export.min.js"></script>
      <script src="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table-locale-all.min.js"></script>
-     <script src="https://unpkg.com/bootstrap-table@1.16.0/dist/extensions/print/bootstrap-table-print.min.js"></script>
-    
+     <script src="https://unpkg.com/bootstrap-table@1.16.0/dist/extensions/print/bootstrap-table-print.min.js"></script>     
 </body>
 </html>

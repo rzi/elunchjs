@@ -13,6 +13,13 @@ var  cookieparser = require('cookie-parser');
 var bodyParser=require("body-parser");
 const fetch = require('node-fetch');
 const axios = require('axios').default;
+const nodemailer = require('nodemailer');
+var FormData = require('form-data');
+var fs = require('fs');
+const fileUpload = require('express-fileupload');
+const cors = require('cors');
+const morgan = require('morgan');
+const _ = require('lodash');
 
 // var connection = mysql.createConnection({
 //               host     : 'mysql.ct8.pl',
@@ -28,10 +35,21 @@ var connection = mysql.createConnection({
               database : 'elunch'
             });
 connection.connect();
- 
- global.db = connection;
- global.menu_price;
- global.menu_desctription;
+global.db = connection;
+
+ email =  {
+  HR: "joanna.laskowska@se.com",
+  Finanse: "pawel.pisarkiewicz@se.com",
+  Produkcja : "rafal.zietak@se.com",
+  Metody : "agnieszka.nalaznik@se.com",
+  SERE: "malgorzata.lekston@se.com",
+  Dyrektor: "piotr.wojsa@se.com",
+  Projekty : "liliana.grzanka@se.com",
+  Jakość: "tomasz.ignasiak@se.com",
+  Logistyka : "pawel.malczyk@se.com",
+  Inny: "katarzyna.orlowska@se.com"
+}
+global.email;
 
 // all environments
 app.set('port', process.env.PORT || 8080);
@@ -48,24 +66,23 @@ app.use(session({
             }))
 app.use(cookieparser());
 app.use('/public', express.static('public'));
+// enable files upload
+app.use(fileUpload({
+  createParentPath: true
+}));
+app.use(cors());
+app.use(morgan('dev'));
+
 // development only
 app.get('/', routes.index);//call for main index page
-app.get('/signup', user.signup);//call for signup page
-app.post('/signup', user.signup);//call for signup post 
 app.get('/login', routes.index);//call for login page
 app.post('/login', user.login);//call for login post
 app.get('/home/dashboard', user.dashboard);//call for dashboard page after login
 app.get('/home/logout', user.logout);//call for logout
-app.get('/home/profile',user.profile);//to render users profile
-app.get('/home/new_order', user.new_order);//call for new_order page to order lunch
-app.post('/home/new_order', user.new_order);//call for new_order page to order lunch
 app.get('/home/new_order2', user.new_order2);//call for new_order page to order lunch
 app.post('/home/new_order2', user.new_order2);//call for new_order page to order lunch
 app.put('/home/new_order2', user.new_order2);//call for new_order page to order lunch
 app.delete('/home/new_order2', user.new_order2);//call for new_order page to order lunch
-app.delete('/home/new_order', user.new_order);//call for new_order page to order lunch
-app.get('/home/orders', user.orders); // list of orders
-app.post('/home/orders', user.orders); // list of orders
 app.get('/home/orders2', user.orders2); // list of orders2
 app.post('/home/orders2', user.orders2); // list of orders2
 app.get('/home/new_list', user.list);//call for new_list page to order lunch
@@ -92,7 +109,10 @@ app.get('/home/guest', user.guest);//call for guest page
 app.post('/home/guest', user.guest);//call for guest page 
 app.put('/home/guest', user.guest);//call for guest page 
 app.delete('/home/guest', user.guest);//call for guest page 
-
+app.get('/home/complaint', user.complaint);//call for complaint page 
+app.post('/home/complaint', user.complaint);//call for complaint page
+app.get('/home/complaint', user.complaint);//call for complaint page
+app.post('/home/upload', user.upload);//call for complaint page 
 
 //Middleware
 app.listen(8080);
