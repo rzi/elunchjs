@@ -152,6 +152,8 @@ exports.new_order2 = function(req, res, next) {
         if (sumOfFounding < 7) {
           founding = dailyFounding - sumOfFounding;
           deduction = menu_price - founding;
+          founding=Math.round(founding*100)/100 //roundong to 2 digits
+          deduction=Math.round(deduction*100)/100 //roundong to 2 digits
           console.log("founding :" + founding);
           console.log("deduction :" + deduction);
           if (menu_price <= 7) {
@@ -162,10 +164,14 @@ exports.new_order2 = function(req, res, next) {
               var x = 7 - sumOfFounding;
               //console.log("x: " + x);
               founding = x;
+              founding=Math.round(founding*100)/100 //roundong to 2 digits
+              deduction=Math.round(deduction*100)/100 //roundong to 2 digits
               console.log("founding2 :" + founding);
               console.log("deduction2 :" + deduction);
             }
             deduction = menu_price - founding;
+            founding=Math.round(founding*100)/100 //roundong to 2 digits
+            deduction=Math.round(deduction*100)/100 //roundong to 2 digits
             console.log("founding3 :" + founding);
             console.log("deduction3 :" + deduction);
           }
