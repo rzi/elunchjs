@@ -2,7 +2,7 @@
 <html lang="pl">
 <head>
   <meta charset="UTF-8">
-  <title>Raport</title>
+  <title>Użytkownicy</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 
@@ -38,7 +38,7 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li> <img src="/public/img/logo2.png" with="94" height="45" alt="logo" srcset="" style="margin-right: 20px;"></li>
-            <li class="active"><a href="/home/dashboard">Powtót</a></li>
+            <li class="active"><a href="/home/dashboard">Powrót</a></li>
             <li ><a href="/home/menu">Menu</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
@@ -50,20 +50,20 @@
     <div class="jumbotron">
       <p style="text-align: center;">Witaj w panelu administracyjnym</p>
       <div class="level-1">
-        <p>Zarządzanie menu (dodaj lub uaktualnij użytkownika:)</p>
+        <p>Zarządzanie użytkownikami (dodaj lub uaktualnij użytkownika:)</p>
         <div class="addUsers">
         id <input disabled type="text" id="myid2" > 
-        SESA <input type="text" id="sesa_no2">
-        Imię <input type="text" id="first_name2">
-        Nazwisko <input type="text" id="last_name2">
-        Nr akt osobowych <input type="text" id="person_no2">
+        SESA <input type="text" id="sesa_no2" placeholder="liczba">
+        Imię <input type="text" id="first_name2" placeholder="tekst">
+        Nazwisko <input type="text" id="last_name2" placeholder="tekst">
+        Nr akt osobowych <input type="text" id="person_no2" placeholder="liczba">
         <select id="user_name2" name="user_name2" style="padding: 4px 18px ;" >
           <option value=""> </option>
           <option value="DVC">DVC</option>
           <option value="MBC">MBC</option>
         </select>
         <!-- Sktót <input type="text" id="user_name2"> -->
-        Hasło <input type="password" id="password2">
+        Hasło <input type="password" id="password2" placeholder="tekst">
         <input  id="btn_add" type="submit"  onclick="addUser1()" value="Dodaj">   
         <input hidden id ="btn_update" type="submit"  onclick="updateDB()" value="Uaktualnij">  
       </div>

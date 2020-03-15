@@ -1,39 +1,21 @@
 <!DOCTYPE html>
 <html lang="pl">
+
 <head>
   <meta charset="UTF-8">
-  <title>Sample Site</title>  
+  <title>Sample Site</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>  
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <script>
     window.onload = function () {
-      var dayBefore;
       var now = new Date();
       var day = ("0" + now.getDate()).slice(-2);
       var month = ("0" + (now.getMonth() + 1)).slice(-2);
       var today = now.getFullYear() + "-" + month + "-" + day;
-      
-      if ((day-5) <= 0){
-    		dayBefore = 25;
-		    month = month - 1;
-		    if (month < 1){
-			    month = 12;
-		    }
-        if (month < 10) {
-          month = "0" + month;
-        }
-      } else {	  
-        dayBefore =day-5
-      }	  
-
-      if (dayBefore<10){
-        dayBefore = "0" + dayBefore
-      }
-      var before_few_days = now.getFullYear() + "-" + month + "-" + dayBefore;
-      console.log(today);
+      var before_few_days = now.getFullYear() + "-" + month + "-" + (day - 5);
       console.log(today);
       document.getElementById("data_to").value = today;
       document.getElementById("data_from").value = before_few_days;
@@ -71,14 +53,14 @@
         // CREATE DYNAMIC TABLE.
         var table = document.createElement("table");
         table.style.width = '100%';
-        table.setAttribute('border', '2');
-        table.setAttribute('cellspacing', '10');
+        table.setAttribute('border', '2cd elunch');
+        table.setAttribute('cellspacing', '0');
         table.setAttribute('cellpadding', '5');
         // retrieve column header ('Name', 'Email', and 'Mobile')
         var col = []; // define an empty array
         for (var i = 0; i < noOfContacts; i++) {
           for (var key in myContacts[i]) {
-            if (col.indexOf(key) === -1) {
+            if (col.indexOf(key) === -1) {cd 
               col.push(key);
             }
           }
@@ -139,8 +121,8 @@
           // always executed
         });
     };
+
   </script>
-  <link rel="stylesheet" href="/public/css/style.css" type="text/css"/>
 </head>
 <body>
   <div class="container">
@@ -149,14 +131,15 @@
       <div class="container-fluid">
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li> <img src="/public/img/logo2.png" with="94" height="45" alt="logo" srcset=""></li>
             <li class="active"><a href="/home/new_order">Powtót</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li><a href="/home/logout">Wylogowanie</a></li>
           </ul>
         </div>
+        <!--/.nav-collapse -->
       </div>
+      <!--/.container-fluid -->
     </nav>
     <div class="jumbotron">
       <p>Historia twoich zamówień, wybierz zakres raportu:</p>
@@ -164,6 +147,8 @@
       Od:<input type="date" name="data_from" id="data_from">
       Do:<input type="date" name="data_to" id="data_to">
       <button type="button" id="btn" onclick="orderList()">Zatwierdź</button>
+      <!-- <button type="submit"  class="btn btn-primary"  >Zatwierdź</button> -->
+      <!-- </form>  -->
       </p>
       <div class="table-responsive">
         <table id="table" class="table table-bordered" >

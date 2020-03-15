@@ -8,9 +8,9 @@ window.onload = function() {
     .then(function(response) {
       // handle success
       var users = response.data.message2;
-      console.log("users: " + users);
-      var users2 = JSON.stringify(users);
-      console.log("users2: " + users2);
+      //console.log("users: " + users);
+      //var users2 = JSON.stringify(users);
+      //console.log("users2: " + users2);
       $table.bootstrapTable("destroy");
       $table.bootstrapTable({
         data: users,
@@ -68,7 +68,6 @@ window.onload = function() {
       document.getElementById("password2").value = row.password;
       document.getElementById("btn_update").style.display = "inline";
       document.getElementById("btn_add").style.display = "none";
-      //updateRow2(row.id);
     }
   };
 }; //end of onload
@@ -82,8 +81,7 @@ function passwordFormatter(value) {
 function addUser1() {
   var x = document.getElementById("user_name2").selectedIndex;
   var y = document.getElementById("user_name2").options;
-  // alert("Index: " + y[x].index + " is " + y[x].text);
-  //console.log( y[x].index)
+
   if ( document.getElementById("sesa_no2").value == "" || (y[x].text) == "" ||  
   document.getElementById("first_name2").value == "" && document.getElementById("person_no2").value == "" &&
   document.getElementById("user_name2").value == "" && document.getElementById("password2").value == ""){
@@ -149,7 +147,10 @@ function myFunction_delete3(value) {
     });
 }
 function updateDB() {
-  console.log(" updateDB ");
+  if (document.getElementById("user_name2").value == ""){
+    alert("Uzupełnij pole Typ wartością  MBC jeśli wprowadzasz pracownika biura lub DVC jeśli to jest pracownik produkcji \n Pamiętaj o zachowaniu pisowni WIELKIMI literami")
+    return
+  }
   axios
     .put("/home/users", {
       updateUsers: "updateUsers",

@@ -22,11 +22,10 @@
   <style>
     input#myid2 {width: 30px;}
     input#supplier_name {width: 55px;}
-    input#menu_no {width: 30px;}
-    input#menu_no {width: 30px;}
+    input#menu_no {width: 40px;}
     input#menu_desctription {width: 350px;}
-    input#menu_price {width: 35px;}
-    input#id_day {width: 30px;}
+    input#menu_price {width: 40px;}
+    input#id_day {width: 40px;}
     input#btn_add_menu {margin-left: 20px;}
     input#btn_update_menu {margin-left: 20px;}
   </style>
@@ -38,7 +37,7 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li> <img src="/public/img/logo2.png" with="94" height="45" alt="logo" srcset="" style="margin-right: 20px;"></li>
-            <li class="active"><a href="/home/dashboard">Powtót</a></li>
+            <li class="active"><a href="/home/dashboard">Powrót</a></li>
             <li ><a href="/home/users">Użytkownicy</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
@@ -53,11 +52,11 @@
         <p>Zarządzanie menu (dodaj lub uaktualnij menu:)</p>
       <div class="addMenu" >
           id <input disabled type="text" id="myid2">
-          Dostawca <input type="text" id="supplier_name">
-          Numer dania <input type="text" id="menu_no">
-          Opis dania <input type="text" id="menu_desctription">
-          Cena <input type="text" id="menu_price">
-          id dnia <input type="text" id="id_day">
+          Dostawca <input type="text" id="supplier_name" onchange="validateSupplier()" placeholder="tekst">
+          Numer dania <input type="text" id="menu_no" placeholder="liczba">
+          Opis dania <input type="text" id="menu_desctription" placeholder="tekst">
+          Cena <input type="text" id="menu_price" onchange="this.value = this.value.replace(/,/g, '.')" placeholder="liczba">
+          id dnia <input type="text" id="id_day" placeholder="liczba">
           <input  id="btn_add_menu" type="submit"  onclick="addMenu1()" value="Dodaj">
           <input hidden id ="btn_update_menu" type="submit"  onclick="updateMenuDB1()" value="Uaktualnij">        
         </div>

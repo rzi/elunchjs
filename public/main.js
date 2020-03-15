@@ -1,4 +1,101 @@
 // Client side js
+
+window.onload = function() {
+  var $table = $("#table");
+  var $table_mucha = $("#table_mucha");
+  var $table_opoka = $("#table_opoka");
+  var $remove = $("#remove");
+  var selections = [];
+  var fname, sesa_no1; 
+  $("#locale").change(function() {
+    $table.bootstrapTable("refreshOptions", {
+      locale: $(this).val()
+    });
+  }); 
+  // Make a request for a user with a given ID
+  axios
+    .post("/home/new_order2", {
+      my_date: document.getElementById("lunch_order").value,
+      my_supplier: document.getElementById("activeSupplier").innerText
+    })
+    .then(function(response) {
+      // handle success
+      fname = response.data.fname;
+      setCookie("name", fname, 1);
+      lname = response.data.lname;
+      setCookie("surname", lname, 1);
+      sesa_no1 = response.data.sesa_no1;
+      setCookie("sesa", sesa_no1, 1);
+      // console.log ("fname: "+ fname + "sesa_no1: " + sesa_no1);
+      document.getElementById("fname").innerText ="Witaj "+fname + ",";
+      document.getElementById("sesa_no1").innerText = sesa_no1;
+      var table_data = response.data.table_data;
+      var table_data2 = JSON.stringify(table_data );
+      // console.log("table_data: " + table_data2 );
+      $table.bootstrapTable('destroy');
+      $table.bootstrapTable({ data: table_data,
+        columns: [,,,,,,,,,,,
+        {
+          field: 'operate',
+          title: 'Usuń',
+          align: 'center',
+          clickToSelect: false,
+          events: window.operateEvents,
+          formatter: operateFormatter
+        }]     
+      });
+      var table_supplier = response.data.table_supplier;
+      var table_supplier1 = JSON.stringify(table_supplier );
+      // console.log("table_supplier1: " + table_supplier1);
+      $table_mucha.bootstrapTable('destroy');
+      $table_mucha.bootstrapTable({data: table_supplier,
+        columns: [,,,,,
+        {
+          field: 'order',
+          title: 'Zamów',
+          align: 'center',
+          clickToSelect: false,
+          events: window.operateEvents2,
+          formatter: operateFormatter2
+        }]
+      });
+      $table_opoka.bootstrapTable('destroy');
+      $table_opoka.bootstrapTable({data: table_supplier,
+        columns: [,,,,,
+        {
+          field: 'order',
+          title: 'Zamów',
+          align: 'center',
+          clickToSelect: false,
+          events: window.operateEvents2,
+          formatter: operateFormatter2
+        }]              
+      });
+    })
+    .catch(function(error) {
+      // handle error
+      console.log(error);
+    })
+    .finally(function() {
+      // always executed
+    });
+// Functions    
+    window.operateEvents = {
+      "click .remove": function(e, value, row, index) {
+        if (document.getElementById("f").innerText == "1"){
+          $table.bootstrapTable("remove", {
+          field: "id",
+          values: [row.id]
+        });
+        myFunction_delete2(row.id);
+        } else{
+          alert( "Nie możesz zamówić ani uswać na wybrany dzień. \n Zamówienia można składać online do 10:00 lub telefonicznie");
+        }
+      }
+    };
+};
+// Koniec funkcji
+
 const spanH = document.querySelector("span.h");
 const spanM = document.querySelector("span.m");
 const spanS = document.querySelector("span.s");
@@ -10,18 +107,17 @@ now = new Date();
 day = ("0" + now.getDate()).slice(-2);
 month = ("0" + (now.getMonth() + 1)).slice(-2);
 today = now.getFullYear() + "-" + month + "-" + day;
-console.log("today: " + today);
+//console.log("today: " + today);
 
 // Take date from datepicker, if empty take from cookies
 var mydatePicker = document.getElementById("lunch_order");
-
 if (getCookie("date")) {
   mydatePicker.value = getCookie("date");
 } else {
   mydatePicker.value = today;
   setCookie("date" , today);
 }
-console.log("datePicker: " + mydatePicker.value);
+//console.log("datePicker: " + mydatePicker.value);
 
 // Get supplier, if empty initlal is Mucha, set active supplier
 var my_supplier = document.getElementById("activeSupplier").innerText;
@@ -33,8 +129,7 @@ if (my_supplier == "" || my_supplier == undefined) {
   document.getElementById("activeSupplier").innerText = my_supplier;
   setCookie("supplier", my_supplier, 1);
 }
-
-console.log("supplier: " + my_supplier);
+// console.log("supplier: " + my_supplier);
 
 if (my_supplier == "Mucha") {
   // activaTab("mucha");
@@ -70,7 +165,7 @@ document.getElementById("lunch_order").addEventListener("change", function() {
     setCookie("date", today, 1);
     my_date1 = today;
   }  
-  sendDate(my_date1);
+  location.reload();
 });
 
 // to define yesterday date in timestamp format
@@ -120,11 +215,11 @@ setInterval(() => {
       nowTime < todayAt10TimeStamp) ||
     pickerAt00TimeStamp >= tommorowAt00TimeStamp
   ) {
-    console.log("mogę zamawiać i usuwać");
+    // console.log("mogę zamawiać i usuwać");
     document.getElementById("f").innerText = "1";
     document.getElementById("mesg").innerText = " ";
   } else {
-    console.log("Nie moge zamówić ani usuwać");
+    // console.log("Nie moge zamówić ani usuwać");
     document.getElementById("f").innerText = "0";
     document.getElementById("mesg").innerText =
       " *nie mozna zamówić ani usuwać na wybrany dzień";
@@ -164,65 +259,7 @@ setInterval(() => {
   secs > 0 ? (spanS.textContent = secs) : (spanS.textContent = 0);
 }, 1000);
 
-// Funkcje
-function sendSupplier(supplier, mydate1) {
-  // Make a request for a user with a given ID
-  axios
-    .get("/home/new_order?supplier=" + supplier + "&mydate=" + mydate1)
-    .then(function(response) {
-      // handle success
-      // console.log(response.data);
-      // location.reload();
-      //location.reload();
-    })
-    .catch(function(error) {
-      // handle error
-      console.log(error);
-    })
-    .finally(function() {
-      // always executed
-    });
-}
-function sendDate(mydate) {
-  // Make a request for a user with a given ID
-  axios
-    .get("/home/new_order?mydate=" + mydate)
-    .then(function(response) {
-      // handle success
-      location.reload();
-    })
-    .catch(function(error) {
-      // handle error
-      console.log(error);
-    })
-    .finally(function() {
-      // always executed
-    });
-}
-function myFunction_order(value) {
-  // Make a request for a user with a given ID
-  axios
-    .post("/home/new_order", {
-      sesa_no1: document.getElementById("sesa_no1").innerText,
-      supplier: document.getElementById("activeSupplier").innerText,
-      order_date: document.getElementById("lunch_order").value,
-      id: value
-    })
-    .then(function(response) {
-      // handle success
-      // var $table4 = $('#myorders_list');
-      // $table4.bootstrapTable('refresh');
-      //location.reload();
-      //console.log(response);
-    })
-    .catch(function(error) {
-      // handle error
-      console.log(error);
-    })
-    .finally(function() {
-      // always executed
-    });
-}
+// Functions
 function myFunction_order2(value) {
   // Make a request for a user with a given ID
   axios
@@ -238,27 +275,6 @@ function myFunction_order2(value) {
       // $table4.bootstrapTable('refresh');
       location.reload();
       console.log(response);
-    })
-    .catch(function(error) {
-      // handle error
-      console.log(error);
-    })
-    .finally(function() {
-      // always executed
-    });
-}
-function myFunction_delete(value) {
-  var delete_id = value;
-  // Make a request for a user with a given ID
-  axios
-    .delete("/home/new_order", {
-      data: {
-        delete_id: delete_id
-      }
-    })
-    .then(function(response) {
-      // handle success
-      location.reload();
     })
     .catch(function(error) {
       // handle error
@@ -289,35 +305,6 @@ function myFunction_delete2(value) {
       // always executed
     });
 }
-function myFunction_calendar(today) {
-  alert("calendar change: " + document.getElementById("lunch_order").value);
-  var todayAt10 = Date.parse(today + "T10:00:00") / 1000;
-  console.log("todayAt10: " + todayAt10);
-
-  var todayAt00 = Date.parse(today + "T00:00:01") / 1000;
-  console.log("todayAt00: " + todayAt00);
-
-  var t_currentDate = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
-  var t_day = t_currentDate.getDate();
-  var t_month = ("0" + (t_currentDate.getMonth() + 1)).slice(-2);
-  var t_year = t_currentDate.getFullYear();
-  var tommorow = t_year + "-" + t_month + "-" + t_day + "T00:00:01";
-  var tommorow_timestamp = Date.parse(tommorow) / 1000;
-  console.log("tommorowAt00: " + tommorow_timestamp);
-
-  var d = new Date();
-  var justNow = d.valueOf();
-  var justNowTimestamp = Math.floor(justNow / 1000);
-  console.log("just now " + justNowTimestamp);
-  var datePickerValue = document.getElementById("lunch_order").value;
-  var mydatePicker = datePickerValue + "T00:00:01";
-  console.log("datapicker: " + mydatePicker);
-
-  if (justNowTimestamp < todayAt10 && justNowTimestamp < todayAt00) {
-    aletr(" mozna zamawiać");
-    sendDate(document.getElementById("lunch_order").value);
-  }
-}
 function setCookie(cname, cvalue, exdays) {
   //declares the value of dt as current date
   var dt = new Date();
@@ -335,4 +322,27 @@ function getCookie(cname) {
   }
   return "";
 }
-// Koniec funkcji
+function operateFormatter(value, row, index) {
+  return [
+    '<a class="remove" href="javascript:void(0)" title="Usuń">',
+    '<i class="fa fa-trash"></i>',
+    "</a>"
+  ].join("");
+}
+function operateFormatter2(value, row, index) {
+  return [
+    '<a class="order" href="javascript:void(0)" title="Zamów">',
+    '<i class="fas fa-utensils"></i>',
+    "</a>"
+  ].join("");
+}
+window.operateEvents2 = {
+  "click .order": function(e, value, row, index) {
+    if (document.getElementById("f").innerText == "1"){
+      myFunction_order2(row.id);// CHANGE STRATEGY FROM MENU_NO TO ID
+    } else{
+      alert( "Nie możesz zamówić na wybrany dzień. \n Zamówienia można składać online do 10:00 lub telefonicznie");
+    }    
+    
+  }
+};

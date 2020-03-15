@@ -17,6 +17,7 @@
   <script src="https://unpkg.com/tableexport.jquery.plugin/tableExport.min.js"></script>
   <script src="https://unpkg.com/bootstrap-table@1.15.5/dist/extensions/export/bootstrap-table-export.min.js"></script>
   <script src="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table-locale-all.min.js"></script>
+  <script src="https://unpkg.com/bootstrap-table@1.16.0/dist/extensions/print/bootstrap-table-print.min.js"></script>
   <link rel="stylesheet" href="/public/css/style.css" type="text/css"/>
 </head>
 <body>
@@ -26,7 +27,7 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li> <img src="/public/img/logo2.png" with="94" height="45" alt="logo" srcset=""style="margin-right: 20px;"></li>
-            <li class="active"><a href="/home/dashboard">Powtót</a></li>
+            <li class="active"><a href="/home/dashboard">Powrót</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li><a href="/home/logout">Wylogowanie</a></li>
@@ -39,10 +40,11 @@
           <input type="date" name="data_list" id="data_list"> </input>
           <button type="button" id="btn" >Zatwierdź</button>
         </p>
-        <div class="table-responsive">
+        <div id="table-responsive" class="table-responsive">
             <table id="table_list" 
             class="table table-bordered"
             data-show-refresh="true"
+            data-show-print="true"
             data-auto-refresh="true"
             data-locale="pl-PL"
             data-search="true"
@@ -78,6 +80,7 @@
         
         document.getElementById("data_list").value = today;
         document.getElementById("btn").addEventListener("click", function () {
+          document.getElementById("table-responsive").style.display = "inline";
           data_list();      
         });
         document.getElementById("data_list").addEventListener("change", function() {
@@ -94,7 +97,7 @@
             .then(function (response) {
             // handle success
             mytable = response.data.message;
-            console.log("mytable",mytable);
+            // console.log("mytable",mytable);
             $table.bootstrapTable('destroy')
             $table.bootstrapTable({ data: mytable });
             })
