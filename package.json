@@ -13,6 +13,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "acron": "^1.0.5",
     "axios": "^0.19.1",
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.4",
