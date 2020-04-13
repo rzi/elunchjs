@@ -30,7 +30,7 @@ const favicon = require('express-favicon');
 //             });
 
 var connection = mysql.createConnection({
-              host     : 'pi.cba.pl',
+              host     : 'rzi.cba.pl',
               user     : 'Bazapi2019',
               password : 'Bazapi2019',
               database : 'elunch'
