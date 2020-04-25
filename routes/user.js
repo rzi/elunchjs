@@ -771,14 +771,31 @@ exports.guest = function (req, res, next) {
     var menu_json, orders_json;
     var sesa_no1 = req.session.sesa_no1;
 
+    console.log("mydate " + mydate);
+
+    var d = new Date(mydate);
+    var id_day = parseInt(d.getDay());
+    console.log("id_day " + id_day);
+    // display menu
+    // mysupplier_name = mysupplier;
+    // var sql3 =
+    //   "SELECT * FROM `elunch_menu2` WHERE `supplier_name`='" +
+    //   mysupplier_name + "'";
+
+
     // display menu
     mysupplier_name = mysupplier;
     var sql3 =
       "SELECT * FROM `elunch_menu2` WHERE `supplier_name`='" +
-      mysupplier_name + "'";
+      mysupplier_name +
+      "' AND (`id_day`= 0 OR `id_day`='" +
+      id_day +
+      "')";
+    console.log("sql3 " + sql3)
 
     db.query(sql3, function (err, results) {
       menu_json = results;
+      console.log("menu_json " + menu_json)
     });
 
     // display current orders

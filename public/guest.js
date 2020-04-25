@@ -43,7 +43,7 @@ if (my_supplier == "Mucha") {
 
 var my_date = document.getElementById("lunch_order").value;
 // Swetch between suppliers, using cookies to not forget
-$('a[data-toggle="tab"]').on("shown.bs.tab", function(e) {
+$('a[data-toggle="tab"]').on("shown.bs.tab", function (e) {
   document.getElementById("activeSupplier").innerText = e.target.innerHTML;
   my_supplier = e.target.innerHTML;
   setCookie("supplier", my_supplier, 1);
@@ -52,18 +52,20 @@ $('a[data-toggle="tab"]').on("shown.bs.tab", function(e) {
 });
 
 // change order date and dont allowed to chose date from past
-document.getElementById("lunch_order").addEventListener("change", function() {
+document.getElementById("lunch_order").addEventListener("change", function () {
   var my_date1 = document.getElementById("lunch_order").value;
   setCookie("date", my_date1, 1);
+  location.reload();
 });
 
 // Make a request for a user with a given ID
 axios
   .post("/home/guest", {
     mypost: "mypost",
-    my_supplier: document.getElementById("activeSupplier").innerText
+    my_supplier: document.getElementById("activeSupplier").innerText,
+    my_date: my_date
   })
-  .then(function(response) {
+  .then(function (response) {
     // handle success
     sesa_no1 = response.data.sesa_no1;
     // console.log("sesa_no1: " + sesa_no1);
@@ -74,19 +76,7 @@ axios
     $table.bootstrapTable("destroy");
     $table.bootstrapTable({
       data: table_data,
-      columns: [
-        ,
-        ,
-        ,
-        ,
-        ,
-        ,
-        ,
-        ,
-        ,
-        ,
-        ,
-        ,
+      columns: [, , , , , , , , , , , ,
         {
           field: "operate",
           title: "Usuń",
@@ -104,12 +94,7 @@ axios
     $table_mucha.bootstrapTable("destroy");
     $table_mucha.bootstrapTable({
       data: table_supplier,
-      columns: [
-        ,
-        ,
-        ,
-        ,
-        ,
+      columns: [, , , , ,
         {
           field: "order",
           title: "Zamów",
@@ -123,12 +108,7 @@ axios
     $table_opoka.bootstrapTable("destroy");
     $table_opoka.bootstrapTable({
       data: table_supplier,
-      columns: [
-        ,
-        ,
-        ,
-        ,
-        ,
+      columns: [, , , , ,
         {
           field: "order",
           title: "Zamów",
@@ -140,16 +120,16 @@ axios
       ]
     });
   })
-  .catch(function(error) {
+  .catch(function (error) {
     // handle error
     console.log(error);
   })
-  .finally(function() {
+  .finally(function () {
     // always executed
   });
 
 window.operateEvents3 = {
-  "click .remove": function(e, value, row, index) {
+  "click .remove": function (e, value, row, index) {
     $table.bootstrapTable("remove", {
       field: "id",
       values: [row.id]
@@ -158,7 +138,7 @@ window.operateEvents3 = {
   }
 };
 window.operateEvents4 = {
-  "click .order": function(e, value, row, index) {
+  "click .order": function (e, value, row, index) {
     var guestName = document.getElementById("guestName");
     var result = guestName.value;
     var department = document.getElementById("department");
@@ -178,6 +158,7 @@ window.operateEvents4 = {
     }
   }
 };
+
 function operateFormatter3(value, row, index) {
   return [
     '<a class="remove" href="javascript:void(0)" title="Usuń">',
@@ -185,6 +166,7 @@ function operateFormatter3(value, row, index) {
     "</a>"
   ].join("");
 }
+
 function operateFormatter4(value, row, index) {
   return [
     '<a class="order" href="javascript:void(0)" title="Zamów">',
@@ -192,6 +174,7 @@ function operateFormatter4(value, row, index) {
     "</a>"
   ].join("");
 }
+
 function myFunction_delete3(value) {
   var delete_id3 = value;
   // Make a request for a user with a given ID
@@ -201,18 +184,19 @@ function myFunction_delete3(value) {
         delete_id3: delete_id3
       }
     })
-    .then(function(response) {
+    .then(function (response) {
       // handle success
       location.reload();
     })
-    .catch(function(error) {
+    .catch(function (error) {
       // handle error
       console.log(error);
     })
-    .finally(function() {
+    .finally(function () {
       // always executed
     });
 }
+
 function myFunction_guest2(
   value,
   supplier,
@@ -238,20 +222,21 @@ function myFunction_guest2(
       menu_desctription: menu_desctription,
       menu_price: menu_price
     })
-    .then(function(response) {
+    .then(function (response) {
       // handle success
 
       location.reload();
       // console.log(response);
     })
-    .catch(function(error) {
+    .catch(function (error) {
       // handle error
       console.log(error);
     })
-    .finally(function() {
+    .finally(function () {
       // always executed
     });
 }
+
 function setCookie(cname, cvalue, exdays) {
   //declares the value of dt as current date
   var dt = new Date();
@@ -259,6 +244,7 @@ function setCookie(cname, cvalue, exdays) {
   var expires = "expires=" + dt.toUTCString();
   document.cookie = cname + "=" + cvalue + "; " + expires;
 }
+
 function getCookie(cname) {
   var name = cname + "=";
   var ca = document.cookie.split(";");
