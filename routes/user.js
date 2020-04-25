@@ -1,5 +1,5 @@
 //-----------------------------------------------login page call------------------------------------------------------
-exports.login = function(req, res) {
+exports.login = function (req, res) {
   var message = "";
   var sess = req.session;
 
@@ -7,7 +7,7 @@ exports.login = function(req, res) {
     var post = req.body;
     var name = post.user_name;
     var pass = post.password;
-    var sesa_no1 = post.sesa_no1;  
+    var sesa_no1 = post.sesa_no1;
 
     var sql =
       "SELECT id, first_name, last_name, user_name FROM `elunch_users2` WHERE `sesa_no`='" +
@@ -16,7 +16,7 @@ exports.login = function(req, res) {
       pass +
       "'";
 
-    db.query(sql, function(err, results) {
+    db.query(sql, function (err, results) {
       if (results.length) {
         req.session.userId = results[0].id;
         req.session.first_name = results[0].first_name;
@@ -27,17 +27,21 @@ exports.login = function(req, res) {
         res.redirect("/home/dashboard");
       } else {
         message = "Złe dane logowania (sesa lub hasło)";
-        res.render("index.ejs", { message: message });
+        res.render("index.ejs", {
+          message: message
+        });
       }
     });
   } else {
-    res.render("index.ejs", { message: message });
+    res.render("index.ejs", {
+      message: message
+    });
   }
 };
 //-----------------------------------------------dashboard page functionality----------------------------------------------
-exports.dashboard = function(req, res, next) {
+exports.dashboard = function (req, res, next) {
   userId = req.session.userId,
-  fname = req.session.first_name;
+    fname = req.session.first_name;
 
   if (req.session.sesa_no1 == 9999) {
     res.render("admin.ejs");
@@ -48,18 +52,20 @@ exports.dashboard = function(req, res, next) {
     res.redirect("/login");
     return;
   }
-  
-  res.render("dashboard.ejs", { fname });
+
+  res.render("dashboard.ejs", {
+    fname
+  });
 
 };
 //------------------------------------logout functionality----------------------------------------------
-exports.logout = function(req, res) {
-  req.session.destroy(function(err) {
+exports.logout = function (req, res) {
+  req.session.destroy(function (err) {
     res.redirect("/login");
   });
 };
 //------------------------------------order lunch ------------------------------------------------------
-exports.new_order2 = function(req, res, next) {
+exports.new_order2 = function (req, res, next) {
   userId = req.session.userId;
   if (userId == null) {
     res.redirect("/login");
@@ -72,7 +78,7 @@ exports.new_order2 = function(req, res, next) {
     var fname = req.session.first_name;
     var lname = req.session.last_name;
 
-    var d = new Date();
+    var d = new Date(mydate);
     var id_day = parseInt(d.getDay());
 
     // display menu
@@ -84,7 +90,7 @@ exports.new_order2 = function(req, res, next) {
       id_day +
       "')";
 
-    db.query(sql3, function(err, results) {
+    db.query(sql3, function (err, results) {
       menu_json = JSON.stringify(results);
       //console.log("menu_json: ", menu_json);
     });
@@ -96,7 +102,7 @@ exports.new_order2 = function(req, res, next) {
       sesa_no1 +
       "' ORDER BY elunch_orders2.id DESC";
 
-    db.query(sql1, function(err, results) {
+    db.query(sql1, function (err, results) {
       orders_json = JSON.stringify(results);
       // console.log("orders_json: ", orders_json);
       res.json({
@@ -125,20 +131,22 @@ exports.new_order2 = function(req, res, next) {
     //    if Yes (deduct from  all of dayli orders founding 7 pln )
     //    if not deduct from founding 7 pln
     // 2. put to deduction difference between order_price and founding
-    
+
     //console.log("Method: " + req.method);
     //console.log("put: ", sesa_no1, " ", supplier, " ", order_date, " ", "id ", id);
 
     //base id (previously order_no), get from menu order_name and order_price
     var sql6 = "SELECT * FROM `elunch_menu2` WHERE `id`='" + id + "'";
-    db.query(sql6, function(err, results) {
+    db.query(sql6, function (err, results) {
       if (results.length) {
         menu_desctription = results[0].menu_desctription;
         menu_price = results[0].menu_price;
         menu_no = results[0].menu_no;
       } else {
         message = "problem z pobraniem danych z bazy menu przed zapisem do bazy order2";
-        res.render("index.ejs", { message: message });
+        res.render("index.ejs", {
+          message: message
+        });
       }
       //
       var sql2 = "SELECT SUM(`founding`) FROM `elunch_orders2` WHERE `order_date` = '" +
@@ -146,14 +154,14 @@ exports.new_order2 = function(req, res, next) {
         "' AND `Id_sesa_no`='" +
         sesa_no1 +
         "'";
-      db.query(sql2, function(err, results) {
+      db.query(sql2, function (err, results) {
         sumOfFounding = results[0]["SUM(`founding`)"];
         console.log("SumOfFounding: " + sumOfFounding);
         if (sumOfFounding < 7) {
           founding = dailyFounding - sumOfFounding;
           deduction = menu_price - founding;
-          founding=Math.round(founding*100)/100 //roundong to 2 digits
-          deduction=Math.round(deduction*100)/100 //roundong to 2 digits
+          founding = Math.round(founding * 100) / 100 //roundong to 2 digits
+          deduction = Math.round(deduction * 100) / 100 //roundong to 2 digits
           console.log("founding :" + founding);
           console.log("deduction :" + deduction);
           if (menu_price <= 7) {
@@ -164,14 +172,14 @@ exports.new_order2 = function(req, res, next) {
               var x = 7 - sumOfFounding;
               //console.log("x: " + x);
               founding = x;
-              founding=Math.round(founding*100)/100 //roundong to 2 digits
-              deduction=Math.round(deduction*100)/100 //roundong to 2 digits
+              founding = Math.round(founding * 100) / 100 //roundong to 2 digits
+              deduction = Math.round(deduction * 100) / 100 //roundong to 2 digits
               console.log("founding2 :" + founding);
               console.log("deduction2 :" + deduction);
             }
             deduction = menu_price - founding;
-            founding=Math.round(founding*100)/100 //roundong to 2 digits
-            deduction=Math.round(deduction*100)/100 //roundong to 2 digits
+            founding = Math.round(founding * 100) / 100 //roundong to 2 digits
+            deduction = Math.round(deduction * 100) / 100 //roundong to 2 digits
             console.log("founding3 :" + founding);
             console.log("deduction3 :" + deduction);
           }
@@ -204,7 +212,7 @@ exports.new_order2 = function(req, res, next) {
           deduction +
           "')";
         // console.log("SQL: ", sql5);
-        db.query(sql5, function(err, results) {
+        db.query(sql5, function (err, results) {
           console.log("Inerted record to DB");
         });
       });
@@ -213,13 +221,13 @@ exports.new_order2 = function(req, res, next) {
   } else if (req.method == "DELETE") {
     var delete_id = req.body.delete_id;
     var sql7 = "DELETE FROM `elunch_orders2` WHERE `id` ='" + delete_id + "'";
-    db.query(sql7, function(err, results) {
+    db.query(sql7, function (err, results) {
       console.log("deleted row " + delete_id);
     });
   }
 };
 //--------------------------------render user details after login--------------------------------
-exports.orders2 = function(req, res, next) {
+exports.orders2 = function (req, res, next) {
   var userId = req.session.userId,
     sesa_no1 = req.session.sesa_no1,
     data_from,
@@ -230,7 +238,7 @@ exports.orders2 = function(req, res, next) {
   // console.log("data_from: ", data_from);
   // console.log("data_from: ", data_to);
   // console.log("cookies " + req.session.mySupplierCookies);
-  
+
   if (userId == null) {
     res.redirect("/login");
     return;
@@ -246,15 +254,17 @@ exports.orders2 = function(req, res, next) {
       sesa_no1 +
       "' ORDER BY elunch_orders2.id DESC";
 
-    db.query(sql, function(err, result) {
-      res.json({ message: result });
+    db.query(sql, function (err, result) {
+      res.json({
+        message: result
+      });
     });
   } else if (req.method == "GET") {
     res.render("orders2.ejs");
   }
 };
 //---------------------------------list----------------------------------------------------------
-exports.list = function(req, res, next) {
+exports.list = function (req, res, next) {
   var data_list;
   data_list = req.body.data_list;
 
@@ -263,15 +273,17 @@ exports.list = function(req, res, next) {
       "select first_name, last_name, order_supplier_name,order_no,order_name  from elunch_users2 join  elunch_orders2 on elunch_users2.sesa_no = elunch_orders2.id_sesa_no  WHERE `order_date`='" +
       data_list +
       "' ORDER BY  order_no DESC";
-    db.query(sql, function(err, result) {
-      res.json({ message: result });
+    db.query(sql, function (err, result) {
+      res.json({
+        message: result
+      });
     });
   } else if (req.method == "GET") {
     res.render("new_list.ejs");
   }
 };
 //----------------------------------raport2------------------------------------------------------
-exports.raport = function(req, res, next) {
+exports.raport = function (req, res, next) {
   var data_from, data_to, supplierValue, typeValue;
   data_from = req.body.data_from;
   data_to = req.body.data_to;
@@ -306,15 +318,17 @@ exports.raport = function(req, res, next) {
       "' AND `user_name`='" +
       mySQLtype +
       "' GROUP BY person_no";
-    db.query(sql, function(err, result) {
-      res.json({ message: result });
+    db.query(sql, function (err, result) {
+      res.json({
+        message: result
+      });
     });
   } else if (req.method == "GET") {
     res.render("raport.ejs");
   }
 };
 //-------------------------------------admin----------------------------------------------------
-exports.admin = function(req, res, next) {
+exports.admin = function (req, res, next) {
   var id = req.body.id;
   var sesa = req.body.sesa_no;
   var first_name = req.body.first_name;
@@ -357,7 +371,7 @@ exports.admin = function(req, res, next) {
         password +
         "')";
 
-      db.query(sql, function(err, result) {
+      db.query(sql, function (err, result) {
         user = result;
 
       });
@@ -384,8 +398,11 @@ exports.admin = function(req, res, next) {
         "')";
 
 
-      db.query(sql20, function(err, result) {
-        res.json({ message: user, messageMenu: result });
+      db.query(sql20, function (err, result) {
+        res.json({
+          message: user,
+          messageMenu: result
+        });
       });
     }
   } else if (req.method == "GET") {
@@ -393,24 +410,24 @@ exports.admin = function(req, res, next) {
     //user
     var row = req.query.row;
     var sql17 = "SELECT * FROM `elunch_users2` WHERE `id` ='" + row + "'";
-    db.query(sql17, function(err, results) {
+    db.query(sql17, function (err, results) {
       dataForUpdate = results;
     });
 
     var sql21 = "select * from elunch_menu2 WHERE 1 ORDER BY id DESC";
-    db.query(sql21, function(err, results) {
+    db.query(sql21, function (err, results) {
       results2 = results;
     });
 
     // menu
     var row = req.query.row;
     var sql18 = "SELECT * FROM `elunch_menu2` WHERE `id` ='" + row + "'";
-    db.query(sql18, function(err, results) {
+    db.query(sql18, function (err, results) {
       menuForUpdate = results;
     });
 
     var sql = "select * from elunch_users2 WHERE 1 ORDER BY id DESC";
-    db.query(sql, function(err, result) {
+    db.query(sql, function (err, result) {
       res.json({
         message: result,
         message2: results2,
@@ -423,18 +440,16 @@ exports.admin = function(req, res, next) {
     if (req.body.delete_id > 0) {
       var delete_id = req.body.delete_id;
       var sql7 = "DELETE FROM `elunch_users2` WHERE `id` ='" + delete_id + "'";
-      db.query(sql7, function(err, results) {
-      });
+      db.query(sql7, function (err, results) {});
     }
     //menu
     if (req.body.delete_id3 > 0) {
       var mydelete_id3 = req.body.delete_id3;
-      var sql37 =  "DELETE FROM `elunch_menu2` WHERE `id` ='" + mydelete_id3 + "'";
-      db.query(sql37, function(err, results) {
-      });
+      var sql37 = "DELETE FROM `elunch_menu2` WHERE `id` ='" + mydelete_id3 + "'";
+      db.query(sql37, function (err, results) {});
     }
   } else if (req.method == "PUT") {
-  
+
     var sql13 =
       "UPDATE elunch_users2 SET sesa_no=" +
       sesa +
@@ -452,8 +467,7 @@ exports.admin = function(req, res, next) {
       id +
       "";
 
-     db.query(sql13, function(err, result) {
-    });
+    db.query(sql13, function (err, result) {});
 
     var updateMenu = req.body.updateMenu;
     if (updateMenu == "updateMenu") {
@@ -479,14 +493,13 @@ exports.admin = function(req, res, next) {
         myid2 +
         "";
 
-      db.query(sql23, function(err, result) {
-      });
+      db.query(sql23, function (err, result) {});
     }
     res.render("admin.ejs");
   }
 };
 //-------------------------------------users----------------------------------------------------
-exports.users = function(req, res, next) {
+exports.users = function (req, res, next) {
   var id = req.body.id;
   var sesa = req.body.sesa_no;
   var first_name = req.body.first_name;
@@ -517,19 +530,23 @@ exports.users = function(req, res, next) {
 
     if (mypost == "mypost") {
       var sql21 = "select * from elunch_users2 WHERE 1 ORDER BY id DESC";
-      db.query(sql21, function(err, results) {
+      db.query(sql21, function (err, results) {
         results2 = results;
 
         // users
         var row = req.body.row;
         if (row > 0) {
           var sql18 = "SELECT * FROM `elunch_users2` WHERE `id` ='" + row + "'";
-          db.query(sql18, function(err, results) {
+          db.query(sql18, function (err, results) {
             menuForUpdate = results;
-            res.json({ menuForUpdate: menuForUpdate });
+            res.json({
+              menuForUpdate: menuForUpdate
+            });
           });
         } else {
-          res.json({ message2: results2 });
+          res.json({
+            message2: results2
+          });
           return;
         }
       });
@@ -560,8 +577,10 @@ exports.users = function(req, res, next) {
           password +
           "')";
 
-        db.query(sql, function(err, result) {
-          res.json({ message: result });
+        db.query(sql, function (err, result) {
+          res.json({
+            message: result
+          });
         });
       }
     }
@@ -572,12 +591,12 @@ exports.users = function(req, res, next) {
     if (req.body.delete_id3 > 0) {
       var delete_id3 = req.body.delete_id3;
       var sql7 = "DELETE FROM `elunch_users2` WHERE `id` ='" + delete_id3 + "'";
-      db.query(sql7, function(err, results) {
+      db.query(sql7, function (err, results) {
         console.log("Deleted row " + delete_id3);
       });
     }
   } else if (req.method == "PUT") {
-   
+
     var sql13 =
       "UPDATE elunch_users2 SET sesa_no=" +
       sesa +
@@ -595,8 +614,7 @@ exports.users = function(req, res, next) {
       id +
       "";
 
-    db.query(sql13, function(err, result) {
-    });
+    db.query(sql13, function (err, result) {});
 
     var updateMenu = req.body.updateMenu;
     if (updateMenu == "updateUsers") {
@@ -622,14 +640,13 @@ exports.users = function(req, res, next) {
         myid2 +
         "";
 
-      db.query(sql23, function(err, result) {
-      });
+      db.query(sql23, function (err, result) {});
     }
     res.render("users.ejs");
   }
 };
 //-------------------------------------menu----------------------------------------------------
-exports.menu = function(req, res, next) {
+exports.menu = function (req, res, next) {
   var sesa = req.body.sesa_no;
   var supplier_name, menu_no, menu_desctription, menu_price, id_day;
   var user, menu, results2, menuForUpdate;
@@ -646,7 +663,7 @@ exports.menu = function(req, res, next) {
     if (mypost == "mypost") {
       var menuForUpdate;
       var sql21 = "select * from elunch_menu2 WHERE 1 ORDER BY id DESC";
-      db.query(sql21, function(err, results) {
+      db.query(sql21, function (err, results) {
         results2 = results;
 
         // menu
@@ -654,12 +671,16 @@ exports.menu = function(req, res, next) {
         if (row > 0) {
 
           var sql18 = "SELECT * FROM `elunch_menu2` WHERE `id` ='" + row + "'";
-          db.query(sql18, function(err, results) {
+          db.query(sql18, function (err, results) {
             menuForUpdate = results;
-            res.json({ menuForUpdate: menuForUpdate });
+            res.json({
+              menuForUpdate: menuForUpdate
+            });
           });
         } else {
-          res.json({ message2: results2 });
+          res.json({
+            message2: results2
+          });
           return;
         }
       });
@@ -688,8 +709,11 @@ exports.menu = function(req, res, next) {
           id_day +
           "')";
 
-        db.query(sql20, function(err, result) {
-          res.json({ message: user, messageMenu: result });
+        db.query(sql20, function (err, result) {
+          res.json({
+            message: user,
+            messageMenu: result
+          });
         });
       }
     }
@@ -699,7 +723,7 @@ exports.menu = function(req, res, next) {
     if (req.body.delete_id3 > 0) {
       var mydelete_id3 = req.body.delete_id3;
       var sql37 = "DELETE FROM `elunch_menu2` WHERE `id` ='" + mydelete_id3 + "'";
-      db.query(sql37, function(err, results) {
+      db.query(sql37, function (err, results) {
         console.log("Deleted row " + mydelete_id3);
       });
     }
@@ -728,14 +752,13 @@ exports.menu = function(req, res, next) {
         myid2 +
         "";
 
-      db.query(sql23, function(err, result) {
-      });
+      db.query(sql23, function (err, result) {});
     }
     res.render("menu.ejs");
   }
 };
 // ------------------------------------guest---------------------------------------------------
-exports.guest = function(req, res, next) {
+exports.guest = function (req, res, next) {
   var userId = req.session.userId;
   if (userId == null) {
     res.redirect("/login");
@@ -747,22 +770,22 @@ exports.guest = function(req, res, next) {
     var mysupplier = req.body.my_supplier;
     var menu_json, orders_json;
     var sesa_no1 = req.session.sesa_no1;
-    
+
     // display menu
     mysupplier_name = mysupplier;
     var sql3 =
       "SELECT * FROM `elunch_menu2` WHERE `supplier_name`='" +
       mysupplier_name + "'";
-    
-    db.query(sql3, function(err, results) {
+
+    db.query(sql3, function (err, results) {
       menu_json = results;
     });
 
     // display current orders
     var sql1 =
       "SELECT elunch_gusets2.id, guest_name, who_order_sesa ,first_name, last_name, data, cost_center, departament, supplier, menu_no,menu_desctription, menu_price FROM elunch_users2 join elunch_gusets2 on elunch_users2.sesa_no = elunch_gusets2.who_order_sesa WHERE 1 ORDER BY id DESC";
- 
-    db.query(sql1, function(err, results) {
+
+    db.query(sql1, function (err, results) {
       res.json({
         table_data: results,
         table_supplier: menu_json,
@@ -796,20 +819,20 @@ exports.guest = function(req, res, next) {
       }
     };
     var transporter = nodemailer.createTransport(smtpConfig);
-   
+
     emailTo = email[departament];
-    console.log("emailTo "+ emailTo)
+    console.log("emailTo " + emailTo)
 
     // in key to: put emailto in production version
     var mailOptions = {
       from: "elunchjs@camtronic.nazwa.pl",
       to: "rafal.zietak@se.com",
       subject: "Zamówienie Elunch (informacja generowana automatycznie)  ",
-      text: "Cześć, " + "\n" + "Twój pracownik o nr. SESA "+ sesa_no1 + "\n" + "Zamówił obiad na dzień " + order_date + " od dostawcy " + supplier + " dla gościa: "+  guestName + "\n" + "Koszty obiadu obciążą twój MPK działu " + cost_center + " w kwocie " +  menu_price + " zł" + "\n" + "\n" + " Pozdrawia aplikacja Elunch" + "\n" +" dla Schneider Electric" +"\n"+ "\n" + " PS: to mail informacyjny, nie odpowiadamy na niego"
-     
+      text: "Cześć, " + "\n" + "Twój pracownik o nr. SESA " + sesa_no1 + "\n" + "Zamówił obiad na dzień " + order_date + " od dostawcy " + supplier + " dla gościa: " + guestName + "\n" + "Koszty obiadu obciążą twój MPK działu " + cost_center + " w kwocie " + menu_price + " zł" + "\n" + "\n" + " Pozdrawia aplikacja Elunch" + "\n" + " dla Schneider Electric" + "\n" + "\n" + " PS: to mail informacyjny, nie odpowiadamy na niego"
+
     };
 
-    transporter.sendMail(mailOptions, function(error, info) {
+    transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
         console.log(error);
       } else {
@@ -820,14 +843,14 @@ exports.guest = function(req, res, next) {
     transporter.verify((err, success) => {
       if (err) console.error(err);
     });
-    
+
     // console.log("Method: " + req.method);
     // console.log("put: ", sesa_no1, " ", supplier, " ", order_date, " ", "id ", id);
 
     //base id (previously order_no), get from menu order_name and order_price
     var sql6 = "SELECT * FROM `elunch_menu2` WHERE `id`='" + id + "'";
     // console.log("sql6: ", sql6);
-    db.query(sql6, function(err, results) {
+    db.query(sql6, function (err, results) {
       if (results.length) {
         menu_desctription = results[0].menu_desctription;
         menu_price = results[0].menu_price;
@@ -836,7 +859,9 @@ exports.guest = function(req, res, next) {
         //return menu_no;
       } else {
         message = "problem z pobraniem danych z bazy menu przed zapisem do bazy order2";
-        res.render("index.ejs", { message: message });
+        res.render("index.ejs", {
+          message: message
+        });
       }
 
       // put order to DB
@@ -860,7 +885,7 @@ exports.guest = function(req, res, next) {
         "','" +
         menu_price +
         "')";
-      db.query(sql5, function(err, results) {
+      db.query(sql5, function (err, results) {
         console.log("Record inserted to DB");
       });
     });
@@ -870,13 +895,13 @@ exports.guest = function(req, res, next) {
     var delete_id3 = req.body.delete_id3;
     var sql7 = "DELETE FROM `elunch_gusets2` WHERE `id` ='" + delete_id3 + "'";
 
-    db.query(sql7, function(err, results) {
-      console.log("deleted row "+ delete_id3);
+    db.query(sql7, function (err, results) {
+      console.log("deleted row " + delete_id3);
     });
   }
 };
 //-------------------------------------additional----------------------------------------------
-exports.additional = function(req, res, next) {
+exports.additional = function (req, res, next) {
   var userId = req.session.userId;
   if (userId == null) {
     res.redirect("/login");
@@ -890,7 +915,7 @@ exports.additional = function(req, res, next) {
 
     // display users sesa: name surname
     var sql27 = "select sesa_no, first_name, last_name  from elunch_users2 WHERE 1 ORDER BY id DESC";
-    db.query(sql27, function(err, results) {
+    db.query(sql27, function (err, results) {
       users_json = results;
       // users
     });
@@ -898,7 +923,7 @@ exports.additional = function(req, res, next) {
     // display menu
     mysupplier_name = mysupplier;
     var sql3 = "SELECT * FROM `elunch_menu2` WHERE `supplier_name`='" + mysupplier_name + "'";
-    db.query(sql3, function(err, results) {
+    db.query(sql3, function (err, results) {
       menu_json = JSON.stringify(results);
       //console.log("menu_json: ", menu_json);
     });
@@ -908,7 +933,7 @@ exports.additional = function(req, res, next) {
       mydate +
       "' ORDER BY elunch_orders2.id DESC";
 
-    db.query(sql1, function(err, results) {
+    db.query(sql1, function (err, results) {
       res.json({
         table_data: results,
         table_supplier: JSON.parse(menu_json),
@@ -933,11 +958,11 @@ exports.additional = function(req, res, next) {
     //    if not deduct from founding 7 pln
     // 2. put to deduction difference between order_price and founding
     //
-    
+
     //base id (previously order_no), get from menu order_name and order_price
     var sql6 = "SELECT * FROM `elunch_menu2` WHERE `id`='" + id + "'";
 
-    db.query(sql6, function(err, results) {
+    db.query(sql6, function (err, results) {
       if (results.length) {
         menu_desctription = results[0].menu_desctription;
         menu_price = results[0].menu_price;
@@ -947,7 +972,9 @@ exports.additional = function(req, res, next) {
 
       } else {
         message = "problem z pobraniem danych z bazy menu przed zapisem do bazy order2";
-        res.render("index.ejs", { message: message });
+        res.render("index.ejs", {
+          message: message
+        });
       }
       //
       var sql2 =
@@ -957,7 +984,7 @@ exports.additional = function(req, res, next) {
         sesa_no1 +
         "'";
 
-      db.query(sql2, function(err, results) {
+      db.query(sql2, function (err, results) {
         sumOfFounding = results[0]["SUM(`founding`)"];
         console.log("SumOfFounding: " + sumOfFounding);
         if (sumOfFounding < 7) {
@@ -1009,7 +1036,7 @@ exports.additional = function(req, res, next) {
           deduction +
           "')";
 
-        db.query(sql5, function(err, results) {
+        db.query(sql5, function (err, results) {
           console.log("Record inserted to DB");
         });
       });
@@ -1018,17 +1045,17 @@ exports.additional = function(req, res, next) {
   } else if (req.method == "DELETE") {
     var delete_id = req.body.delete_id;
     var sql7 = "DELETE FROM `elunch_orders2` WHERE `id` ='" + delete_id + "'";
-    db.query(sql7, function(err, results) {
+    db.query(sql7, function (err, results) {
       console.log("Delete row " + delete_id);
     });
   }
 };
 //-----------------------------------complaint-------------------------------------------------
-exports.complaint = function(req, res, next) {
+exports.complaint = function (req, res, next) {
   res.render("complaint.ejs")
 };
 //------------------------------------upload---------------------------------------------------
-exports.upload = function(req, res, next) {
+exports.upload = function (req, res, next) {
   const nodemailer = require("nodemailer");
   var fs = require('fs');
   var emailSupplier = req.body.emailSupplier;
@@ -1044,7 +1071,7 @@ exports.upload = function(req, res, next) {
     auth: {
       user: "elunchjs@camtronic.nazwa.pl",
       pass: "Rafal20!"
-    }     
+    }
   };
   var transporter = nodemailer.createTransport(smtpConfig);
   //console.log (" req.files " + req.files)
@@ -1053,27 +1080,27 @@ exports.upload = function(req, res, next) {
   if (!req.files || Object.keys(req.files).length === 0) {
     //return res.status(400).send('No files were uploaded.');
     // console.log(" without atachement");
-      // in key to: put emailto in production version
+    // in key to: put emailto in production version
     var mailOptions = {
       from: "elunchjs@camtronic.nazwa.pl",
       to: "rafal.zietak@se.com",
-      subject: "Reklamacja" ,
+      subject: "Reklamacja",
       text: emailText
     };
 
-    transporter.sendMail(mailOptions, function(error, info) {
-    if (error) {
-      console.log(error);
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
       } else {
         console.log("Email sent: " + info.response);
       }
     });
 
     transporter.verify((err, success) => {
-    if (err) console.error(err);
+      if (err) console.error(err);
       // console.log("Your config is correct");
     });
-  
+
     res.render("new_order2.ejs")
     return
   }
@@ -1082,39 +1109,37 @@ exports.upload = function(req, res, next) {
   let sampleFile = req.files.sampleFile;
 
   // Use the mv() method to place the file somewhere on your server
-  sampleFile.mv('public/uploads/filename.jpg', function(err) {
+  sampleFile.mv('public/uploads/filename.jpg', function (err) {
     if (err)
       return res.status(500).send(err);
     // console.log ("File uploaded!");
- 
+
   });
-  
+
   // in key to: put emailto in production version
   var mailOptions = {
     from: "elunchjs@camtronic.nazwa.pl",
     to: "rafal.zietak@se.com",
-    subject: "Reklamacja"  ,
-    attachments: [
-      {   // stream as an attachment
+    subject: "Reklamacja",
+    attachments: [{ // stream as an attachment
       filename: 'zdjęcie.jpg',
       path: 'public/uploads/filename.jpg'
-      }
-    ],
+    }],
     text: emailText
   };
 
-  transporter.sendMail(mailOptions, function(error, info) {
-  if (error) {
-    console.log(error);
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      console.log(error);
     } else {
       console.log("Email sent: " + info.response);
     }
   });
 
   transporter.verify((err, success) => {
-  if (err) console.error(err);
+    if (err) console.error(err);
     // console.log("Your config is correct");
   });
- 
+
   res.render("new_order2.ejs")
 };
