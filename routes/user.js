@@ -754,6 +754,15 @@ exports.menu = function (req, res, next) {
 
       db.query(sql23, function (err, result) {});
     }
+    if (updateMenu == "resetMenu") {
+      console.log ("resetMenu")
+      var sql24 =
+      "UPDATE elunch_menu2 SET id_day=7 ";
+
+    db.query(sql24, function (err, result) {});
+
+    }
+
     res.render("menu.ejs");
   }
 };

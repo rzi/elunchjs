@@ -179,6 +179,8 @@ yesterday = y_year + "-" + y_month + "-" + y_day + "T00:00:01";
 var yesterdayTimeStampe = Date.parse(yesterday) / 1000;
 // console.log("yesterdayTimeStampe: " + yesterdayTimeStampe);
 
+
+
 // to define tommorow date in timestamp format
 var t_currentDate = new Date(new Date().getTime() + 24 * 60 * 60 * 1000); //tommorow
 var t_day = t_currentDate.getDate();
@@ -345,4 +347,9 @@ window.operateEvents2 = {
     }    
     
   }
+};
+
+function resetMenu (){
+  alert("resetMenu");
+
 };

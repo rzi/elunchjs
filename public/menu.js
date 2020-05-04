@@ -83,6 +83,30 @@ window.onload = function () {
       updateRow2(row.id);
     }
   }
+  //resetMenu 
+  var resteConfirm;
+document.getElementById("resetMenu").addEventListener("click",function() {
+  if (confirm("czy chcesz wyzerować dane?")){
+    // alert("OK");
+    axios
+    .put("/home/menu", {
+      updateMenu: "resetMenu",
+    })
+    .then(function (response) {
+      // handle success
+      location.reload();
+    })
+    .catch(function (error) {
+      // handle error
+      console.log(error);
+    })
+    .finally(function () {
+      // always executed
+    });
+
+  }
+   
+  });
 } //end of onload
 
 function addMenu1() {
