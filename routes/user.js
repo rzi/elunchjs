@@ -265,19 +265,34 @@ exports.orders2 = function (req, res, next) {
 };
 //---------------------------------list----------------------------------------------------------
 exports.list = function (req, res, next) {
-  var data_list;
+  var data_list, message2;
   data_list = req.body.data_list;
 
   if (req.method == "POST") {
-    var sql =
-      "select first_name, last_name, order_supplier_name,order_no,order_name  from elunch_users2 join  elunch_orders2 on elunch_users2.sesa_no = elunch_orders2.id_sesa_no  WHERE `order_date`='" +
+
+    var sql1 =
+      "SELECT `order_supplier_name`, `order_no`, count(`order_no`) FROM `elunch_orders2` WHERE `order_date`='" +
       data_list +
-      "' ORDER BY  order_no DESC";
-    db.query(sql, function (err, result) {
-      res.json({
-        message: result
+      "'GROUP BY `order_no` ORDER BY `order_supplier_name`";
+    db.query(sql1, function (err, result) {
+
+      message2 = result
+      var sql =
+        "select first_name, last_name, order_supplier_name,order_no,order_name  from elunch_users2 join  elunch_orders2 on elunch_users2.sesa_no = elunch_orders2.id_sesa_no  WHERE `order_date`='" +
+        data_list +
+        "' ORDER BY  order_no DESC";
+      db.query(sql, function (err, result) {
+        res.json({
+          message: result,
+          message2: message2
+        });
       });
+      console.log("message2 " + JSON.stringify(message2));
+
     });
+
+
+
   } else if (req.method == "GET") {
     res.render("new_list.ejs");
   }
@@ -755,13 +770,13 @@ exports.menu = function (req, res, next) {
       db.query(sql23, function (err, result) {});
     }
     if (updateMenu == "resetMenu") {
-      console.log ("resetMenu")
+      console.log("resetMenu")
       // var sql24 =
       // "UPDATE elunch_menu2 SET id_day=7 ";
       var sql24 =
-      "UPDATE elunch_menu2 SET id_day= IF( id_day >0, 7, id_day) WHERE 1";
+        "UPDATE elunch_menu2 SET id_day= IF( id_day >0, 7, id_day) WHERE 1";
 
-    db.query(sql24, function (err, result) {});
+      db.query(sql24, function (err, result) {});
 
     }
 
