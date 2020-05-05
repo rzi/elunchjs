@@ -756,8 +756,10 @@ exports.menu = function (req, res, next) {
     }
     if (updateMenu == "resetMenu") {
       console.log ("resetMenu")
+      // var sql24 =
+      // "UPDATE elunch_menu2 SET id_day=7 ";
       var sql24 =
-      "UPDATE elunch_menu2 SET id_day=7 ";
+      "UPDATE elunch_menu2 SET id_day= IF( id_day >0, 7, id_day) WHERE 1";
 
     db.query(sql24, function (err, result) {});
 
