@@ -89,7 +89,7 @@ window.onload = function() {
         });
         myFunction_delete2(row.id);
         } else{
-          alert( "Nie możesz zamówić ani uswać na wybrany dzień. \n Zamówienia można składać online do 10:00 lub telefonicznie");
+          alert( "Nie możesz zamówić ani uswać na wybrany dzień. \n Zamówienia można składać online do 9:00 lub telefonicznie");
         }
       }
     };
@@ -207,7 +207,7 @@ setInterval(() => {
   // console.log ("nowTimeTimeStamp " +  nowTime);
   var todayAt00 = Date.parse(today + "T00:00:00") / 1000;
   // console.log("todayAt00: " + todayAt00);
-  var todayAt10 = today + "T10:00:00";
+  var todayAt10 = today + "T09:00:00";
   // console.log("todayAt10: " + todayAt10);
   var todayAt10TimeStamp = Date.parse(todayAt10) / 1000;
 
@@ -235,7 +235,7 @@ setInterval(() => {
 
   if (myhour < 10) {
     // console.log("today: " + today);
-    var todayAt10 = today + "T10:00:00";
+    var todayAt10 = today + "T09:00:00";
     endTime = Date.parse(todayAt10) / 1000;
   } else {
     endTime = tommorowAt00TimeStamp;
