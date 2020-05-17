@@ -21,6 +21,8 @@ const cors = require('cors');
 const morgan = require('morgan');
 const _ = require('lodash');
 const favicon = require('express-favicon');
+var Excel = require('exceljs');
+
 
 // var connection = mysql.createConnection({
 //               host     : 'mysql.ct8.pl',
@@ -69,7 +71,7 @@ app.use(cookieparser());
 app.use('/public', express.static('public'));
 // enable files upload
 app.use(fileUpload({
-  createParentPath: true
+  // createParentPath: true
 }));
 app.use(cors());
 app.use(morgan('dev'));
@@ -115,6 +117,7 @@ app.get('/home/complaint', user.complaint);//call for complaint page
 app.post('/home/complaint', user.complaint);//call for complaint page
 app.get('/home/complaint', user.complaint);//call for complaint page
 app.post('/home/upload', user.upload);//call for complaint page 
-
+app.post('/home/upload2', user.upload2);//call for upload menu
+app.get('/home/upload2', user.upload2);//call for upload menu
 //Middleware
 app.listen(8080);

@@ -28,20 +28,19 @@ exports.login = function (req, res) {
       } else {
         message = "Złe dane logowania (sesa lub hasło)";
         res.render("index.ejs", {
-          message: message
+          message: message,
         });
       }
     });
   } else {
     res.render("index.ejs", {
-      message: message
+      message: message,
     });
   }
 };
 //-----------------------------------------------dashboard page functionality----------------------------------------------
 exports.dashboard = function (req, res, next) {
-  userId = req.session.userId,
-    fname = req.session.first_name;
+  (userId = req.session.userId), (fname = req.session.first_name);
 
   if (req.session.sesa_no1 == 9999) {
     res.render("admin.ejs");
@@ -54,9 +53,8 @@ exports.dashboard = function (req, res, next) {
   }
 
   res.render("dashboard.ejs", {
-    fname
+    fname,
   });
-
 };
 //------------------------------------logout functionality----------------------------------------------
 exports.logout = function (req, res) {
@@ -110,7 +108,7 @@ exports.new_order2 = function (req, res, next) {
         table_supplier: JSON.parse(menu_json),
         fname: fname,
         lname: lname,
-        sesa_no1: sesa_no1
+        sesa_no1: sesa_no1,
       });
     });
   } else if (req.method == "GET") {
@@ -143,13 +141,15 @@ exports.new_order2 = function (req, res, next) {
         menu_price = results[0].menu_price;
         menu_no = results[0].menu_no;
       } else {
-        message = "problem z pobraniem danych z bazy menu przed zapisem do bazy order2";
+        message =
+          "problem z pobraniem danych z bazy menu przed zapisem do bazy order2";
         res.render("index.ejs", {
-          message: message
+          message: message,
         });
       }
       //
-      var sql2 = "SELECT SUM(`founding`) FROM `elunch_orders2` WHERE `order_date` = '" +
+      var sql2 =
+        "SELECT SUM(`founding`) FROM `elunch_orders2` WHERE `order_date` = '" +
         order_date +
         "' AND `Id_sesa_no`='" +
         sesa_no1 +
@@ -160,8 +160,8 @@ exports.new_order2 = function (req, res, next) {
         if (sumOfFounding < 7) {
           founding = dailyFounding - sumOfFounding;
           deduction = menu_price - founding;
-          founding = Math.round(founding * 100) / 100 //roundong to 2 digits
-          deduction = Math.round(deduction * 100) / 100 //roundong to 2 digits
+          founding = Math.round(founding * 100) / 100; //roundong to 2 digits
+          deduction = Math.round(deduction * 100) / 100; //roundong to 2 digits
           console.log("founding :" + founding);
           console.log("deduction :" + deduction);
           if (menu_price <= 7) {
@@ -172,14 +172,14 @@ exports.new_order2 = function (req, res, next) {
               var x = 7 - sumOfFounding;
               //console.log("x: " + x);
               founding = x;
-              founding = Math.round(founding * 100) / 100 //roundong to 2 digits
-              deduction = Math.round(deduction * 100) / 100 //roundong to 2 digits
+              founding = Math.round(founding * 100) / 100; //roundong to 2 digits
+              deduction = Math.round(deduction * 100) / 100; //roundong to 2 digits
               console.log("founding2 :" + founding);
               console.log("deduction2 :" + deduction);
             }
             deduction = menu_price - founding;
-            founding = Math.round(founding * 100) / 100 //roundong to 2 digits
-            deduction = Math.round(deduction * 100) / 100 //roundong to 2 digits
+            founding = Math.round(founding * 100) / 100; //roundong to 2 digits
+            deduction = Math.round(deduction * 100) / 100; //roundong to 2 digits
             console.log("founding3 :" + founding);
             console.log("deduction3 :" + deduction);
           }
@@ -256,7 +256,7 @@ exports.orders2 = function (req, res, next) {
 
     db.query(sql, function (err, result) {
       res.json({
-        message: result
+        message: result,
       });
     });
   } else if (req.method == "GET") {
@@ -269,14 +269,12 @@ exports.list = function (req, res, next) {
   data_list = req.body.data_list;
 
   if (req.method == "POST") {
-
     var sql1 =
       "SELECT `order_supplier_name`, `order_no`, count(`order_no`) FROM `elunch_orders2` WHERE `order_date`='" +
       data_list +
       "'GROUP BY `order_no` ORDER BY `order_supplier_name`";
     db.query(sql1, function (err, result) {
-
-      message2 = result
+      message2 = result;
       var sql =
         "select first_name, last_name, order_supplier_name,order_no,order_name  from elunch_users2 join  elunch_orders2 on elunch_users2.sesa_no = elunch_orders2.id_sesa_no  WHERE `order_date`='" +
         data_list +
@@ -284,15 +282,11 @@ exports.list = function (req, res, next) {
       db.query(sql, function (err, result) {
         res.json({
           message: result,
-          message2: message2
+          message2: message2,
         });
       });
       console.log("message2 " + JSON.stringify(message2));
-
     });
-
-
-
   } else if (req.method == "GET") {
     res.render("new_list.ejs");
   }
@@ -335,7 +329,7 @@ exports.raport = function (req, res, next) {
       "' GROUP BY person_no";
     db.query(sql, function (err, result) {
       res.json({
-        message: result
+        message: result,
       });
     });
   } else if (req.method == "GET") {
@@ -388,7 +382,6 @@ exports.admin = function (req, res, next) {
 
       db.query(sql, function (err, result) {
         user = result;
-
       });
     } else if (
       sesa &&
@@ -412,16 +405,14 @@ exports.admin = function (req, res, next) {
         id_day +
         "')";
 
-
       db.query(sql20, function (err, result) {
         res.json({
           message: user,
-          messageMenu: result
+          messageMenu: result,
         });
       });
     }
   } else if (req.method == "GET") {
-
     //user
     var row = req.query.row;
     var sql17 = "SELECT * FROM `elunch_users2` WHERE `id` ='" + row + "'";
@@ -447,11 +438,10 @@ exports.admin = function (req, res, next) {
         message: result,
         message2: results2,
         dataForUpdate: dataForUpdate,
-        menuForUpdate: menuForUpdate
+        menuForUpdate: menuForUpdate,
       });
     });
   } else if (req.method == "DELETE") {
-
     if (req.body.delete_id > 0) {
       var delete_id = req.body.delete_id;
       var sql7 = "DELETE FROM `elunch_users2` WHERE `id` ='" + delete_id + "'";
@@ -460,11 +450,11 @@ exports.admin = function (req, res, next) {
     //menu
     if (req.body.delete_id3 > 0) {
       var mydelete_id3 = req.body.delete_id3;
-      var sql37 = "DELETE FROM `elunch_menu2` WHERE `id` ='" + mydelete_id3 + "'";
+      var sql37 =
+        "DELETE FROM `elunch_menu2` WHERE `id` ='" + mydelete_id3 + "'";
       db.query(sql37, function (err, results) {});
     }
   } else if (req.method == "PUT") {
-
     var sql13 =
       "UPDATE elunch_users2 SET sesa_no=" +
       sesa +
@@ -555,12 +545,12 @@ exports.users = function (req, res, next) {
           db.query(sql18, function (err, results) {
             menuForUpdate = results;
             res.json({
-              menuForUpdate: menuForUpdate
+              menuForUpdate: menuForUpdate,
             });
           });
         } else {
           res.json({
-            message2: results2
+            message2: results2,
           });
           return;
         }
@@ -594,7 +584,7 @@ exports.users = function (req, res, next) {
 
         db.query(sql, function (err, result) {
           res.json({
-            message: result
+            message: result,
           });
         });
       }
@@ -611,7 +601,6 @@ exports.users = function (req, res, next) {
       });
     }
   } else if (req.method == "PUT") {
-
     var sql13 =
       "UPDATE elunch_users2 SET sesa_no=" +
       sesa +
@@ -684,17 +673,16 @@ exports.menu = function (req, res, next) {
         // menu
         var row = req.body.row;
         if (row > 0) {
-
           var sql18 = "SELECT * FROM `elunch_menu2` WHERE `id` ='" + row + "'";
           db.query(sql18, function (err, results) {
             menuForUpdate = results;
             res.json({
-              menuForUpdate: menuForUpdate
+              menuForUpdate: menuForUpdate,
             });
           });
         } else {
           res.json({
-            message2: results2
+            message2: results2,
           });
           return;
         }
@@ -727,7 +715,7 @@ exports.menu = function (req, res, next) {
         db.query(sql20, function (err, result) {
           res.json({
             message: user,
-            messageMenu: result
+            messageMenu: result,
           });
         });
       }
@@ -737,7 +725,8 @@ exports.menu = function (req, res, next) {
   } else if (req.method == "DELETE") {
     if (req.body.delete_id3 > 0) {
       var mydelete_id3 = req.body.delete_id3;
-      var sql37 = "DELETE FROM `elunch_menu2` WHERE `id` ='" + mydelete_id3 + "'";
+      var sql37 =
+        "DELETE FROM `elunch_menu2` WHERE `id` ='" + mydelete_id3 + "'";
       db.query(sql37, function (err, results) {
         console.log("Deleted row " + mydelete_id3);
       });
@@ -770,14 +759,13 @@ exports.menu = function (req, res, next) {
       db.query(sql23, function (err, result) {});
     }
     if (updateMenu == "resetMenu") {
-      console.log("resetMenu")
+      console.log("resetMenu");
       // var sql24 =
       // "UPDATE elunch_menu2 SET id_day=7 ";
       var sql24 =
         "UPDATE elunch_menu2 SET id_day= IF( id_day >0, 7, id_day) WHERE 1";
 
       db.query(sql24, function (err, result) {});
-
     }
 
     res.render("menu.ejs");
@@ -808,7 +796,6 @@ exports.guest = function (req, res, next) {
     //   "SELECT * FROM `elunch_menu2` WHERE `supplier_name`='" +
     //   mysupplier_name + "'";
 
-
     // display menu
     mysupplier_name = mysupplier;
     var sql3 =
@@ -817,11 +804,11 @@ exports.guest = function (req, res, next) {
       "' AND (`id_day`= 0 OR `id_day`='" +
       id_day +
       "')";
-    console.log("sql3 " + sql3)
+    console.log("sql3 " + sql3);
 
     db.query(sql3, function (err, results) {
       menu_json = results;
-      console.log("menu_json " + menu_json)
+      console.log("menu_json " + menu_json);
     });
 
     // display current orders
@@ -832,7 +819,7 @@ exports.guest = function (req, res, next) {
       res.json({
         table_data: results,
         table_supplier: menu_json,
-        sesa_no1: sesa_no1
+        sesa_no1: sesa_no1,
       });
     });
   } else if (req.method == "GET") {
@@ -858,21 +845,45 @@ exports.guest = function (req, res, next) {
       port: 465,
       auth: {
         user: "elunchjs@camtronic.nazwa.pl",
-        pass: "Rafal20!"
-      }
+        pass: "Rafal20!",
+      },
     };
     var transporter = nodemailer.createTransport(smtpConfig);
 
     emailTo = email[departament];
-    console.log("emailTo " + emailTo)
+    console.log("emailTo " + emailTo);
 
     // in key to: put emailto in production version
     var mailOptions = {
       from: "elunchjs@camtronic.nazwa.pl",
       to: "rafal.zietak@se.com",
       subject: "Zamówienie Elunch (informacja generowana automatycznie)  ",
-      text: "Cześć, " + "\n" + "Twój pracownik o nr. SESA " + sesa_no1 + "\n" + "Zamówił obiad na dzień " + order_date + " od dostawcy " + supplier + " dla gościa: " + guestName + "\n" + "Koszty obiadu obciążą twój MPK działu " + cost_center + " w kwocie " + menu_price + " zł" + "\n" + "\n" + " Pozdrawia aplikacja Elunch" + "\n" + " dla Schneider Electric" + "\n" + "\n" + " PS: to mail informacyjny, nie odpowiadamy na niego"
-
+      text:
+        "Cześć, " +
+        "\n" +
+        "Twój pracownik o nr. SESA " +
+        sesa_no1 +
+        "\n" +
+        "Zamówił obiad na dzień " +
+        order_date +
+        " od dostawcy " +
+        supplier +
+        " dla gościa: " +
+        guestName +
+        "\n" +
+        "Koszty obiadu obciążą twój MPK działu " +
+        cost_center +
+        " w kwocie " +
+        menu_price +
+        " zł" +
+        "\n" +
+        "\n" +
+        " Pozdrawia aplikacja Elunch" +
+        "\n" +
+        " dla Schneider Electric" +
+        "\n" +
+        "\n" +
+        " PS: to mail informacyjny, nie odpowiadamy na niego",
     };
 
     transporter.sendMail(mailOptions, function (error, info) {
@@ -901,9 +912,10 @@ exports.guest = function (req, res, next) {
         menu_no = results[0].menu_no;
         //return menu_no;
       } else {
-        message = "problem z pobraniem danych z bazy menu przed zapisem do bazy order2";
+        message =
+          "problem z pobraniem danych z bazy menu przed zapisem do bazy order2";
         res.render("index.ejs", {
-          message: message
+          message: message,
         });
       }
 
@@ -957,7 +969,8 @@ exports.additional = function (req, res, next) {
     var menu_json, users_json;
 
     // display users sesa: name surname
-    var sql27 = "select sesa_no, first_name, last_name  from elunch_users2 WHERE 1 ORDER BY id DESC";
+    var sql27 =
+      "select sesa_no, first_name, last_name  from elunch_users2 WHERE 1 ORDER BY id DESC";
     db.query(sql27, function (err, results) {
       users_json = results;
       // users
@@ -965,7 +978,10 @@ exports.additional = function (req, res, next) {
 
     // display menu
     mysupplier_name = mysupplier;
-    var sql3 = "SELECT * FROM `elunch_menu2` WHERE `supplier_name`='" + mysupplier_name + "'";
+    var sql3 =
+      "SELECT * FROM `elunch_menu2` WHERE `supplier_name`='" +
+      mysupplier_name +
+      "'";
     db.query(sql3, function (err, results) {
       menu_json = JSON.stringify(results);
       //console.log("menu_json: ", menu_json);
@@ -980,7 +996,7 @@ exports.additional = function (req, res, next) {
       res.json({
         table_data: results,
         table_supplier: JSON.parse(menu_json),
-        users_json: users_json
+        users_json: users_json,
       });
     });
   } else if (req.method == "GET") {
@@ -1012,11 +1028,11 @@ exports.additional = function (req, res, next) {
         //return menu_desctription;
         menu_no = results[0].menu_no;
         //return menu_no;
-
       } else {
-        message = "problem z pobraniem danych z bazy menu przed zapisem do bazy order2";
+        message =
+          "problem z pobraniem danych z bazy menu przed zapisem do bazy order2";
         res.render("index.ejs", {
-          message: message
+          message: message,
         });
       }
       //
@@ -1095,12 +1111,12 @@ exports.additional = function (req, res, next) {
 };
 //-----------------------------------complaint-------------------------------------------------
 exports.complaint = function (req, res, next) {
-  res.render("complaint.ejs")
+  res.render("complaint.ejs");
 };
 //------------------------------------upload---------------------------------------------------
 exports.upload = function (req, res, next) {
   const nodemailer = require("nodemailer");
-  var fs = require('fs');
+  var fs = require("fs");
   var emailSupplier = req.body.emailSupplier;
   var emailClient = req.body.emailClient;
   var emailText = req.body.emailText;
@@ -1113,8 +1129,8 @@ exports.upload = function (req, res, next) {
     port: 465,
     auth: {
       user: "elunchjs@camtronic.nazwa.pl",
-      pass: "Rafal20!"
-    }
+      pass: "Rafal20!",
+    },
   };
   var transporter = nodemailer.createTransport(smtpConfig);
   //console.log (" req.files " + req.files)
@@ -1128,7 +1144,7 @@ exports.upload = function (req, res, next) {
       from: "elunchjs@camtronic.nazwa.pl",
       to: "rafal.zietak@se.com",
       subject: "Reklamacja",
-      text: emailText
+      text: emailText,
     };
 
     transporter.sendMail(mailOptions, function (error, info) {
@@ -1144,19 +1160,17 @@ exports.upload = function (req, res, next) {
       // console.log("Your config is correct");
     });
 
-    res.render("new_order2.ejs")
-    return
+    res.render("new_order2.ejs");
+    return;
   }
 
   // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
   let sampleFile = req.files.sampleFile;
 
   // Use the mv() method to place the file somewhere on your server
-  sampleFile.mv('public/uploads/filename.jpg', function (err) {
-    if (err)
-      return res.status(500).send(err);
+  sampleFile.mv("public/uploads/filename.jpg", function (err) {
+    if (err) return res.status(500).send(err);
     // console.log ("File uploaded!");
-
   });
 
   // in key to: put emailto in production version
@@ -1164,11 +1178,14 @@ exports.upload = function (req, res, next) {
     from: "elunchjs@camtronic.nazwa.pl",
     to: "rafal.zietak@se.com",
     subject: "Reklamacja",
-    attachments: [{ // stream as an attachment
-      filename: 'zdjęcie.jpg',
-      path: 'public/uploads/filename.jpg'
-    }],
-    text: emailText
+    attachments: [
+      {
+        // stream as an attachment
+        filename: "zdjęcie.jpg",
+        path: "public/uploads/filename.jpg",
+      },
+    ],
+    text: emailText,
   };
 
   transporter.sendMail(mailOptions, function (error, info) {
@@ -1184,5 +1201,36 @@ exports.upload = function (req, res, next) {
     // console.log("Your config is correct");
   });
 
-  res.render("new_order2.ejs")
+  res.render("new_order2.ejs");
+};
+
+exports.upload2 = function (req, res, next) {
+  if (!req.files || Object.keys(req.files).length === 0) {
+    return res.status(400).send("No files were uploaded.");
+  }
+
+  // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+  let sampleFile = req.files.sampleFile;
+
+  // Use the mv() method to place the file somewhere on your server
+  sampleFile.mv("public/uploads/excel/menu.xlsx", function (err) {
+    if (err) return res.status(500).send(err);
+
+    //res.send('File uploaded!');
+    console.log("File uploaded!");
+  });
+  // read excel
+  var Excel = require("exceljs");
+  // read from a file
+  var workbook = new Excel.Workbook();
+  // fetch sheet by name
+  workbook.xlsx.readFile("public/uploads/excel/menu.xlsx")
+  .then(function() {
+    var worksheet = workbook.getWorksheet("Arkusz1");
+    worksheet.eachRow({ includeEmpty: true }, function(row, rowNumber) {
+      console.log("Row " + rowNumber + " = " + JSON.stringify(row.values));
+    });
+});
+
+  res.render("menu.ejs");
 };

@@ -1,95 +1,177 @@
 <!DOCTYPE html>
 <html lang="pl">
-<head>
-  <meta charset="UTF-8">
-  <title>Raport menu</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Raport menu</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    />
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-  
-  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous"/>
-  <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table.min.css" />
-  <script src="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table.min.js"></script>
-  <script src="https://unpkg.com/tableexport.jquery.plugin/tableExport.min.js"></script>
-  <script src="https://unpkg.com/bootstrap-table@1.15.5/dist/extensions/export/bootstrap-table-export.min.js"></script>
-  <script src="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table-locale-all.min.js"></script>
-  <link rel="stylesheet" href="/public/css/style.css" type="text/css"/>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <style>
-    input#myid2 {width: 30px;}
-    input#supplier_name {width: 55px;}
-    input#menu_no {width: 40px;}
-    input#menu_desctription {width: 350px;}
-    input#menu_price {width: 40px;}
-    input#id_day {width: 40px;}
-    input#btn_add_menu {margin-left: 20px;}
-    input#btn_update_menu {margin-left: 20px;}
-  </style>
-</head>
-<body>
-  <div class="container">
-    <nav class="navbar navbar-default">
-      <div class="container-fluid">
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li> <img src="/public/img/logo2.png" with="94" height="45" alt="logo" srcset="" style="margin-right: 20px;"></li>
-            <li class="active"><a href="/home/dashboard">Powrót</a></li>
-            <li ><a href="/home/users">Użytkownicy</a></li>
-          </ul>
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="/home/logout">Wylogowanie</a></li>
-          </ul>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+      integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+      integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table.min.css"
+    />
+    <script src="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table.min.js"></script>
+    <script src="https://unpkg.com/tableexport.jquery.plugin/tableExport.min.js"></script>
+    <script src="https://unpkg.com/bootstrap-table@1.15.5/dist/extensions/export/bootstrap-table-export.min.js"></script>
+    <script src="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table-locale-all.min.js"></script>
+    <link rel="stylesheet" href="/public/css/style.css" type="text/css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <style>
+      input#myid2 {
+        width: 30px;
+      }
+      input#supplier_name {
+        width: 55px;
+      }
+      input#menu_no {
+        width: 40px;
+      }
+      input#menu_desctription {
+        width: 350px;
+      }
+      input#menu_price {
+        width: 40px;
+      }
+      input#id_day {
+        width: 40px;
+      }
+      input#btn_add_menu {
+        margin-left: 20px;
+      }
+      input#btn_update_menu {
+        margin-left: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+              <li>
+                <img
+                  src="/public/img/logo2.png"
+                  with="94"
+                  height="45"
+                  alt="logo"
+                  srcset=""
+                  style="margin-right: 20px;"
+                />
+              </li>
+              <li class="active"><a href="/home/dashboard">Powrót</a></li>
+              <li><a href="/home/users">Użytkownicy</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="/home/logout">Wylogowanie</a></li>
+            </ul>
+          </div>
         </div>
-      </div>
-    </nav>
-    <div class="jumbotron">
-      <p style="text-align: center;">Witaj w panelu administracyjnym</p>
-      <div class="level-2">
-        <p>Zarządzanie menu (dodaj lub uaktualnij menu:)</p>
-      <div class="addMenu" >
-          id <input disabled type="text" id="myid2">
-          Dostawca <input type="text" id="supplier_name" onchange="validateSupplier()" placeholder="tekst">
-          Numer dania <input type="text" id="menu_no" placeholder="liczba">
-          Opis dania <input type="text" id="menu_desctription" placeholder="tekst">
-          Cena <input type="text" id="menu_price" onchange="this.value = this.value.replace(/,/g, '.')" placeholder="liczba">
-          id dnia <input type="text" id="id_day" placeholder="liczba">
-          <input  id="btn_add_menu" type="submit"  onclick="addMenu1()" value="Dodaj">
-          <input hidden id ="btn_update_menu" type="submit"  onclick="updateMenuDB1()" value="Uaktualnij">        
-        </div>
-        <br>
-        <div> <button type="button" id="resetMenu">zeruj dania nie aktywne</button></div>
-        <br>
-        <div class="tableMenu">
-          <table
-           id="tableMenu"
-           class="table"
-           data-locale="pl-PL"
-           data-search="true"
-           data-show-export="true"
-           data-pagination="true"
-           data-show-pagination-switch="true"
-           data-pagination-pre-text="Poprzedni"
-           data-pagination-next-text="Następny"
-           data-page-list="[3, 5, 10, 15, all]">
-           <thead>
-            <tr>
-            <th data-field="id">ID</th>
-            <th data-field="supplier_name">Dostawca</th>
-            <th data-field="menu_no">Numer dania</th>
-            <th data-field="menu_desctription">Opis dania</th>
-            <th data-field="menu_price">Cena</th>
-            <th data-field="id_day">id dnia</th>
-            </tr>
-           </thead>
-          </table>
+      </nav>
+      <div class="jumbotron">
+        <p style="text-align: center;">Witaj w panelu administracyjnym</p>
+        <div class="level-2">
+          <p>Zarządzanie menu (dodaj lub uaktualnij menu:)</p>
+          <div class="addMenu">
+            id <input disabled type="text" id="myid2" /> Dostawca
+            <input
+              type="text"
+              id="supplier_name"
+              onchange="validateSupplier()"
+              placeholder="tekst"
+            />
+            Numer dania
+            <input type="text" id="menu_no" placeholder="liczba" /> Opis dania
+            <input type="text" id="menu_desctription" placeholder="tekst" />
+            Cena
+            <input
+              type="text"
+              id="menu_price"
+              onchange="this.value = this.value.replace(/,/g, '.')"
+              placeholder="liczba"
+            />
+            id dnia <input type="text" id="id_day" placeholder="liczba" />
+            <input
+              id="btn_add_menu"
+              type="submit"
+              onclick="addMenu1()"
+              value="Dodaj"
+            />
+            <input
+              hidden
+              id="btn_update_menu"
+              type="submit"
+              onclick="updateMenuDB1()"
+              value="Uaktualnij"
+            />
+          </div>
+          <br />
+          <div>
+            <button type="button" id="resetMenu">
+              zeruj dania nie aktywne
+            </button>
+          </div>
+          <br />
+          <form
+            ref="uploadForm"
+            id="uploadForm"
+            action="/home/upload2"
+            method="post"
+            encType="multipart/form-data"
+          >
+            <input type="file" name="sampleFile" />
+            <input type="submit" value="Upload!" />
+          </form>
+          <br />
+          <div class="tableMenu">
+            <table
+              id="tableMenu"
+              class="table"
+              data-locale="pl-PL"
+              data-search="true"
+              data-show-export="true"
+              data-pagination="true"
+              data-show-pagination-switch="true"
+              data-pagination-pre-text="Poprzedni"
+              data-pagination-next-text="Następny"
+              data-page-list="[3, 5, 10, 15, all]"
+            >
+              <thead>
+                <tr>
+                  <th data-field="id">ID</th>
+                  <th data-field="supplier_name">Dostawca</th>
+                  <th data-field="menu_no">Numer dania</th>
+                  <th data-field="menu_desctription">Opis dania</th>
+                  <th data-field="menu_price">Cena</th>
+                  <th data-field="id_day">id dnia</th>
+                </tr>
+              </thead>
+            </table>
+          </div>
         </div>
       </div>
     </div>
-  </div>  
-  <script src="/public/menu.js"></script>
-</body>
+    <script src="/public/menu.js"></script>
+  </body>
 </html>
