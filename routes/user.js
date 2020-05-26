@@ -273,59 +273,6 @@ exports.orders2 = function (req, res, next) {
 exports.list = function (req, res, next) {
   var data_list, message2;
   data_list = req.body.data_list;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   
   if (req.method == "POST") {
     var sql1 =
