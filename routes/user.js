@@ -12,10 +12,16 @@ exports.login = function (req, res) {
     var sql =
       "SELECT id, first_name, last_name, user_name FROM `elunch_users2` WHERE `sesa_no`='" +
       sesa_no1 +
-      "' and password = '" +
+      "' and password = SHA2( '" +
       pass +
-      "'";
-
+      "', 256)";
+      // var sql =
+      // "SELECT id, first_name, last_name, user_name FROM `elunch_users2` WHERE `sesa_no`='" +
+      // sesa_no1 +
+      // "' and password = '" +
+      // pass +
+      // "'";
+    console.log(sql);
     db.query(sql, function (err, results) {
       if (results.length) {
         req.session.userId = results[0].id;
@@ -268,6 +274,59 @@ exports.list = function (req, res, next) {
   var data_list, message2;
   data_list = req.body.data_list;
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
   if (req.method == "POST") {
     var sql1 =
       "SELECT `order_supplier_name`, `order_no`, count(`order_no`) FROM `elunch_orders2` WHERE `order_date`='" +
@@ -578,9 +637,9 @@ exports.users = function (req, res, next) {
           person_no +
           "','" +
           user_name +
-          "','" +
+          "', SHA2('" +
           password +
-          "')";
+          "', 256))";
 
         db.query(sql, function (err, result) {
           res.json({
@@ -612,9 +671,9 @@ exports.users = function (req, res, next) {
       person_no +
       ", user_name='" +
       user_name +
-      "', password=" +
+      "', password= SHA2('" +
       password +
-      " WHERE id=" +
+      "',256) WHERE id=" +
       id +
       "";
 
